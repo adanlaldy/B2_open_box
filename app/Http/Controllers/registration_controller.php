@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class RegistrationController extends Controller
+class registration_controller extends Controller
 {
     public function form(){
         return view('registration'); 

@@ -11,12 +11,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['App\Http\Middleware\IfDisconnected'])->group(function () {
-    Route::get('/registration', [RegistrationController::class, 'form']);
-    Route::post('/registration', [RegistrationController::class, 'handling']);
-    Route::get('/login', [LoginController::class, 'form']);
-    Route::post('/login', [LoginController::class, 'handling']);
+Route::middleware(['App\Http\Middleware\if_disconnected'])->group(function () {
+    Route::get('/registration', [registration_controller::class, 'form']);
+    Route::post('/registration', [registration_controller::class, 'handling']);
+    Route::get('/login', [login_controller::class, 'form']);
+    Route::post('/login', [login_controller::class, 'handling']);
 });
 
-Route::middleware(['App\Http\Middleware\IfConnected'])->group(function () {
+Route::middleware(['App\Http\Middleware\if_connected'])->group(function () {
 });

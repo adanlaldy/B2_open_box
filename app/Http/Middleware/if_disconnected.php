@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class IfDisconnected
+class if_disconnected
 {
     /**
      * Handle an incoming request.

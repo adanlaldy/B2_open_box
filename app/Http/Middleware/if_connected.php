@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class IfConnected
+class if_connected
 {
     /**
      * Handle an incoming request.
