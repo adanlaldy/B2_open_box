@@ -8,11 +8,25 @@ use App\Http\Controllers\LoginController;
 
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcome2-0');
+});
+
+Route::get('/main', function () {
+    return view('mail');
+});
+
+Route::get('/register', [\App\Http\Controllers\registration_controller::class, 'registration'])->name('auth.register');
+Route::post('/register', [\App\Http\Controllers\registration_controller::class, 'doRegister']);
+
+
+
+
+Route::get('/public', function () {
+    return view('public');
 });
 
 Route::middleware(['App\Http\Middleware\if_disconnected'])->group(function () {
-    Route::get('/registration', [registration_controller::class, 'form']);
+    Route::get('/registration', [registration_controller::class, 'registration']);
     Route::post('/registration', [registration_controller::class, 'handling']);
     Route::get('/login', [login_controller::class, 'form']);
     Route::post('/login', [login_controller::class, 'handling']);

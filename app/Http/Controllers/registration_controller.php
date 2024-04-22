@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RegisterRequest;
 use Illuminate\Http\Request;
 
 class registration_controller extends Controller
 {
-    public function form(){
-        return view('registration'); 
+    public function registration(){
+        return view('register');
+    }
+
+    public function doRegister(RegisterRequest $request){
+        return redirect('/main');
     }
 
     public function handling(){
