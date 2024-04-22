@@ -2,15 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use Illuminate\Http\Request;
 
 class login_controller extends Controller
 {
-    public function form(){
+    public function login(){
         return view('login');
     }
 
-    public function handling(){
+    public function DoLogin(LoginRequest $request){
+        return redirect('/main');
+    }
+//    public function handling(){
         /*// check if email has good format and input is filled
         request()->validate([
             'email' => ['required', 'email'],
@@ -27,5 +32,5 @@ class login_controller extends Controller
                 'email' => 'Your credentials are incorrect.', // failed -> redirect to previous page
             ]);
         }*/
-    }
+//    }
 }
