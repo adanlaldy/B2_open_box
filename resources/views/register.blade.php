@@ -11,14 +11,16 @@
 <main>
     <section>
         <div class="left">
-            <a href="/"><h1 class="title">Resgister</h1></a>
+            <a href="/home"><h1 class="title">Resgister</h1></a>
             <form action="{{route('auth.register')}}" method="post">
                 @csrf
-                <input class="name" type="text" name="name" placeholder="First Name">
-                <input class="name" type="text" name="name" placeholder="Last Name"> <br>
-                <input type="email" name="email" placeholder="Email"><br>
+                <input class="name" type="text" name="first_name" placeholder="First Name" autocomplete="">
+                <input class="name" type="text" name="last_name" placeholder="Last Name" autocomplete=""> <br>
+                <input class="name" type="date" name="birth_date" placeholder="date of birth" autocomplete="">
+                <input class="name" type="text" name="about" placeholder="#words (facultatif)" autocomplete=""> <br>
+                <input type="email" name="email" placeholder="Email" autocomplete=""><br>
                 {{ $errors->first('email')}}
-                <input type="password" name="password" placeholder="Password"><br>
+                <input type="password" name="password" placeholder="Password" autocomplete=""><br>
                 {{ $errors->first('password')}}
                 <button type="submit">Register</button><br>
                 <a href="/login">Already have an account? Login</a>

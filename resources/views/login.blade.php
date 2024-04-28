@@ -11,8 +11,8 @@
 <main>
     <section>
         <div class="left">
-            <a href="/"><h1 class="title">Login</h1></a>
-            <form action="{{route('auth.register')}}" method="post">
+            <a href="/home"><h1 class="title">Login</h1></a>
+            <form action="{{route('auth.login')}}" method="post">
                 @csrf
                 <input type="email" name="email" placeholder="Email"><br>
                 {{ $errors->first('email')}}
