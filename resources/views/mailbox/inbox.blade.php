@@ -74,66 +74,34 @@
 </div>
 <!--content-->
 <article>
-    <div class="row">
-        <div class="col">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="email1">
-                <label class="form-check-label" for="email1">
-                    Email 1
-                </label>
+    <article>
+        @php
+            $emails = app('App\Http\Controllers\mailbox_controller')->get_mail(1);
+//            dd($emails);
+        @endphp
+        @for ($i = 0; $i < count($emails); $i++)
+            <div class="row">
+                <div class="col">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="email{{$i}}">
+                        <label class="form-check-label" for="email{{$i}}">
+                            Email {{$i + 1}}
+                        </label>
+                    </div>
+                </div>
+                <div class="col">{{ $emails[$i]->subject }}</div>
+                <div class="col">{{ $emails[$i]->content }}</div>
+                <div class="col">{{ $emails[$i]->date_email }}</div>
+                <div class="col">
+                    <button type="button" class="btn btn-outline-primary">Favoris</button>
+                    <button type="button" class="btn btn-outline-info">Archiver</button>
+                    <button type="button" class="btn btn-outline-danger">Supprimer</button>
+                </div>
             </div>
-        </div>
-        <div class="col">John Doe</div>
-        <div class="col">Meeting Reminder</div>
-        <div class="col">2024-04-28</div>
-        <div class="col">
-            <button type="button" class="btn btn-outline-primary">Favoris</button>
-            <button type="button" class="btn btn-outline-info">Archiver</button>
-            <button type="button" class="btn btn-outline-danger">Supprimer</button>
-        </div>
-    </div>
-    <hr>
-    <div class="row">
-        <div class="col">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="email2">
-                <label class="form-check-label" for="email2">
-                    Email 2
-                </label>
-            </div>
-        </div>
-        <div class="col">Jane Smith</div>
-        <div class="col">Project Update</div>
-        <div class="col">2024-04-27</div>
-        <div class="col">
-            <button type="button" class="btn btn-outline-primary">Favoris</button>
-            <button type="button" class="btn btn-outline-info">Archiver</button>
-            <button type="button" class="btn btn-outline-danger">Supprimer</button>
-        </div>
-    </div>
-    <hr>
-    <div class="row">
-        <div class="col">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="email3">
-                <label class="form-check-label" for="email3">
-                    Email 3
-                </label>
-            </div>
-        </div>
-        <div class="col">Alice Johnson</div>
-        <div class="col">Weekly Newsletter</div>
-        <div class="col">2024-04-26</div>
-        <div class="col">
-            <button type="button" class="btn btn-outline-primary">Favoris</button>
-            <button type="button" class="btn btn-outline-info">Archiver</button>
-            <button type="button" class="btn btn-outline-danger">Supprimer</button>
-        </div>
-    </div>
-    <hr>
+            <hr>
+        @endfor
+    </article>
 </article>
-
-
 <button class="btn btn-primary mt-3">Nouveau message</button></main>
 </body>
 </html>

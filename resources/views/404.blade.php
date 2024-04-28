@@ -23,7 +23,7 @@
         }
 </style>
     <body>
-        <h1>404 Not Found</h1>
+        <a href="/home"><h1>404 Not Found</h1></a>
         <p>The page you are looking for could not be found.</p>
     </body>
 </html>
