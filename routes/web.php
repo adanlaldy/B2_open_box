@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\LoginController;
+use Laravel\Folio\Folio;
 
 //Route::view('/', 'home');
 
@@ -30,12 +31,7 @@ Route::get('/resources', function () {
     return view('resources/');
 });
 
-//Route::middleware(['App\Http\Middleware\if_disconnected'])->group(function () {
-//    Route::get('/registration', [registration_controller::class, 'registration']);
-//    Route::post('/registration', [registration_controller::class, 'handling']);
-//    Route::get('/login', [login_controller::class, 'form']);
-//    Route::post('/login', [login_controller::class, 'handling']);
-//});
+Route::get('/inbox', [\App\Http\Controllers\mailbox_controller::class, 'inbox']);
 
 Route::middleware(['App\Http\Middleware\if_connected'])->group(function () {
 });
