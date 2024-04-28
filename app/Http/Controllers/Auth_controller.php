@@ -43,7 +43,7 @@ class Auth_controller extends Controller
 
         if (auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended(route('main'));
+            return redirect()->intended(route('inbox.index'));
         } else {
             return back()->withErrors([
                 'email' => 'The provided credentials do not match our records.',
@@ -63,7 +63,7 @@ class Auth_controller extends Controller
         $password = $request->input('password');
 
         if (Auth::loginUsingId($this->get_id_user_by_email($email))) {
-            return redirect()->intended(route('main'));
+            return redirect()->intended(route('inbox.index'));
         } else {
             return back()->withErrors([
                 'email' => 'The provided credentials do not match our records.',

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
     <title>Boîte de réception - Open Box</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -9,7 +9,7 @@
 <!--sidebar-->
 <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary h-100" style="width: 280px; float: left;">
     <nav>
-        <a class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none" href="/inbox">Open Box</a>
+        <a class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none" href="/inbox">Open Box {{ Auth::user()->email }}</a>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
             <li class="nav-item"><a class="nav-link active" href="/inbox">Boîte de réception</a></li>
@@ -39,9 +39,14 @@
         <div class="navbar-nav">
             <ul class="navbar-nav">
                 <li class="nav-item"><a class="nav-link" href="/offers">Changer d'abonnement</a></li>
-                <li class="nav-item"><a class="nav-link" href="/parameters">icone engrenage->paramètres</a></li>
+                <li class="nav-item"><a class="nav-link" href="/parameters">Paramètres</a></li>
                 <li class="nav-item"><a class="nav-link" href="/account">Paramètres du compte</a></li>
             </ul>
+            <form action="{{route('auth.logout')}}" method="post">
+                @csrf
+                @method('delete')
+                <button type="submit">Logout</button>
+            </form>
         </div>
     </div>
 </nav>
