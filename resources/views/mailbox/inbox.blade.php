@@ -76,8 +76,8 @@
 <article>
     <article>
         @php
-            $emails = app('App\Http\Controllers\mailbox_controller')->get_mail(1);
-//            dd($emails);
+            $emails = app('App\Http\Controllers\mailbox_controller')->get_mail(Auth::user()->id);
+//            dd(Auth::user()->id);
         @endphp
         @for ($i = 0; $i < count($emails); $i++)
             <div class="row">

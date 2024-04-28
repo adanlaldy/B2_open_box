@@ -13,8 +13,8 @@ class mailbox_controller extends Controller
     {
         $this->create_table_mail();
         $this->create_mail_category();
-//        $this->clear_mail();
-//        $this->fill();
+        $this->clear_mail();
+        $this->fill();
         return view('mailbox/inbox');
     }
 
@@ -68,8 +68,8 @@ class mailbox_controller extends Controller
         $this->add_mail_category(1, 'Trash');
         $this->add_mail(1, 1, 'cc', 'cci', 'Abonnement', 'votre compte est...', '2024-10-10', true, true);
         $this->add_mail(1, 1, 'cc', 'cci', 'Maison', 'vous voulez peut etre...', '2024-10-10', true, true);
-        $this->add_mail(1, 1, 'cc', 'cci', 'Voiture', 'votre voiture est...', '2024-10-10', true, true);
-        $this->add_mail(1, 1, 'cc', 'cci', 'Travail', 'votre travail est...', '2024-10-10', true, true);
+        $this->add_mail(1, 2, 'cc', 'cci', 'Voiture', 'votre voiture est...', '2024-10-10', true, true);
+        $this->add_mail(1, 3, 'cc', 'cci', 'Travail', 'votre travail est...', '2024-10-10', true, true);
     }
 
     public function get_mail($id_user): array
