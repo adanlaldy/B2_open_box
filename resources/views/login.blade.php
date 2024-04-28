@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>login</title>
     <link href="http://127.0.0.1:8000/css/auth.css" rel="stylesheet" />
-
 </head>
 <body>
 <main>

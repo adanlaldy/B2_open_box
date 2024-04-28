@@ -17,7 +17,7 @@ class if_connected
     public function handle(Request $request, Closure $next)
     {
         // if not connected, redirect to login page
-        if (! auth()->check()) {
+        if (!auth()->check()) {
             return redirect('/login')->withErrors([
                 'email' => "You must be logged to view this page.",
             ]);    
