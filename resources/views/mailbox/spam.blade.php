@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <title>Boîte de réception - Open Box</title>
+    <title>spam - Open Box</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
@@ -17,8 +17,8 @@
                 <li><a class="nav-link link-body-emphasis" href="/sent">Messages envoyés</a></li>
                 <li><a class="nav-link link-body-emphasis" href="/starred">Favoris</a></li>
                 <li><a class="nav-link link-body-emphasis" href="/archive">Archives</a></li>
-                <li><a class="nav-link link-body-emphasis" href="/spam">Spams</a></li>
-                <li><a class="nav-link active" href="/trash">Corbeille</a></li>
+                <li><a class="nav-link active" href="/spam">Spams</a></li>
+                <li><a class="nav-link link-body-emphasis" href="/trash">Corbeille</a></li>
                 <li><a class="nav-link link-body-emphasis"  href="/all_mail">Tous les messages</a></li>
             </ul>
         </nav>
@@ -76,11 +76,17 @@
     <article>
         <article>
             @php
-                $emails = app('App\Http\Controllers\mailbox_controller')->get_mail(Auth::user()->id);
+                $emails = app('App\Http\Controllers\mailbox_controller')->get_email_with_category(Auth::user()->id,5);
     //            dd(Auth::user()->id);
+            if (count($emails) == 0) {
+                echo "<h2 class='text-center'>Aucun message</h2>";
+                echo "<img style='margin-left: 20vw; width: 500px;' src='http://127.0.0.1:8000/images/mail.png' class='img-fluid' alt='Aucun message'>";
+            }
             @endphp
             @for ($i = 0; $i < count($emails); $i++)
                 <div class="row">
+{{--                    <img width='500px' align="center" src='http://127.0.0.1:8000/images/mail.png' class='img-fluid' alt='Aucun message'>--}}
+
                     <div class="col">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="" id="email{{$i}}">

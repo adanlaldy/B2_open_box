@@ -35,6 +35,13 @@ Route::fallback(function () {
 //    Route::post('/login', [login_controller::class, 'handling']);
 //});
 Route::get('/inbox', [\App\Http\Controllers\mailbox_controller::class, 'inbox'])->name('inbox.index');
+Route::get('/starred', [\App\Http\Controllers\mailbox_controller::class, 'starred'])->name('inbox.starred');
+Route::get('/sent', [\App\Http\Controllers\mailbox_controller::class, 'sent'])->name('inbox.sent');
+Route::get('/draft', [\App\Http\Controllers\mailbox_controller::class, 'draft'])->name('inbox.draft');
+Route::get('/trash', [\App\Http\Controllers\mailbox_controller::class, 'trash'])->name('inbox.trash');
+Route::get('/spam', [\App\Http\Controllers\mailbox_controller::class, 'spam'])->name('inbox.spam');
+Route::get('/archive', [\App\Http\Controllers\mailbox_controller::class, 'archive'])->name('inbox.archive');
+
 
 Route::middleware(['App\Http\Middleware\if_connected'])->group(function () {
 });
