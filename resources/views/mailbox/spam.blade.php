@@ -99,9 +99,21 @@
                     <div class="col">{{ $emails[$i]->content }}</div>
                     <div class="col">{{ $emails[$i]->date_email }}</div>
                     <div class="col">
-                        <button type="button" class="btn btn-outline-primary">Favoris</button>
-                        <button type="button" class="btn btn-outline-info">Archiver</button>
-                        <button type="button" class="btn btn-outline-danger">Supprimer</button>
+                        <form action="/add-to-favorites" method="post">
+                            @csrf
+                            <input type="hidden" name="email_id" value="{{ $emails[$i]->id }}">
+                            <button type="submit" class="btn btn-outline-primary">Favoris</button>
+                        </form>
+                        <form action="/archive-email" method="post">
+                            @csrf
+                            <input type="hidden" name="email_id" value="{{ $emails[$i]->id }}">
+                            <button type="submit" class="btn btn-outline-info">Archiver</button>
+                        </form>
+                        <form action="/delete-email" method="post">
+                            @csrf
+                            <input type="hidden" name="email_id" value="{{ $emails[$i]->id }}">
+                            <button type="submit" class="btn btn-outline-danger">Supprimer</button>
+                        </form>
                     </div>
                 </div>
                 <hr>

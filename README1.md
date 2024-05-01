@@ -31,4 +31,9 @@ php artisan vendor:publish --provider="Barryvdh\Debugbar\ServiceProvider"
 composer install
 ```
 
+### Lancer le serveur
+```bash
+php artisan serve
+```
+
 

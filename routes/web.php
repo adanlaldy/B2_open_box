@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 //});
 Route::get('/public', function () {return view('public');});
 Route::get('/resources', function () {return view('resources/');});
-Route::fallback(function () {return view('404');});
+Route::fallback(function () {return view('error/404');});
 
 //home
 Route::get('/home', function () {return view('home');})->name('home');
@@ -36,6 +36,8 @@ Route::get('/draft', [mailbox_controller::class, 'draft'])->name('inbox.draft');
 Route::get('/trash', [mailbox_controller::class, 'trash'])->name('inbox.trash');
 Route::get('/spam', [mailbox_controller::class, 'spam'])->name('inbox.spam');
 Route::get('/archive', [mailbox_controller::class, 'archive'])->name('inbox.archive');
+Route::get('/all_mail', [mailbox_controller::class, 'all'])->name('inbox.all');
+
 
 //actions
 Route::post('/add-to-favorites', [mailbox_controller::class, 'addToFavorites']);

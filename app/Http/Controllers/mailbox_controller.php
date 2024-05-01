@@ -7,6 +7,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class mailbox_controller extends Controller
@@ -46,6 +47,11 @@ class mailbox_controller extends Controller
     public function archive(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         return view('mailbox/archive');
+    }
+
+    public function all(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+    {
+        return view('mailbox/all_mail');
     }
 
 
@@ -169,21 +175,22 @@ class mailbox_controller extends Controller
     {
         $emailId = $request->input('email_id');
         $this->update_category($emailId, $this->get_id_category('Starred')[0]->id);
-        return redirect()->route('inbox.index');
+        return redirect($request->session()->get('_previous')['url']);
+
     }
 
     public function archiveEmail(Request $request): RedirectResponse
     {
         $emailId = $request->input('email_id');
         $this->update_category($emailId, $this->get_id_category('Archive')[0]->id);
-        return redirect()->route('inbox.index');
+        return redirect($request->session()->get('_previous')['url']);
     }
 
     public function deleteEmail(Request $request): RedirectResponse
     {
         $emailId = $request->input('email_id');
         $this->update_category($emailId, $this->get_id_category('Trash')[0]->id);
-        return redirect()->route('inbox.index');
+        return redirect($request->session()->get('_previous')['url']);
     }
     public function clear_mail(): void
     {

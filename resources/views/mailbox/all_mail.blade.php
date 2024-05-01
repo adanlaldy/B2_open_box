@@ -12,7 +12,7 @@
             <a class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none" href="/inbox">Open Box {{ Auth::user()->email }}</a>
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
-                <li class="nav-item"><a class="nav-link active" href="/inbox">Boîte de réception</a></li>
+                <li class="nav-item"><a class="nav-link" href="/inbox">Boîte de réception</a></li>
                 <li><a class="nav-link link-body-emphasis" href="/draft">Brouillons</a></li>
                 <li><a class="nav-link link-body-emphasis" href="/sent">Messages envoyés</a></li>
                 <li><a class="nav-link link-body-emphasis" href="/starred">Favoris</a></li>

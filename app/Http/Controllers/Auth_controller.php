@@ -18,7 +18,7 @@ class Auth_controller extends Controller
     public function registration(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         $this->create_table_user();
-        return view('register');
+        return view('authentification/register');
     }
 
     public function logout(): RedirectResponse
@@ -54,7 +54,7 @@ class Auth_controller extends Controller
     // login
     public function login(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
-        return view('login');
+        return view('authentification/login');
     }
 
     public function DoLogin(LoginRequest $request): RedirectResponse
