@@ -10,15 +10,16 @@
 <main>
     <section>
         <div class="left">
-            <a href="/home"><h1 class="title">Login</h1></a>
+            <a href="/home"><h1 class="title">Connexion</h1></a>
             <form action="{{route('auth.login')}}" method="post">
                 @csrf
                 <input type="email" name="email" placeholder="Email"><br>
                 {{ $errors->first('email')}}
                 <input type="password" name="password" placeholder="Password"><br>
                 {{ $errors->first('password')}}
-                <button type="submit">Register</button><br>
-                <a href="/register">Not account, Create now ! </a>
+                <a href="/register">pas encore de compte ? crée en un ! </a><br>
+                <button type="submit">se connecter</button><br>
+
             </form>
         </div>
 

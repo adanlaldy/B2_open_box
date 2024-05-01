@@ -5,13 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class mailbox_controller extends Controller
 {
+//    TODO: refactor les blade
     public function inbox(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
-        $this->fill();
+//        $this->fill();
         return view('mailbox/inbox');
     }
 
@@ -116,21 +119,25 @@ class mailbox_controller extends Controller
     {
         $this->create_table_mail();
         $this->create_mail_category();
+
         $this->clear_mail_category();
         $this->clear_mail();
-        $this->add_mail(1, 1, 'cc', 'cci', 'Abonnement', 'votre compte est...', '2024-10-10', true, true);
-        $this->add_mail(5, 1, 'cc', 'cci', 'Maison', 'vous voulez peut etre...', '2024-10-10', true, true);
-        $this->add_mail(2, 1, 'cc', 'cci', 'Voiture', 'votre voiture est...', '2024-10-10', true, true);
-        $this->add_mail(1, 2, 'cc', 'cci', 'Travail', 'votre travail est...', '2024-10-10', true, true);
-        $this->add_mail(3, 2, 'cc', 'cci', 'Travail', 'votre travail est...', '2024-10-10', true, true);
-        $this->add_mail(1, 1, 'cc', 'cci', 'Ecole', 'votre ecole est...', '2024-10-10', true, true);
 
+        $this->add_mail_category('Received');
         $this->add_mail_category('draft');
         $this->add_mail_category('Trash');
         $this->add_mail_category('Sent');
         $this->add_mail_category('Starred');
         $this->add_mail_category('Spam');
         $this->add_mail_category('Archive');
+
+        $this->add_mail($this->get_id_category('Received')[0]->id, 1, 'cc', 'cci', 'Abonnement', 'votre compte est...', '2024-10-10', true, true);
+        $this->add_mail($this->get_id_category('Received')[0]->id, 1, 'cc', 'cci', 'maison', 'votre compte est...', '2024-10-10', true, true);
+        $this->add_mail($this->get_id_category('Received')[0]->id, 1, 'cc', 'cci', 'gg', 'votre compte est...', '2024-10-10', true, true);
+        $this->add_mail($this->get_id_category('Received')[0]->id, 2, 'cc', 'cci', 'le s', 'votre compte est...', '2024-10-10', true, true);
+        $this->add_mail($this->get_id_category('Received')[0]->id, 2, 'cc', 'cci', 'moi aussi', 'votre compte est...', '2024-10-10', true, true);
+        $this->add_mail($this->get_id_category('Received')[0]->id, 1, 'cc', 'cci', 'merci', 'votre compte est...', '2024-10-10', true, true);
+        $this->add_mail($this->get_id_category('Received')[0]->id, 1, 'cc', 'cci', 'de r', 'votre compte est...', '2024-10-10', true, true);
 
     }
 
@@ -140,12 +147,44 @@ class mailbox_controller extends Controller
         return DB::select($sql);
     }
 
+    public function get_id_category($name): array
+    {
+        $sql = "SELECT id FROM category WHERE name = '$name'";
+        return DB::select($sql);
+    }
     public function get_email_with_category($id_user, $id_category): array
     {
         $sql = "SELECT * FROM mail WHERE id_user = '$id_user' AND id_category = '$id_category'";
         return DB::select($sql);
     }
 
+    function update_category($id_mail, $id_category): void
+    {
+        $sql = "UPDATE mail SET id_category = '$id_category' WHERE id = '$id_mail'";
+        DB::statement($sql);
+    }
+
+
+    public function addToFavorites(Request $request): RedirectResponse
+    {
+        $emailId = $request->input('email_id');
+        $this->update_category($emailId, $this->get_id_category('Starred')[0]->id);
+        return redirect()->route('inbox.index');
+    }
+
+    public function archiveEmail(Request $request): RedirectResponse
+    {
+        $emailId = $request->input('email_id');
+        $this->update_category($emailId, $this->get_id_category('Archive')[0]->id);
+        return redirect()->route('inbox.index');
+    }
+
+    public function deleteEmail(Request $request): RedirectResponse
+    {
+        $emailId = $request->input('email_id');
+        $this->update_category($emailId, $this->get_id_category('Trash')[0]->id);
+        return redirect()->route('inbox.index');
+    }
     public function clear_mail(): void
     {
         $sql = "DELETE FROM mail";

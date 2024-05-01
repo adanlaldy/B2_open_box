@@ -78,6 +78,10 @@
             @php
                 $emails = app('App\Http\Controllers\mailbox_controller')->get_mail(Auth::user()->id);
     //            dd(Auth::user()->id);
+            if (count($emails) == 0) {
+                echo "<h2 class='text-center'>Aucun message</h2>";
+                echo "<img style='margin-left: 20vw; width: 500px;' src='http://127.0.0.1:8000/images/mail.png' class='img-fluid' alt='Aucun message'>";
+            }
             @endphp
             @for ($i = 0; $i < count($emails); $i++)
                 <div class="row">

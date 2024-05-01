@@ -76,13 +76,17 @@
 <article>
     <article>
         @php
-            $emails = app('App\Http\Controllers\mailbox_controller')->get_mail(Auth::user()->id);
-//            dd(Auth::user()->id);
+            $emails = app('App\Http\Controllers\mailbox_controller')->get_email_with_category(Auth::user()->id,15);
+
+    if (count($emails) == 0) {
+            echo "<h2 class='text-center'>Aucun message</h2>";
+            echo "<img style='margin-left: 20vw; width: 500px;' src='http://127.0.0.1:8000/images/mail.png' class='img-fluid' alt='Aucun message'>";
+        }
         @endphp
         @for ($i = 0; $i < count($emails); $i++)
             <div class="row">
                 <div class="col">
-                    <div class="form-check">
+                    <div class="form-check" id="{{ $emails[$i]->id }}">
                         <input class="form-check-input" type="checkbox" value="" id="email{{$i}}">
                         <label class="form-check-label" for="email{{$i}}">
                             Email {{$i + 1}}
@@ -93,9 +97,21 @@
                 <div class="col">{{ $emails[$i]->content }}</div>
                 <div class="col">{{ $emails[$i]->date_email }}</div>
                 <div class="col">
-                    <button type="button" class="btn btn-outline-primary">Favoris</button>
-                    <button type="button" class="btn btn-outline-info">Archiver</button>
-                    <button type="button" class="btn btn-outline-danger">Supprimer</button>
+                    <form action="/add-to-favorites" method="post">
+                        @csrf
+                        <input type="hidden" name="email_id" value="{{ $emails[$i]->id }}">
+                        <button type="submit" class="btn btn-outline-primary">Favoris</button>
+                    </form>
+                    <form action="/archive-email" method="post">
+                        @csrf
+                        <input type="hidden" name="email_id" value="{{ $emails[$i]->id }}">
+                        <button type="submit" class="btn btn-outline-info">Archiver</button>
+                    </form>
+                    <form action="/delete-email" method="post">
+                        @csrf
+                        <input type="hidden" name="email_id" value="{{ $emails[$i]->id }}">
+                        <button type="submit" class="btn btn-outline-danger">Supprimer</button>
+                    </form>
                 </div>
             </div>
             <hr>
@@ -105,3 +121,8 @@
 <button class="btn btn-primary mt-3">Nouveau message</button></main>
 </body>
 </html>
+
+
+<script>
+    //print() impression
+</script>
