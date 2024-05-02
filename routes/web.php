@@ -21,11 +21,11 @@ Route::get('/home', function () {return view('home');})->name('home');
 Route::redirect('/', '/home');
 
 //auth
-Route::get('/register', [Auth_controller::class, 'registration'])->name('auth.register');
-Route::post('/register', [Auth_controller::class, 'doRegister']);
+Route::get('/register', [Auth_controller::class, 'form_register'])->name('auth.register');
+Route::post('/register', [Auth_controller::class, 'handling_register']);
 Route::delete('/logout', [Auth_controller::class, 'logout'])->name('auth.logout');
-Route::get('/login', [Auth_controller::class, 'login'])->name('auth.login');
-Route::post('/login', [Auth_controller::class, 'DoLogin']);
+Route::get('/login', [Auth_controller::class, 'form_login'])->name('auth.login');
+Route::post('/login', [Auth_controller::class, 'handling_login']);
 
 //mailbox
 Route::get('/inbox', [mailbox_controller::class, 'inbox'])->name('inbox.index');

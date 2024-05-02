@@ -2,99 +2,73 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LoginRequest;
-use App\Http\Requests\RegisterRequest;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
-use Illuminate\Foundation\Application;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+use Illuminate\Http\Request;
 
-class Auth_controller extends Controller
+class auth_controller extends Controller
 {
-    // register
-    public function registration(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+    // get register
+    public function form_register()
     {
-        $this->create_table_user();
-        return view('authentification/register');
+        return view('authentication/register');
     }
 
-    public function logout(): RedirectResponse
+    // post register
+    public function handling_register()
     {
-        Auth::logout();
+        // check if inputs are correctly filled
+        request()->validate([
+        'first_name' => ['required'],
+        'last_name' => ['required'],
+        'birth_date' => ['required'],
+        'email' => ['required', 'email', 'unique:users,email'],
+        'password' => ['required', 'min:2'],
+        ]);
+        // create new user
+        $user = User::create([
+        'first_name' => request('first_name'),
+        'last_name' => request('last_name'),
+        'email' => request('email'),
+        'password' => bcrypt(request('password')),
+        'question_recuperation' => 'question',
+        'response_recuperation' => 'response',
+        'birthday' => request('birth_date'),
+        ]);
+        return redirect('/login'); // redirect to login page
+    }
+
+    // logout
+    public function logout()
+    {
+        auth()->logout();
         return redirect()->route('home');
     }
 
-    public function doRegister(RegisterRequest $request): RedirectResponse
+    // get login
+    public function form_login()
     {
-        $name = $request->input('first_name');
-        $last_name = $request->input('last_name');
-        $date_of_birth = $request->input('birth_date');
-        $email = $request->input('email');
-        $password = Hash::make($request->input('password'));
-        $about = $request->input('about');
+        return view('authentication/login');
+    }
 
-        $this->create_table_user();
-        $this->add_user($name, $last_name, $date_of_birth, $email, $password, $about);
-
-        $credentials = $request->validated();
-
-        if (auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            return redirect()->intended(route('inbox.index'));
-        } else {
-            return back()->withErrors([
-                'email' => 'The provided credentials do not match our records.',
+    // post login
+    public function handling_login()
+    {
+        // check if email has good format and input is filled
+        request()->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+        // connection attempt
+        if(auth()->attempt([
+            'email' => request('email'),
+            'password' => request('password'),
+        ])){
+            request()->session()->regenerate();
+            return redirect()->intended(route('inbox.index')); // succeeds -> redirect to inbox page
+        }else{
+            return back()->withInput()->withErrors([
+                'email' => 'The provided credentials do not match our records.', // failed -> redirect to previous page
             ]);
         }
-    }
-
-    // login
-    public function login(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
-    {
-        return view('authentification/login');
-    }
-
-    public function DoLogin(LoginRequest $request): RedirectResponse
-    {
-        $email = $request->input('email');
-        $password = $request->input('password');
-
-        if (Auth::loginUsingId($this->get_id_user_by_email($email))) {
-            return redirect()->intended(route('inbox.index'));
-        } else {
-            return back()->withErrors([
-                'email' => 'The provided credentials do not match our records.',
-            ]);
-        }
-    }
-
-    // bdd
-    public function create_table_user(): void
-    {
-        $sql = "CREATE TABLE IF NOT EXISTS users (
-            id SERIAL PRIMARY KEY,
-            first_name VARCHAR(255) NOT NULL,
-            last_name VARCHAR(255) NOT NULL,
-            date_of_birth DATE NOT NULL,
-            email VARCHAR(255) NOT NULL,
-            password VARCHAR(255) NOT NULL,
-            about VARCHAR(255) NOT NULL
-        )";
-        DB::statement($sql);
-    }
-
-    public function add_user($name, $last_name, $date_of_birth, $email, $password, $about): void
-    {
-        $sql = "INSERT INTO users (first_name, last_name, date_of_birth, email, password, about) VALUES ('$name', '$last_name', '$date_of_birth', '$email', '$password', '$about')";
-        DB::statement($sql);
-    }
-
-    public function get_id_user_by_email(string $email): int
-    {
-        $sql = "SELECT id FROM users WHERE email = '$email'";
-        return DB::select($sql)[0]->id;
     }
 }

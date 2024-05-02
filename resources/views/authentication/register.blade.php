@@ -17,7 +17,7 @@
                 <input class="name" type="text" name="first_name" placeholder="First Name" autocomplete="">
                 <input class="name" type="text" name="last_name" placeholder="Last Name" autocomplete=""> <br>
                 <input class="name" type="date" name="birth_date" placeholder="date of birth" autocomplete="">
-                <input class="name" type="text" name="about" placeholder="#words (facultatif)" autocomplete=""> <br>
+                <!--<input class="name" type="text" name="about" placeholder="#words (facultatif)" autocomplete=""> <br>-->
                 <input type="email" name="email" placeholder="Email" autocomplete=""><br>
                 {{ $errors->first('email')}}
                 <input type="password" name="password" placeholder="Password" autocomplete=""><br>

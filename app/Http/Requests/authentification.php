@@ -40,5 +40,4 @@ class authentification
         $sql = "DELETE FROM users WHERE email = '$email'";
         DB::statement($sql);
     }
-
 }

@@ -75,7 +75,7 @@
 <!--content-->
 <article>
     <article>
-        @php
+        <!--@php
             $emails = app('App\Http\Controllers\mailbox_controller')->get_email_with_category(Auth::user()->id,15);
 
     if (count($emails) == 0) {
@@ -115,7 +115,7 @@
                 </div>
             </div>
             <hr>
-        @endfor
+        @endfor-->
     </article>
 </article>
 <button class="btn btn-primary mt-3">Nouveau message</button></main>
