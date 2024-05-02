@@ -55,7 +55,7 @@ class mailbox_controller extends Controller
     }
 
 
-    public function create_table_mail(): void
+    /*public function create_table_mail(): void
     {
         $sql = "CREATE TABLE IF NOT EXISTS mail (
             id SERIAL PRIMARY KEY,
@@ -196,6 +196,6 @@ class mailbox_controller extends Controller
     {
         $sql = "DELETE FROM mail";
         DB::statement($sql);
-    }
+    }*/
 
 }
