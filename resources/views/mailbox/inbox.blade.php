@@ -91,12 +91,12 @@
                 <div class="col">{{ $email->sent_at }}</div>
                 <div class="col">{{ $email->starred }}</div>
                 <div class="col">
-                    <form action="/add-to-favorites" method="post">
+                    <form action="/add-to-starred" method="post">
                         @csrf
                         <input type="hidden" name="email_id" value="{{ $email->id }}">
                         <button type="submit" class="btn btn-outline-primary">Favoris</button>
                     </form>
-                    <form action="/archive-email" method="post">
+                    <form action="/add-to-archive" method="post">
                         @csrf
                         <input type="hidden" name="email_id" value="{{ $email->id }}">
                         <button type="submit" class="btn btn-outline-info">Archiver</button>

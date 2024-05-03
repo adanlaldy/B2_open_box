@@ -28,8 +28,8 @@ Route::get('/login', [Auth_controller::class, 'form_login'])->name('auth.login')
 Route::post('/login', [Auth_controller::class, 'handling_login']);
 
 //mailbox
-Route::get('/inbox', [mailbox_controller::class, 'inbox'])->name('inbox.index');
-Route::post('/inbox', [mailbox_controller::class, 'inbox'])->name('inbox.index');
+Route::get('/inbox', [mailbox_controller::class, 'form_inbox'])->name('inbox.index');
+Route::post('/inbox', [mailbox_controller::class, 'handling_inbox'])->name('inbox.index');
 Route::get('/starred', [mailbox_controller::class, 'starred'])->name('inbox.starred');
 Route::get('/sent', [mailbox_controller::class, 'sent'])->name('inbox.sent');
 Route::get('/draft', [mailbox_controller::class, 'draft'])->name('inbox.draft');
@@ -40,7 +40,7 @@ Route::get('/all_mail', [mailbox_controller::class, 'all'])->name('inbox.all');
 
 
 //actions
-Route::post('/add-to-favorites', [mailbox_controller::class, 'addToFavorites']);
-Route::post('/archive-email', [mailbox_controller::class, 'archiveEmail']);
-Route::post('/delete-email', [mailbox_controller::class, 'deleteEmail']);
+Route::post('/add-to-starred', [mailbox_controller::class, 'add_to_starred']);
+Route::post('/add-to-archive', [mailbox_controller::class, 'add_to_archive']);
+Route::post('/delete-email', [mailbox_controller::class, 'delete_email']);
 

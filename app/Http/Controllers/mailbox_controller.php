@@ -35,7 +35,7 @@ class mailbox_controller extends Controller
                 'native' => true,
             ]);
         }
-
+        // cette partie sera à supprimer 
         $category = Category::where('name', 'inbox')->first(); // Assuming emails should be created in the inbox category
 
         for ($i = 1; $i <= 3; $i++){
@@ -52,7 +52,8 @@ class mailbox_controller extends Controller
             ]);
         }
     }
-    public function inbox()
+
+    public function form_inbox()
     {
         $user = auth()->user(); // collect connected user
         if (!$user->categories()->where('native', true)->exists()) {
@@ -67,6 +68,28 @@ class mailbox_controller extends Controller
         return view('mailbox/inbox',compact('inbox_emails'));
     }
     
+    public function add_to_starred()
+    {
+        $email_id = request()->input('email_id'); // collect email id
+        $category = Category::where('name', 'starred')->first(); // collect starred category
+        Email::where('id', $email_id)->update(['category_id' => $category->id]); // update email category to starred
+        return redirect()->back();
+    }
+
+    public function add_to_archive()
+    {
+        $email_id = request()->input('email_id'); // collect email id
+        $category = Category::where('name', 'archive')->first(); // collect starred category
+        Email::where('id', $email_id)->update(['category_id' => $category->id]); // update email category to archive
+        return redirect()->back();
+    }
+
+    public function delete_email()
+    {
+        $email_id = request()->input('email_id'); // collect email id
+        Email::where('id', $email_id)->delete(); // delete email
+        return redirect()->back();
+    }
 
     public function starred()
     {
