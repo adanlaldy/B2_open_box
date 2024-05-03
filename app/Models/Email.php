@@ -20,8 +20,6 @@ class Email extends Model
         'receiver_user_id',
         'cc_user_id',
         'bcc_user_id',
-        'reply_id',
-        'forward_id',
         'object',
         'content',
         'sent_at',
