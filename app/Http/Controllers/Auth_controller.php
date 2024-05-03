@@ -25,7 +25,7 @@ class auth_controller extends Controller
         'password' => ['required', 'min:2'],
         ]);
         // create new user
-        $user = User::create([
+        User::create([
         'first_name' => request('first_name'),
         'last_name' => request('last_name'),
         'email' => request('email'),
@@ -34,6 +34,7 @@ class auth_controller extends Controller
         'response_recuperation' => 'response',
         'birthday' => request('birth_date'),
         ]);
+        // connection attempt
         if(auth()->attempt([
             'email' => request('email'),
             'password' => request('password'),
