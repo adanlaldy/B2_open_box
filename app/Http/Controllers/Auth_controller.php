@@ -34,7 +34,17 @@ class auth_controller extends Controller
         'response_recuperation' => 'response',
         'birthday' => request('birth_date'),
         ]);
-        return redirect('/login'); // redirect to login page
+        if(auth()->attempt([
+            'email' => request('email'),
+            'password' => request('password'),
+        ])){
+            request()->session()->regenerate();
+            return redirect()->intended(route('inbox.index')); // succeeds -> redirect to inbox page
+        }else{
+            return back()->withInput()->withErrors([
+                'email' => 'The provided credentials already exists.', // failed -> redirect to previous page
+            ]);
+        }
     }
 
     // logout
