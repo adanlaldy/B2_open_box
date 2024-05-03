@@ -30,17 +30,21 @@ Route::post('/login', [Auth_controller::class, 'handling_login']);
 //mailbox
 Route::get('/inbox', [mailbox_controller::class, 'form_inbox'])->name('inbox.index');
 Route::post('/inbox', [mailbox_controller::class, 'handling_inbox'])->name('inbox.index');
-Route::get('/starred', [mailbox_controller::class, 'starred'])->name('inbox.starred');
-Route::get('/sent', [mailbox_controller::class, 'sent'])->name('inbox.sent');
-Route::get('/draft', [mailbox_controller::class, 'draft'])->name('inbox.draft');
-Route::get('/trash', [mailbox_controller::class, 'trash'])->name('inbox.trash');
-Route::get('/spam', [mailbox_controller::class, 'spam'])->name('inbox.spam');
-Route::get('/archive', [mailbox_controller::class, 'archive'])->name('inbox.archive');
-Route::get('/all_mail', [mailbox_controller::class, 'all'])->name('inbox.all');
+Route::get('/starred', [mailbox_controller::class, 'form_starred'])->name('inbox.starred');
+Route::get('/sent', [mailbox_controller::class, 'form_sent'])->name('inbox.sent');
+Route::get('/draft', [mailbox_controller::class, 'form_draft'])->name('inbox.draft');
+Route::get('/trash', [mailbox_controller::class, 'form_trash'])->name('inbox.trash');
+Route::get('/spam', [mailbox_controller::class, 'form_spam'])->name('inbox.spam');
+Route::get('/archive', [mailbox_controller::class, 'form_archive'])->name('inbox.archive');
+Route::get('/all_mail', [mailbox_controller::class, 'form_all'])->name('inbox.all');
 
 
 //actions
 Route::post('/add-to-starred', [mailbox_controller::class, 'add_to_starred']);
+Route::post('/remove-from-starred', [mailbox_controller::class, 'remove_from_starred']);
 Route::post('/add-to-archive', [mailbox_controller::class, 'add_to_archive']);
+Route::post('/remove-from-archive', [mailbox_controller::class, 'remove_from_archive']);
+Route::post('/add-to-trash', [mailbox_controller::class, 'add_to_trash']);
+Route::post('/remove-from-trash', [mailbox_controller::class, 'remove_from_trash']);
 Route::post('/delete-email', [mailbox_controller::class, 'delete_email']);
 

@@ -101,7 +101,7 @@
                         <input type="hidden" name="email_id" value="{{ $email->id }}">
                         <button type="submit" class="btn btn-outline-info">Archiver</button>
                     </form>
-                    <form action="/delete-email" method="post">
+                    <form action="/add-to-trash" method="post">
                         @csrf
                         <input type="hidden" name="email_id" value="{{ $email->id }}">
                         <button type="submit" class="btn btn-outline-danger">Supprimer</button>

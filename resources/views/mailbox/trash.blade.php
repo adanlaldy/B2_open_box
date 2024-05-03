@@ -75,47 +75,40 @@
     <!--content-->
     <article>
         <article>
-            @php
-                $emails = app('App\Http\Controllers\mailbox_controller')->get_email_with_category(Auth::user()->id,app('App\Http\Controllers\mailbox_controller')->get_id_category('Trash')[0]->id);
-            //            dd(Auth::user()->id);
-                    if (count($emails) == 0) {
-                        echo "<h2 class='text-center'>Aucun message</h2>";
-                        echo "<img style='margin-left: 20vw; width: 500px;' src='http://127.0.0.1:8000/images/mail.png' class='img-fluid' alt='Aucun message'>";
-                    }
-            @endphp
-            @for ($i = 0; $i < count($emails); $i++)
+            <ul>
+                @forelse($trash_emails as $email)
                 <div class="row">
                     <div class="col">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="email{{$i}}">
-                            <label class="form-check-label" for="email{{$i}}">
-                                Email {{$i + 1}}
+                        <div class="form-check" id="{{ $email->id }}">
+                            <input class="form-check-input" type="checkbox" value="" id="$email">
+                            <label class="form-check-label" for="$email">
+                                {{ $email->id }}
                             </label>
                         </div>
                     </div>
-                    <div class="col">{{ $emails[$i]->subject }}</div>
-                    <div class="col">{{ $emails[$i]->content }}</div>
-                    <div class="col">{{ $emails[$i]->date_email }}</div>
+                    <div class="col">{{ $email->sender_user_id }}</div>
+                    <div class="col">{{ $email->object }}</div>
+                    <div class="col">{{ $email->sent_at }}</div>
+                    <div class="col">{{ $email->starred }}</div>
                     <div class="col">
-                        <form action="/add-to-favorites" method="post">
+                        <form action="/remove-from-trash" method="post">
                             @csrf
-                            <input type="hidden" name="email_id" value="{{ $emails[$i]->id }}">
-                            <button type="submit" class="btn btn-outline-primary">Favoris</button>
-                        </form>
-                        <form action="/archive-email" method="post">
-                            @csrf
-                            <input type="hidden" name="email_id" value="{{ $emails[$i]->id }}">
-                            <button type="submit" class="btn btn-outline-info">Archiver</button>
+                            <input type="hidden" name="email_id" value="{{ $email->id }}">
+                            <button type="submit" class="btn btn-outline-primary">Récupérer</button>
                         </form>
                         <form action="/delete-email" method="post">
                             @csrf
-                            <input type="hidden" name="email_id" value="{{ $emails[$i]->id }}">
+                            <input type="hidden" name="email_id" value="{{ $email->id }}">
                             <button type="submit" class="btn btn-outline-danger">Supprimer</button>
                         </form>
                     </div>
                 </div>
                 <hr>
-            @endfor
+                @empty
+                <h2 class='text-center'>Aucun message</h2>
+                <img style='margin-left: 20vw; width: 500px;' src='http://127.0.0.1:8000/images/mail.png' class='img-fluid' alt='Aucun message'>
+                @endforelse
+            </ul>
         </article>
     </article>
     <button class="btn btn-primary mt-3">Nouveau message</button></main>
