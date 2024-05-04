@@ -8,7 +8,6 @@ use App\Models\Category;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -28,14 +27,14 @@ class mailbox_controller extends Controller
             'trash',
             'all_mail',
         ];
-        
+
         foreach ($categories as $category) {
             $user->categories()->create([
                 'name' => $category,
                 'native' => true,
             ]);
         }
-        // cette partie sera à supprimer 
+        // cette partie sera à supprimer
         $category = Category::where('name', 'inbox')->first(); // Assuming emails should be created in the inbox category
 
         for ($i = 1; $i <= 3; $i++){
@@ -68,6 +67,18 @@ class mailbox_controller extends Controller
         return view('mailbox/inbox',compact('inbox_emails'));
     }
 
+    public function get_email_with_category($id_user, $id_category): array
+    {
+        $sql = "SELECT * FROM emails WHERE sender_user_id = '$id_user' AND category_id = '$id_category'";
+        return DB::select($sql);
+    }
+
+    public function get_name_by_id($id): string
+    {
+        $sql = "SELECT first_name FROM users WHERE id = '$id'";
+        return DB::select($sql)[0]->first_name;
+    }
+
     public function form_starred()
     {
         $user = auth()->user(); // collect connected user
@@ -96,6 +107,12 @@ class mailbox_controller extends Controller
             $archive_emails = collect();
         }
         return view('mailbox/archive', compact('archive_emails'));
+    }
+
+    public function get_category_id_by_name($name): int
+    {
+        $sql = "SELECT id FROM categories WHERE name = '$name'";
+        return DB::select($sql)[0]->id;
     }
 
     public function form_trash()
@@ -167,25 +184,25 @@ class mailbox_controller extends Controller
         Email::where('id', $email_id)->delete(); // delete email
         return redirect()->back();
     }
-    
-    public function sent()
+
+    public function form_sent()
     {
         return view('mailbox/sent');
     }
 
-    public function draft()
+    public function form_draft()
     {
         return view('mailbox/draft');
     }
 
-    
 
-    public function spam()
+
+    public function form_spam()
     {
         return view('mailbox/spam');
     }
 
-    public function all()
+    public function form_all()
     {
         return view('mailbox/all_mail');
     }
