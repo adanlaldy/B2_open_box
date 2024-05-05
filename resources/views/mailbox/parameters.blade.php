@@ -77,7 +77,7 @@
 
     <?php
     // Dans votre code PHP (par exemple, un contrôleur ou une vue)
-    $version = config('app_config.version');
+    $version = config('version.version');
     dd($version);
     ?>
 
