@@ -95,14 +95,14 @@
                     <form action="/add-to-starred" method="post">
                         @csrf
                         <input type="hidden" name="email_id" value="{{ $email->id }}">
-                        <button type="submit" class="btn btn-outline-primary">Favoris</button>
+                        <button type="submit" class="btn btn-outline-primary">Ajouter aux favoris</button>
                     </form>
-                    <form action="/archive-email" method="post">
+                    <form action="/add-to-archive" method="post">
                         @csrf
                         <input type="hidden" name="email_id" value="{{ $email->id }}">
-                        <button type="submit" class="btn btn-outline-info">Archiver</button>
+                        <button type="submit" class="btn btn-outline-info">Ajouter aux archives</button>
                     </form>
-                    <form action="/delete-email" method="post">
+                    <form action="/add-to-trash" method="post">
                         @csrf
                         <input type="hidden" name="email_id" value="{{ $email->id }}">
                         <button type="submit" class="btn btn-outline-danger">Supprimer</button>

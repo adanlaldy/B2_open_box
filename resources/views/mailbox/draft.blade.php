@@ -78,7 +78,7 @@
     <!-- Contenu mail -->
     <article>
     <ul>
-            @forelse($inbox_emails as $email)
+            @forelse($draft_emails as $email)
             <div class="row">
                 <div class="col">
                     <div class="form-check" id="{{ $email->id }}">
@@ -95,7 +95,7 @@
                     <form action="/delete-email" method="post">
                         @csrf
                         <input type="hidden" name="email_id" value="{{ $email->id }}">
-                        <button type="submit" class="btn btn-outline-danger">Supprimer</button>
+                        <button type="submit" class="btn btn-outline-danger">Supprimer le brouillon</button>
                     </form>
                 </div>
             </div>

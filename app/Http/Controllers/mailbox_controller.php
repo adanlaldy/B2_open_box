@@ -112,6 +112,66 @@ class mailbox_controller extends Controller
         return view('mailbox/trash', compact('trash_emails'));
     }
 
+    public function form_sent()
+    {
+        $user = auth()->user(); // collect connected user
+        if (!$user->categories()->where('native', true)->exists()) {
+            $this->fill_native_categories($user);
+        }
+        $sent_category = Category::where('name', 'sent')->first();
+        if ($sent_category) {
+            $sent_emails = Email::where('category_id', $sent_category->id)->get();
+        } else {
+            $sent_emails = collect();
+        }
+        return view('mailbox/sent', compact('sent_emails'));
+    }
+
+    public function form_draft()
+    {
+        $user = auth()->user(); // collect connected user
+        if (!$user->categories()->where('native', true)->exists()) {
+            $this->fill_native_categories($user);
+        }
+        $draft_category = Category::where('name', 'draft')->first();
+        if ($draft_category) {
+            $draft_emails = Email::where('category_id', $draft_category->id)->get();
+        } else {
+            $draft_emails = collect();
+        }
+        return view('mailbox/draft', compact('draft_emails'));
+    }
+
+    public function form_spam()
+    {
+        $user = auth()->user(); // collect connected user
+        if (!$user->categories()->where('native', true)->exists()) {
+            $this->fill_native_categories($user);
+        }
+        $spam_category = Category::where('name', 'spam')->first();
+        if ($spam_category) {
+            $spam_emails = Email::where('category_id', $spam_category->id)->get();
+        } else {
+            $spam_emails = collect();
+        }
+        return view('mailbox/spam', compact('spam_emails'));
+    }
+
+    public function form_all()
+    {
+        $user = auth()->user(); // collect connected user
+        if (!$user->categories()->where('native', true)->exists()) {
+            $this->fill_native_categories($user);
+        }
+        $all_category = Category::where('name', 'all_mail')->first();
+        if ($all_category) {
+            $all_emails = Email::where('category_id', $all_category->id)->get();
+        } else {
+            $all_emails = collect();
+        }
+        return view('mailbox/all_mail', compact('all_emails'));
+    }
+
     public function add_to_starred()
     {
         $email_id = request()->input('email_id'); // collect email id
@@ -165,26 +225,6 @@ class mailbox_controller extends Controller
         $email_id = request()->input('email_id'); // collect email id
         Email::where('id', $email_id)->delete(); // delete email
         return redirect()->back();
-    }
-
-    public function form_sent()
-    {
-        return view('mailbox/sent');
-    }
-
-    public function form_draft()
-    {
-        return view('mailbox/draft');
-    }
-
-    public function form_spam()
-    {
-        return view('mailbox/spam');
-    }
-
-    public function form_all()
-    {
-        return view('mailbox/all_mail');
     }
 
     public function parameters()

@@ -78,7 +78,7 @@
     <!-- Contenu mail -->
     <article>
     <ul>
-            @forelse($inbox_emails as $email)
+            @forelse($trash_emails as $email)
             <div class="row">
                 <div class="col">
                     <div class="form-check" id="{{ $email->id }}">
@@ -92,15 +92,15 @@
                 <div class="col">{{ $email->object }}</div>
                 <div class="col">{{ $email->sent_at }}</div>
                 <div class="col">
-                    <form action="/add-to-favorites" method="post">
+                    <form action="/remove-from-trash" method="post">
                         @csrf
                         <input type="hidden" name="email_id" value="{{ $email->id }}">
-                        <button type="submit" class="btn btn-outline-primary">Favoris</button>
+                        <button type="submit" class="btn btn-outline-primary">Récupérer l'email</button>
                     </form>
                     <form action="/delete-email" method="post">
                         @csrf
                         <input type="hidden" name="email_id" value="{{ $email->id }}">
-                        <button type="submit" class="btn btn-outline-danger">Supprimer</button>
+                        <button type="submit" class="btn btn-outline-danger">Supprimer définitivement</button>
                     </form>
                 </div>
             </div>
