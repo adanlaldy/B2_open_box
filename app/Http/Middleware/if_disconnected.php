@@ -16,9 +16,9 @@ class if_disconnected
      */
     public function handle(Request $request, Closure $next)
     {
-        // if not connected, redirect to login page
+        // if connected, redirect to inbox page
         if (auth()->check()) {
-            return redirect('/my-account')->withErrors([
+            return redirect('/inbox')->withErrors([
                 'email' => "You must be disconnect to view this page.",
             ]);    
         }

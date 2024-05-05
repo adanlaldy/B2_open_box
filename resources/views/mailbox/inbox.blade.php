@@ -49,6 +49,15 @@
     </nav>
     <!-- Sidebar -->
     <div class="sidebar">
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul class="list-unstyled">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <nav>
             <a class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none margin-20" href="/inbox">Open Box <?php echo Auth::user()->email; ?></a>
             <hr class="bar-menu">
@@ -117,7 +126,6 @@
         </ul>
     </article>
     <button class="btn btn-primary mt-3 static">Nouveau message</button>
-
     <script>
         function toggleSidebar() {
             const sidebar = document.querySelector('.sidebar');
