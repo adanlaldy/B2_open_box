@@ -1,6 +1,6 @@
 <?php
 
 return [
-    'version' => '0.0.2', // Vous pouvez définir une valeur par défaut
+    'version' => '0.0.3', // Vous pouvez définir une valeur par défaut
 ];
 
