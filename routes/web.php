@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Auth_controller;
+use App\Http\Controllers\auth_controller;
 use App\Http\Controllers\mailbox_controller;
 use Illuminate\Support\Facades\Route;
 
@@ -21,11 +21,11 @@ Route::get('/home', function () {return view('home');})->name('home');
 Route::redirect('/', '/home');
 
 //auth
-Route::get('/register', [Auth_controller::class, 'form_register'])->name('auth.register');
-Route::post('/register', [Auth_controller::class, 'handling_register']);
-Route::delete('/logout', [Auth_controller::class, 'logout'])->name('auth.logout');
-Route::get('/login', [Auth_controller::class, 'form_login'])->name('auth.login');
-Route::post('/login', [Auth_controller::class, 'handling_login']);
+Route::get('/register', [auth_controller::class, 'form_register'])->name('auth.register');
+Route::post('/register', [auth_controller::class, 'handling_register']);
+Route::delete('/logout', [auth_controller::class, 'logout'])->name('auth.logout');
+Route::get('/login', [auth_controller::class, 'form_login'])->name('auth.login');
+Route::post('/login', [auth_controller::class, 'handling_login']);
 
 //mailbox
 Route::get('/inbox', [mailbox_controller::class, 'form_inbox'])->name('inbox.index');

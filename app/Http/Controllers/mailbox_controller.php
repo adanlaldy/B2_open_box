@@ -67,18 +67,6 @@ class mailbox_controller extends Controller
         return view('mailbox/inbox',compact('inbox_emails'));
     }
 
-    public function get_email_with_category($id_user, $id_category): array
-    {
-        $sql = "SELECT * FROM emails WHERE sender_user_id = '$id_user' AND category_id = '$id_category'";
-        return DB::select($sql);
-    }
-
-    public function get_name_by_id($id): string
-    {
-        $sql = "SELECT first_name FROM users WHERE id = '$id'";
-        return DB::select($sql)[0]->first_name;
-    }
-
     public function form_starred()
     {
         $user = auth()->user(); // collect connected user
@@ -107,12 +95,6 @@ class mailbox_controller extends Controller
             $archive_emails = collect();
         }
         return view('mailbox/archive', compact('archive_emails'));
-    }
-
-    public function get_category_id_by_name($name): int
-    {
-        $sql = "SELECT id FROM categories WHERE name = '$name'";
-        return DB::select($sql)[0]->id;
     }
 
     public function form_trash()
@@ -194,8 +176,6 @@ class mailbox_controller extends Controller
     {
         return view('mailbox/draft');
     }
-
-
 
     public function form_spam()
     {

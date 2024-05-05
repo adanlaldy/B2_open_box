@@ -12,6 +12,4 @@ class main_controller
     {
         return view('mail');
     }
-
-
 }
