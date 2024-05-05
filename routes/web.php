@@ -37,6 +37,7 @@ Route::get('/trash', [mailbox_controller::class, 'form_trash'])->name('inbox.tra
 Route::get('/spam', [mailbox_controller::class, 'form_spam'])->name('inbox.spam');
 Route::get('/archive', [mailbox_controller::class, 'form_archive'])->name('inbox.archive');
 Route::get('/all_mail', [mailbox_controller::class, 'form_all'])->name('inbox.all');
+Route::get('/parameters', [mailbox_controller::class, 'parameters'])->name('inbox.parameters');
 
 
 //actions

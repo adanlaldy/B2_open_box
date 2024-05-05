@@ -206,4 +206,9 @@ class mailbox_controller extends Controller
     {
         return view('mailbox/all_mail');
     }
+
+    public function parameters()
+    {
+        return view('mailbox/parameters');
+    }
 }

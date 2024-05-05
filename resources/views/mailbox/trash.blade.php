@@ -55,7 +55,7 @@
             <li><a class="nav-link link-body-emphasis" href="/starred">Favoris</a></li>
             <li><a class="nav-link link-body-emphasis" href="/archive">Archives</a></li>
             <li><a class="nav-link link-body-emphasis" href="/spam">Spams</a></li>
-            <li><a class="nav-link active" href="/trash">Corbeille</a></li>
+            <li><a class="nav-link active margin-20" href="/trash">Corbeille</a></li>
             <li><a class="nav-link link-body-emphasis" href="/all_mail">Tous les messages</a></li>
             <hr class="bar-menu nav-item d-lg-none">
             <li class="nav-item d-lg-none"><a class="nav-link " href="/parameters">Paramètres</a></li>
@@ -77,7 +77,7 @@
     if (empty($inbox_emails)) {
         echo '<div class="picture">';
         echo '<img class="picture center" src="http://127.0.0.1:8000/images/mail.png" alt="img">';
-        echo '<h2 class="text-center">Aucun message dans la boîte de réception</h2>';
+        echo '<h2 class="text-center">Aucun message dans la corbeil</h2>';
         echo '</div>';
     }
     ?>
@@ -97,17 +97,13 @@
                 <form action="/add-to-starred" method="post">
                     @csrf
                     <input type="hidden" name="email_id" value="<?php echo $email->id; ?>">
-                    <button type="submit" class="btn btn-outline-primary">F</button>
+                    <button type="submit" class="btn btn-outline-primary">Récuperer</button>
                 </form>
-                <form action="/add-to-archive" method="post">
-                    @csrf
-                    <input type="hidden" name="email_id" value="<?php echo $email->id; ?>">
-                    <button type="submit" class="btn btn-outline-info">A</button>
-                </form>
+                <br>
                 <form action="/add-to-trash" method="post">
                     @csrf
                     <input type="hidden" name="email_id" value="<?php echo $email->id; ?>">
-                    <button type="submit" class="btn btn-outline-danger">S</button>
+                    <button type="submit" class="btn btn-outline-danger">Suppprimer</button>
                 </form>
             </div>
         </div>
@@ -121,8 +117,14 @@
 <script>
     function toggleSidebar() {
         const sidebar = document.querySelector('.sidebar');
+        const overlay = document.querySelector('.overlay');
         sidebar.classList.toggle('active');
+        overlay.style.display = (sidebar.classList.contains('active')) ? 'block' : 'none';
     }
+
+    document.querySelector('.overlay').addEventListener('click', function() {
+        toggleSidebar(); // Désactiver le menu
+    });
 </script>
 </body>
 </html>

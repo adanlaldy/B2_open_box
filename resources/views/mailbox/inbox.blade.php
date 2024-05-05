@@ -54,7 +54,7 @@
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item d-lg-none"><a class="nav-link" href="/offers">Abonnement</a></li> <!-- Ajout de la classe "d-lg-none" pour cacher en mode PC -->
                 <hr class="bar-menu nav-item d-lg-none">
-                <li class="nav-item"><a class="nav-link active" href="/inbox">Boîte de réception</a></li>
+                <li class="nav-item"><a class="nav-link active margin-20" href="/inbox">Boîte de réception</a></li>
                 <li><a class="nav-link link-body-emphasis" href="/draft">Brouillons</a></li>
                 <li><a class="nav-link link-body-emphasis" href="/sent">Messages envoyés</a></li>
                 <li><a class="nav-link link-body-emphasis" href="/starred">Favoris</a></li>
@@ -134,7 +134,6 @@
         document.querySelector('.overlay').addEventListener('click', function() {
             toggleSidebar(); // Désactiver le menu
         });
-
     </script>
 </body>
 </html>

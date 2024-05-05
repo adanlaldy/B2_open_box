@@ -56,7 +56,7 @@
             <li><a class="nav-link link-body-emphasis" href="/archive">Archives</a></li>
             <li><a class="nav-link link-body-emphasis" href="/spam">Spams</a></li>
             <li><a class="nav-link link-body-emphasis" href="/trash">Corbeille</a></li>
-            <li><a class="nav-link active" href="/all_mail">Tous les messages</a></li>
+            <li><a class="nav-link active margin-20" href="/all_mail">Tous les messages</a></li>
             <hr class="bar-menu nav-item d-lg-none">
             <li class="nav-item d-lg-none"><a class="nav-link " href="/parameters">Paramètres</a></li>
             <hr class="bar-menu nav-item d-lg-none">
@@ -119,11 +119,18 @@
 
 <button class="btn btn-primary mt-3 static">Nouveau message</button>
 
+
 <script>
     function toggleSidebar() {
         const sidebar = document.querySelector('.sidebar');
+        const overlay = document.querySelector('.overlay');
         sidebar.classList.toggle('active');
+        overlay.style.display = (sidebar.classList.contains('active')) ? 'block' : 'none';
     }
+
+    document.querySelector('.overlay').addEventListener('click', function() {
+        toggleSidebar(); // Désactiver le menu
+    });
 </script>
 </body>
 </html>
