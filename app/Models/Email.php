@@ -29,31 +29,31 @@ class email extends Model
 
     public function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(category::class);
     }
 
     public function sender()
     {
-        return $this->belongsTo(User::class, 'sender_user_id');
+        return $this->belongsTo(user::class, 'sender_user_id');
     }
 
     public function receiver()
     {
-        return $this->belongsTo(User::class, 'receiver_user_id');
+        return $this->belongsTo(user::class, 'receiver_user_id');
     }
 
     public function cc()
     {
-        return $this->belongsTo(User::class, 'cc_user_id');
+        return $this->belongsTo(user::class, 'cc_user_id');
     }
 
     public function bcc()
     {
-        return $this->belongsTo(User::class, 'bcc_user_id');
+        return $this->belongsTo(user::class, 'bcc_user_id');
     }
 
     public function attachments()
     {
-        return $this->hasMany(Attachment::class);
+        return $this->hasMany(attachment::class);
     }
 }

@@ -39,6 +39,6 @@ class user extends Model implements Authenticatable
 
     public function categories()
     {
-        return $this->hasMany(Category::class);
+        return $this->hasMany(category::class);
     }
 }

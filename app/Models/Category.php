@@ -21,11 +21,11 @@ class category extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(user::class);
     }
 
     public function emails()
     {
-        return $this->hasMany(Email::class);
+        return $this->hasMany(email::class);
     }
 }
