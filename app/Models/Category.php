@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use App\Models\User;
-use App\Models\Email;
+use App\Models\user;
+use App\Models\email;
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+class category extends Model
 {
     /**
      * The attributes that are mass assignable.

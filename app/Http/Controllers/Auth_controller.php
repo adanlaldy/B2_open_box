@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\user;
 use Illuminate\Http\Request;
 
 class auth_controller extends Controller
@@ -25,7 +25,7 @@ class auth_controller extends Controller
         'password' => ['required', 'min:2'],
         ]);
         // create new user
-        User::create([
+        user::create([
         'first_name' => request('first_name'),
         'last_name' => request('last_name'),
         'email' => request('email'),
