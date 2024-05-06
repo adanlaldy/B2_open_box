@@ -8,6 +8,7 @@
     <link href="http://127.0.0.1:8000/css/mail.css" rel="stylesheet" />
 </head>
 <body>
+<main>
     <!-- Top Bar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid d-flex justify-content-between align-items-center container-fluid-custom">
@@ -35,7 +36,7 @@
                 <form action="{{route('auth.logout')}}" method="post"> <!-- Suppression de la classe "ms-3" pour centrer correctement le bouton sur mobile -->
                     @csrf
                     @method('delete')
-                    <button type="submit" class="btn btn-link nav-item d-lg-block d-none">Logout</button>
+                    <button type="submit" class="btn btn-link nav-item d-lg-block d-none">Se déconnecter</button>
                 </form>
             </div>
         </div>
@@ -43,11 +44,20 @@
     </nav>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid d-flex justify-content-between align-items-center container-fluid-custom">
-            <h1 class="form-inline my-2 my-lg-0 margin-50">Boites de reception</h1>
+            <h1 class="form-inline my-2 my-lg-0 margin-50">Boîte de réception</h1>
         </div>
     </nav>
     <!-- Sidebar -->
     <div class="sidebar">
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul class="list-unstyled">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <nav>
             <a class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none margin-20" href="/inbox">Open Box <?php echo Auth::user()->email; ?></a>
             <hr class="bar-menu">
@@ -74,55 +84,48 @@
         </nav>
     </div>
     <div class="overlay"></div>
-
     <!-- Contenu mail -->
-    <div class="content">
-        <?php
-        $inbox_emails = app('App\Http\Controllers\mailbox_controller')->get_email_with_category(Auth::user()->id, app('App\Http\Controllers\mailbox_controller')->get_category_id_by_name('inbox'));
-        if (empty($inbox_emails)) {
-            echo '<div class="picture">';
-            echo '<img class="picture center" src="http://127.0.0.1:8000/images/mail.png" alt="img">';
-            echo '<h2 class="text-center">Aucun message dans la boîte de réception</h2>';
-            echo '</div>';
-        }
-        ?>
-
-        <ul class="">
-            <?php foreach ($inbox_emails as $email): ?>
-            <div class="row no-margin">
+    <article>
+    <ul>
+            @forelse($inbox_emails as $email)
+            <div class="row">
                 <div class="col">
-                    <div class="form-check" id="<?php echo $email->id; ?>">
-                        <label for="email<?php echo $email->id; ?>"></label><input class="form-check-input" type="checkbox" value="" id="email<?php echo $email->id; ?>">
+                    <div class="form-check" id="{{ $email->id }}">
+                        <input class="form-check-input" type="checkbox" value="" id="$email">
+                        <label class="form-check-label" for="$email">
+                            {{ $email->id }}
+                        </label>
                     </div>
                 </div>
-                <div class="col"><?php echo app('App\Http\Controllers\mailbox_controller')->get_name_by_id($email->sender_user_id)?></div>
-                <div class="col"><?php echo $email->object; ?></div>
-                <div class="col"><?php echo $email->sent_at; ?></div>
+                <div class="col">{{ $email->sender_user_id }}</div>
+                <div class="col">{{ $email->object }}</div>
+                <div class="col">{{ $email->sent_at }}</div>
                 <div class="col">
                     <form action="/add-to-starred" method="post">
                         @csrf
-                        <input type="hidden" name="email_id" value="<?php echo $email->id; ?>">
-                        <button type="submit" class="btn btn-outline-primary">F</button>
+                        <input type="hidden" name="email_id" value="{{ $email->id }}">
+                        <button type="submit" class="btn btn-outline-primary">Ajouter aux favoris</button>
                     </form>
                     <form action="/add-to-archive" method="post">
                         @csrf
-                        <input type="hidden" name="email_id" value="<?php echo $email->id; ?>">
-                        <button type="submit" class="btn btn-outline-info">A</button>
+                        <input type="hidden" name="email_id" value="{{ $email->id }}">
+                        <button type="submit" class="btn btn-outline-info">Ajouter aux archives</button>
                     </form>
                     <form action="/add-to-trash" method="post">
                         @csrf
-                        <input type="hidden" name="email_id" value="<?php echo $email->id; ?>">
-                        <button type="submit" class="btn btn-outline-danger">S</button>
+                        <input type="hidden" name="email_id" value="{{ $email->id }}">
+                        <button type="submit" class="btn btn-outline-danger">Supprimer</button>
                     </form>
                 </div>
             </div>
             <hr>
-            <?php endforeach; ?>
+            @empty
+            <h2 class='text-center'>Aucun message</h2>
+            <img style='margin-left: 20vw; width: 500px;' src='http://127.0.0.1:8000/images/mail.png' class='img-fluid' alt='Aucun message'>
+            @endforelse
         </ul>
-    </div>
-
+    </article>
     <button class="btn btn-primary mt-3 static">Nouveau message</button>
-
     <script>
         function toggleSidebar() {
             const sidebar = document.querySelector('.sidebar');
@@ -135,5 +138,6 @@
             toggleSidebar(); // Désactiver le menu
         });
     </script>
+</main>
 </body>
 </html>
