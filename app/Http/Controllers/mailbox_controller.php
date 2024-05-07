@@ -5,16 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\user;
 use App\Models\email;
 use App\Models\category;
+use App\Mail\post_email;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class mailbox_controller extends Controller
 {
-
     public function fill_native_categories(user $user)
     {
         $categories = [
@@ -231,4 +232,33 @@ class mailbox_controller extends Controller
     {
         return view('mailbox/parameters');
     }
+
+    public function form_post_email()
+    {
+        return view('emails/post_email');
+    }
+    
+    public function handling_post_email()
+    {
+        /*$email = request()->validate([
+            'receiver' => ['required', 'email'],
+            'object' => ['required'],
+            'content' => ['required'],
+        ]);
+
+        $user = auth()->user();
+        $category = category::where('user_id', $user->id)->first();
+        $category->emails()->create([
+            'sender_user_id' => $user->id,
+            'receiver_user_id' => 0,
+            'object' => $email['object'],
+            'content' => $email['content'],
+            'sent_at' => now(),
+            'starred' => false,
+            'attachment',
+        ]);*/
+        Mail::to("tony@test.mail")->send(new post_email());
+        //return redirect()->back();
+    }
+
 }
