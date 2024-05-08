@@ -1,8 +1,16 @@
 <?php
 
 use App\Http\Controllers\auth_controller;
+use App\Http\Controllers\Language;
 use App\Http\Controllers\mailbox_controller;
 use Illuminate\Support\Facades\Route;
+
+$lang = 'en'; // Par exemple, anglais par défaut
+if (isset($_GET['lang'])) {
+    $lang = $_GET['lang'];
+//    $language = new Language();
+}
+
 
 //native
 

@@ -52,7 +52,7 @@ class mailbox_controller extends Controller
         }
     }
 
-    public function form_inbox()
+    public function form_inbox(Language $language)
     {
         $user = auth()->user(); // collect connected user
         if (!$user->categories()->where('native', true)->exists()) {
@@ -64,10 +64,10 @@ class mailbox_controller extends Controller
         } else {
             $inbox_emails = collect();
         }
-        return view('mailbox/inbox',compact('inbox_emails'));
+        return view('mailbox/inbox',compact('inbox_emails', 'language'));
     }
 
-    public function form_starred()
+    public function form_starred(Language $language)
     {
         $user = auth()->user(); // collect connected user
         if (!$user->categories()->where('native', true)->exists()) {
@@ -79,10 +79,10 @@ class mailbox_controller extends Controller
         } else {
             $starred_emails = collect();
         }
-        return view('mailbox/starred', compact('starred_emails'));
+        return view('mailbox/starred', compact('starred_emails', 'language'));
     }
 
-    public function form_archive()
+    public function form_archive(Language $language)
     {
         $user = auth()->user(); // collect connected user
         if (!$user->categories()->where('native', true)->exists()) {
@@ -94,10 +94,10 @@ class mailbox_controller extends Controller
         } else {
             $archive_emails = collect();
         }
-        return view('mailbox/archive', compact('archive_emails'));
+        return view('mailbox/archive', compact('archive_emails', 'language'));
     }
 
-    public function form_trash()
+    public function form_trash(Language $language)
     {
         $user = auth()->user(); // collect connected user
         if (!$user->categories()->where('native', true)->exists()) {
@@ -109,10 +109,10 @@ class mailbox_controller extends Controller
         } else {
             $trash_emails = collect();
         }
-        return view('mailbox/trash', compact('trash_emails'));
+        return view('mailbox/trash', compact('trash_emails', 'language'));
     }
 
-    public function form_sent()
+    public function form_sent(Language $language)
     {
         $user = auth()->user(); // collect connected user
         if (!$user->categories()->where('native', true)->exists()) {
@@ -124,10 +124,10 @@ class mailbox_controller extends Controller
         } else {
             $sent_emails = collect();
         }
-        return view('mailbox/sent', compact('sent_emails'));
+        return view('mailbox/sent', compact('sent_emails', 'language'));
     }
 
-    public function form_draft()
+    public function form_draft(Language $language)
     {
         $user = auth()->user(); // collect connected user
         if (!$user->categories()->where('native', true)->exists()) {
@@ -139,11 +139,12 @@ class mailbox_controller extends Controller
         } else {
             $draft_emails = collect();
         }
-        return view('mailbox/draft', compact('draft_emails'));
+        return view('mailbox/draft', compact('draft_emails', 'language'));
     }
 
-    public function form_spam()
+    public function form_spam(Language $language)
     {
+        global $lang;
         $user = auth()->user(); // collect connected user
         if (!$user->categories()->where('native', true)->exists()) {
             $this->fill_native_categories($user);
@@ -154,10 +155,9 @@ class mailbox_controller extends Controller
         } else {
             $spam_emails = collect();
         }
-        return view('mailbox/spam', compact('spam_emails'));
-    }
+        return view('mailbox/spam', compact('spam_emails', 'language'));    }
 
-    public function form_all()
+    public function form_all(Language $language)
     {
         $user = auth()->user(); // collect connected user
         if (!$user->categories()->where('native', true)->exists()) {
@@ -169,7 +169,7 @@ class mailbox_controller extends Controller
         } else {
             $all_emails = collect();
         }
-        return view('mailbox/all_mail', compact('all_emails'));
+        return view('mailbox/all_mail', compact('all_emails', 'language'));
     }
 
     public function add_to_starred()

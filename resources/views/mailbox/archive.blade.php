@@ -22,54 +22,53 @@
             </nav>
             <form class="form-inline my-2 my-lg-0 mx-auto">
                 <div class="input-group center">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success " type="submit">Search</button>
+                    <input class="form-control mr-sm-2" type="search" placeholder="{{ $language->page_inbox['search_placeholder'] }}" aria-label="Search">
+                    <button class="btn btn-outline-success " type="submit">{{ $language->page_inbox['search'] }}</button>
                 </div>
             </form>
 
             <div class="navbar-nav d-lg-flex flex-row align-items-center">
                 <ul class="navbar-nav d-flex flex-row">
-                    <li class="nav-item d-lg-block d-none"><a class="nav-link" href="/offers">Abonnement</a></li>
-                    <li class="nav-item d-lg-block d-none"><a class="nav-link" href="/parameters">Paramètres</a></li>
-                    <li class="nav-item d-lg-block d-none"><a class="nav-link" href="/account">Compte</a></li>
+                    <li class="nav-item d-lg-block d-none"><a class="nav-link" href="/offers">{{ $language->page_inbox['subscription'] }}</a></li>
+                    <li class="nav-item d-lg-block d-none"><a class="nav-link" href="/parameters">{{ $language->page_inbox['parameters'] }}</a></li>
                 </ul>
                 <form action="{{route('auth.logout')}}" method="post"> <!-- Suppression de la classe "ms-3" pour centrer correctement le bouton sur mobile -->
                     @csrf
                     @method('delete')
-                    <button type="submit" class="btn btn-link nav-item d-lg-block d-none">Se déconnecter</button>
+                    <button type="submit" class="btn btn-link nav-item d-lg-block d-none">{{ $language->page_inbox['logout'] }}</button>
                 </form>
             </div>
         </div>
 
     </nav>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid d-flex justify-content-between align-items-center container-fluid-custom">
-            <h1 class="form-inline my-2 my-lg-0 margin-50">Boîte de réception</h1>
-        </div>
-    </nav>
+    {{--    <nav class="navbar navbar-expand-lg navbar-light bg-light">--}}
+    {{--        <div class="container-fluid d-flex justify-content-between align-items-center container-fluid-custom">--}}
+    {{--            <h1 class="form-inline my-2 my-lg-0 margin-50">Boîte de réception</h1>--}}
+    {{--        </div>--}}
+    {{--    </nav>--}}
     <!-- Sidebar -->
     <div class="sidebar">
         <nav>
             <a class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none margin-20" href="/inbox">Open Box <?php echo Auth::user()->email; ?></a>
             <hr class="bar-menu">
             <ul class="nav nav-pills flex-column mb-auto">
-                <li class="nav-item d-lg-none"><a class="nav-link" href="/offers">Abonnement</a></li> <!-- Ajout de la classe "d-lg-none" pour cacher en mode PC -->
+                <li class="nav-item d-lg-none"><a class="nav-link" href="/offers">{{ $language->page_inbox['subscription'] }}</a></li> <!-- Ajout de la classe "d-lg-none" pour cacher en mode PC -->
                 <hr class="bar-menu nav-item d-lg-none">
-                <li class="nav-item"><a class="nav-link active margin-20" href="/inbox">Boîte de réception</a></li>
-                <li><a class="nav-link link-body-emphasis" href="/draft">Brouillons</a></li>
-                <li><a class="nav-link link-body-emphasis" href="/sent">Messages envoyés</a></li>
-                <li><a class="nav-link link-body-emphasis" href="/starred">Favoris</a></li>
-                <li><a class="nav-link link-body-emphasis" href="/archive">Archives</a></li>
-                <li><a class="nav-link link-body-emphasis" href="/spam">Spams</a></li>
-                <li><a class="nav-link link-body-emphasis" href="/trash">Corbeille</a></li>
-                <li><a class="nav-link link-body-emphasis" href="/all_mail">Tous les messages</a></li>
+                <li class="nav-item"><a class="nav-link" href="/inbox">{{ $language->page_inbox['inbox'] }}</a></li>
+                <li><a class="nav-link link-body-emphasis" href="/draft">{{ $language->page_inbox['draft'] }}</a></li>
+                <li><a class="nav-link link-body-emphasis" href="/sent">{{ $language->page_inbox['sent'] }}</a></li>
+                <li><a class="nav-link link-body-emphasis" href="/starred">{{ $language->page_inbox['star'] }}</a></li>
+                <li><a class="nav-link active margin-20" href="/archive">{{ $language->page_inbox['archive'] }}</a></li>
+                <li><a class="nav-link link-body-emphasis" href="/spam">{{ $language->page_inbox['spam'] }}</a></li>
+                <li><a class="nav-link link-body-emphasis" href="/trash">{{ $language->page_inbox['trash'] }}</a></li>
+                <li><a class="nav-link link-body-emphasis" href="/all_mail">{{ $language->page_inbox['all_mail'] }}</a></li>
                 <hr class="bar-menu nav-item d-lg-none">
-                <li class="nav-item d-lg-none"><a class="nav-link " href="/parameters">Paramètres</a></li>
+                <li class="nav-item d-lg-none"><a class="nav-link " href="/parameters">{{ $language->page_inbox['parameters'] }}</a></li>
                 <hr class="bar-menu nav-item d-lg-none">
                 <form action="{{route('auth.logout')}}" method="post" class="nav-item d-lg-none">
                     @csrf
                     @method('delete')
-                    <button type="submit" class="btn btn-link">Logout</button>
+                    <button type="submit" class="btn btn-link">{{ $language->page_inbox['logout'] }}</button>
                 </form>
             </ul>
         </nav>
@@ -95,28 +94,28 @@
                     <form action="/add-to-starred" method="post">
                         @csrf
                         <input type="hidden" name="email_id" value="{{ $email->id }}">
-                        <button type="submit" class="btn btn-outline-primary">Ajouter aux favoris</button>
+                        <button type="submit" class="btn btn-outline-primary">{{ $language->page_inbox['starred'] }}</button>
                     </form>
-                    <form action="/remove-from-archive" method="post">
+                    <form action="/add-to-archive" method="post">
                         @csrf
                         <input type="hidden" name="email_id" value="{{ $email->id }}">
-                        <button type="submit" class="btn btn-outline-info">Retirer des archives</button>
+                        <button type="submit" class="btn btn-outline-info">{{ $language->page_inbox['archived'] }}</button>
                     </form>
                     <form action="/add-to-trash" method="post">
                         @csrf
                         <input type="hidden" name="email_id" value="{{ $email->id }}">
-                        <button type="submit" class="btn btn-outline-danger">Supprimer</button>
+                        <button type="submit" class="btn btn-outline-danger">{{ $language->page_inbox['delete'] }}</button>
                     </form>
                 </div>
             </div>
             <hr>
-            @empty
-            <h2 class='text-center'>Aucun message</h2>
+        @empty
+            <h2 class='text-center'>{{ $language->page_inbox['empty'] }}</h2>
             <img style='margin-left: 20vw; width: 500px;' src='http://127.0.0.1:8000/images/mail.png' class='img-fluid' alt='Aucun message'>
-            @endforelse
-        </ul>
+        @endforelse
+    </ul>
     </article>
-    <button class="btn btn-primary mt-3 static">Nouveau message</button>
+    <button class="btn btn-primary mt-3 static">{{ $language->page_inbox['new_email'] }}</button>
 
     <script>
         function toggleSidebar() {
