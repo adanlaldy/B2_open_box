@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use App\Models\Category;
+use App\Models\category;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Auth\Authenticatable as BasicAuthenticatable;
 
-class User extends Model implements Authenticatable
+class user extends Model implements Authenticatable
 {
     use BasicAuthenticatable;
 
@@ -39,6 +39,6 @@ class User extends Model implements Authenticatable
 
     public function categories()
     {
-        return $this->hasMany(Category::class);
+        return $this->hasMany(category::class);
     }
 }

@@ -54,8 +54,8 @@ Route::fallback(function () {return view('error/404');});
 Route::get('/home', function () {return view('home');})->name('home');
 Route::redirect('/', '/home');
 
-
-
+//send email
+Route::post('/post-email', [mailbox_controller::class, 'handling_post_email']);
 
 
 

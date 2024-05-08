@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use App\Models\User;
-use App\Models\Email;
+use App\Models\user;
+use App\Models\email;
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+class category extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -21,11 +21,11 @@ class Category extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(user::class);
     }
 
     public function emails()
     {
-        return $this->hasMany(Email::class);
+        return $this->hasMany(email::class);
     }
 }

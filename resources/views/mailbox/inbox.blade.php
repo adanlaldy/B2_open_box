@@ -115,6 +115,42 @@
         @endforelse
     </ul>
     </article>
+    <button class="btn btn-primary mt-3 static" id="new_email">Nouveau message</button>
+    <dialog id="dialog">
+        <div class="container mt-3">
+            <h3>Créer un nouveau message</h3>
+            <button class="btn btn-primary mt-3 static" id="close_email">Close</button> <
+            <form action="/post-email" method="post">
+                @csrf
+                <div class="form-group">
+                    <label for="sender">Expéditeur :</label>
+                    <input type="email" class="form-control" id="sender" placeholder="Votre adresse email" value="{{ $user->email }}">
+                </div>
+                <div class="form-group">
+                    <label for="recipient">Destinataire :</label>
+                    <input type="email" class="form-control" id="recipient" placeholder="Adresse email">
+                </div>
+                <div class="form-group">
+                    <label for="cc">CC :</label>
+                    <input type="email" class="form-control" id="cc" placeholder="Adresse email">
+                </div>
+                <div class="form-group">
+                    <label for="cci">CCI :</label>
+                    <input type="email" class="form-control" id="cci" placeholder="Adresse email">
+                </div>
+                <div class="form-group">
+                    <label for="subject">Objet :</label>
+                    <input type="text" class="form-control" id="subject" placeholder="Objet de l'email">
+                </div>
+                <div class="form-group">
+                    <label for="content">Contenu :</label>
+                    <textarea class="form-control" id="content" rows="5" placeholder="Contenu de l'email"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Envoyer</button>
+            </form>
+        </div>
+    </dialog>
+
     <button class="btn btn-primary mt-3 static">{{ $language->page_inbox['new_email'] }}</button>
 
     <script>
@@ -127,6 +163,19 @@
 
         document.querySelector('.overlay').addEventListener('click', function() {
             toggleSidebar(); // Désactiver le menu
+        });
+
+        // open or close the dialog
+        const dialog = document.getElementById('dialog');
+        const new_email = document.getElementById('new_email');
+        const close_email = document.getElementById('close_email');
+
+        new_email.addEventListener('click', function() {
+            dialog.showModal();
+        });
+
+        close_email.addEventListener('click', function() {
+            dialog.close();
         });
     </script>
 </main>
