@@ -40,14 +40,13 @@ Route::middleware(['App\Http\Middleware\if_connected'])->group(function () {
 
 Route::get('/public', function () {return view('public');});
 Route::get('/resources', function () {return view('resources/');});
-//Route::fallback(function () {return view('error/404');});
+Route::fallback(function () {return view('error/404');});
 
 //home
 Route::get('/home', function () {return view('home');})->name('home');
 Route::redirect('/', '/home');
 
 //send email
-Route::get('/post-email', [mailbox_controller::class, 'form_post_email']);
 Route::post('/post-email', [mailbox_controller::class, 'handling_post_email']);
 
 

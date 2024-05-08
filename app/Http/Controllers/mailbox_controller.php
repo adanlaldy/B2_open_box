@@ -65,7 +65,7 @@ class mailbox_controller extends Controller
         } else {
             $inbox_emails = collect();
         }
-        return view('mailbox/inbox',compact('inbox_emails'));
+        return view('mailbox/inbox',compact('inbox_emails', 'user'));
     }
 
     public function form_starred()
@@ -231,11 +231,6 @@ class mailbox_controller extends Controller
     public function parameters()
     {
         return view('mailbox/parameters');
-    }
-
-    public function form_post_email()
-    {
-        return view('emails/post_email');
     }
     
     public function handling_post_email()

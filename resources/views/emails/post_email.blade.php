@@ -8,10 +8,6 @@
     <link href="http://127.0.0.1:8000/css/mail.css" rel="stylesheet" />
 </head>
 <body>
-    <label>do you want to send a email ? if yes, click to the button</label>
-    <form action="/post-email" method="post">
-        @csrf
-        <button type="submit">the button in question</button>
-    </form>
+    
 </body>
 </html>
