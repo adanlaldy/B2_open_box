@@ -279,8 +279,8 @@ class MailboxController extends Controller
             'to_user_id' => $toUserId,
             'cc_user_id' => $ccUserId,
             'bcc_user_id' => $bccUserId,
-            'subject' => $validatedData['subject'] ?? null,
-            'content' => $validatedData['content'] ?? null,
+            'subject' => $validatedData['subject'] ?? '',
+            'content' => $validatedData['content'] ?? '',
             'sent_at' => now(),
             'starred' => false,
             'attachment' => $validatedData['attachment'] ?? null,
@@ -290,7 +290,7 @@ class MailboxController extends Controller
         $senderName = $user->first_name.' '.$user->last_name;
 
         // send email
-        Mail::to($validatedData['toEmail'])->send(new PostEmail($validatedData['fromEmail'], $senderName, $validatedData['subject'], $validatedData['content']));
+        Mail::to($validatedData['toEmail'])->send(new PostEmail($validatedData['fromEmail'], $senderName, $email['subject'], $email['content']));
 
         return redirect()->back();
     }
