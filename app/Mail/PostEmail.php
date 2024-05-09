@@ -3,29 +3,31 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Mail\Mailables\Address;
 
-class post_email extends Mailable
+class PostEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $email_sender;
-    public $name_sender;
+    public $fromEmail;
+
+    public $senderName;
+
     public $subject;
+
     public $content;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(string $email_sender, string $name_sender, string $subject, string $content)
+    public function __construct(string $fromEmail, string $senderName, string $subject, string $content)
     {
-        $this->email_sender = $email_sender;
-        $this->name_sender = $name_sender;
+        $this->fromEmail = $fromEmail;
+        $this->senderName = $senderName;
         $this->subject = $subject;
         $this->content = $content;
     }
@@ -36,7 +38,7 @@ class post_email extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address($this->email_sender, $this->name_sender),
+            from: new Address($this->fromEmail, $this->senderName),
             subject: $this->subject,
         );
     }

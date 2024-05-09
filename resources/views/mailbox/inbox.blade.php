@@ -65,13 +65,13 @@
                 <li class="nav-item d-lg-none"><a class="nav-link" href="/offers">Abonnement</a></li> <!-- Ajout de la classe "d-lg-none" pour cacher en mode PC -->
                 <hr class="bar-menu nav-item d-lg-none">
                 <li class="nav-item"><a class="nav-link active margin-20" href="/inbox">Boîte de réception</a></li>
-                <li><a class="nav-link link-body-emphasis" href="/draft">Brouillons</a></li>
-                <li><a class="nav-link link-body-emphasis" href="/sent">Messages envoyés</a></li>
-                <li><a class="nav-link link-body-emphasis" href="/starred">Favoris</a></li>
-                <li><a class="nav-link link-body-emphasis" href="/archive">Archives</a></li>
-                <li><a class="nav-link link-body-emphasis" href="/spam">Spams</a></li>
-                <li><a class="nav-link link-body-emphasis" href="/trash">Corbeille</a></li>
-                <li><a class="nav-link link-body-emphasis" href="/all_mail">Tous les messages</a></li>
+                <li><a class="nav-link link-body-emphasis" href="/drafts">Brouillons</a></li>
+                <li><a class="nav-link link-body-emphasis" href="/sents">Messages envoyés</a></li>
+                <li><a class="nav-link link-body-emphasis" href="/starreds">Favoris</a></li>
+                <li><a class="nav-link link-body-emphasis" href="/archives">Archives</a></li>
+                <li><a class="nav-link link-body-emphasis" href="/spams">Spams</a></li>
+                <li><a class="nav-link link-body-emphasis" href="/trashes">Corbeille</a></li>
+                <li><a class="nav-link link-body-emphasis" href="/all-emails">Tous les messages</a></li>
                 <hr class="bar-menu nav-item d-lg-none">
                 <li class="nav-item d-lg-none"><a class="nav-link " href="/parameters">Paramètres</a></li>
                 <hr class="bar-menu nav-item d-lg-none">
@@ -87,7 +87,7 @@
     <!-- Contenu mail -->
     <article>
         <ul>
-            @forelse($inbox_emails as $email)
+            @forelse($inboxEmails as $email)
             <div class="row">
                 <div class="col">
                     <div class="form-check" id="{{ $email->id }}">
@@ -97,23 +97,23 @@
                         </label>
                     </div>
                 </div>
-                <div class="col">{{ $email->sender_user_id }}</div>
-                <div class="col">{{ $email->object }}</div>
+                <div class="col">{{ $email->from_user_id }}</div>
+                <div class="col">{{ $email->subject }}</div>
                 <div class="col">{{ $email->sent_at }}</div>
                 <div class="col">
-                    <form action="/add-to-starred" method="post">
+                    <form action="/add-to-starreds" method="post">
                         @csrf
-                        <input type="hidden" name="email_id" value="{{ $email->id }}">
+                        <input type="hidden" name="emailId" value="{{ $email->id }}">
                         <button type="submit" class="btn btn-outline-primary">Ajouter aux favoris</button>
                     </form>
-                    <form action="/add-to-archive" method="post">
+                    <form action="/add-to-archives" method="post">
                         @csrf
-                        <input type="hidden" name="email_id" value="{{ $email->id }}">
+                        <input type="hidden" name="emailId" value="{{ $email->id }}">
                         <button type="submit" class="btn btn-outline-info">Ajouter aux archives</button>
                     </form>
-                    <form action="/add-to-trash" method="post">
+                    <form action="/add-to-trashes" method="post">
                         @csrf
-                        <input type="hidden" name="email_id" value="{{ $email->id }}">
+                        <input type="hidden" name="emailId" value="{{ $email->id }}">
                         <button type="submit" class="btn btn-outline-danger">Supprimer</button>
                     </form>
                 </div>
@@ -133,24 +133,24 @@
             <form action="/post-email" method="post">
                 @csrf
                 <div class="form-group">
-                    <label for="sender">Expéditeur :</label>
-                    <input name="sender_email" type="email" class="form-control" id="sender" placeholder="Votre adresse email" value="{{ $user->email }}">
+                    <label for="from">Expéditeur :</label>
+                    <input name="fromEmail" type="email" class="form-control" id="from" placeholder="Votre adresse email" value="{{ $user->email }}">
                 </div>
                 <div class="form-group">
-                    <label for="recipient">Destinataire :</label>
-                    <input name="receiver_email" type="email" class="form-control" id="recipient" placeholder="Adresse email">
+                    <label for="to">Destinataire :</label>
+                    <input name="toEmail" type="email" class="form-control" id="to" placeholder="Adresse email">
                 </div>
                 <div class="form-group">
                     <label for="cc">CC :</label>
-                    <input name="cc_email" type="email" class="form-control" id="cc" placeholder="Adresse email">
+                    <input name="ccEmail" type="email" class="form-control" id="cc" placeholder="Adresse email">
                 </div>
                 <div class="form-group">
                     <label for="bcc">CCI :</label>
-                    <input name="bcc_email" type="email" class="form-control" id="bcc" placeholder="Adresse email">
+                    <input name="bccEmail" type="email" class="form-control" id="bcc" placeholder="Adresse email">
                 </div>
                 <div class="form-group">
                     <label for="subject">Objet :</label>
-                    <input name="object" type="text" class="form-control" id="subject" placeholder="Objet de l'email">
+                    <input name="subject" type="text" class="form-control" id="subject" placeholder="Objet de l'email">
                 </div>
                 <div class="form-group">
                     <label for="content">Contenu :</label>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boîte de réception - Open Box</title>
+    <title>Brouillons - Open Box</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="http://127.0.0.1:8000/css/mail.css" rel="stylesheet" />
 </head>
@@ -56,13 +56,13 @@
                 <li class="nav-item d-lg-none"><a class="nav-link" href="/offers">Abonnement</a></li> <!-- Ajout de la classe "d-lg-none" pour cacher en mode PC -->
                 <hr class="bar-menu nav-item d-lg-none">
                 <li class="nav-item"><a class="nav-link active margin-20" href="/inbox">Boîte de réception</a></li>
-                <li><a class="nav-link link-body-emphasis" href="/draft">Brouillons</a></li>
-                <li><a class="nav-link link-body-emphasis" href="/sent">Messages envoyés</a></li>
-                <li><a class="nav-link link-body-emphasis" href="/starred">Favoris</a></li>
-                <li><a class="nav-link link-body-emphasis" href="/archive">Archives</a></li>
-                <li><a class="nav-link link-body-emphasis" href="/spam">Spams</a></li>
-                <li><a class="nav-link link-body-emphasis" href="/trash">Corbeille</a></li>
-                <li><a class="nav-link link-body-emphasis" href="/all_mail">Tous les messages</a></li>
+                <li><a class="nav-link link-body-emphasis" href="/drafts">Brouillons</a></li>
+                <li><a class="nav-link link-body-emphasis" href="/sents">Messages envoyés</a></li>
+                <li><a class="nav-link link-body-emphasis" href="/starreds">Favoris</a></li>
+                <li><a class="nav-link link-body-emphasis" href="/archives">Archives</a></li>
+                <li><a class="nav-link link-body-emphasis" href="/spams">Spams</a></li>
+                <li><a class="nav-link link-body-emphasis" href="/trashes">Corbeille</a></li>
+                <li><a class="nav-link link-body-emphasis" href="/all-emails">Tous les messages</a></li>
                 <hr class="bar-menu nav-item d-lg-none">
                 <li class="nav-item d-lg-none"><a class="nav-link " href="/parameters">Paramètres</a></li>
                 <hr class="bar-menu nav-item d-lg-none">
@@ -78,7 +78,7 @@
     <!-- Contenu mail -->
     <article>
     <ul>
-            @forelse($archive_emails as $email)
+            @forelse($draftEmails as $email)
             <div class="row">
                 <div class="col">
                     <div class="form-check" id="{{ $email->id }}">
@@ -88,24 +88,14 @@
                         </label>
                     </div>
                 </div>
-                <div class="col">{{ $email->sender_user_id }}</div>
-                <div class="col">{{ $email->object }}</div>
+                <div class="col">{{ $email->from_user_id }}</div>
+                <div class="col">{{ $email->subject }}</div>
                 <div class="col">{{ $email->sent_at }}</div>
                 <div class="col">
-                    <form action="/add-to-starred" method="post">
+                    <form action="/delete-emails" method="post">
                         @csrf
-                        <input type="hidden" name="email_id" value="{{ $email->id }}">
-                        <button type="submit" class="btn btn-outline-primary">Ajouter aux favoris</button>
-                    </form>
-                    <form action="/remove-from-archive" method="post">
-                        @csrf
-                        <input type="hidden" name="email_id" value="{{ $email->id }}">
-                        <button type="submit" class="btn btn-outline-info">Retirer des archives</button>
-                    </form>
-                    <form action="/add-to-trash" method="post">
-                        @csrf
-                        <input type="hidden" name="email_id" value="{{ $email->id }}">
-                        <button type="submit" class="btn btn-outline-danger">Supprimer</button>
+                        <input type="hidden" name="emailId" value="{{ $email->id }}">
+                        <button type="submit" class="btn btn-outline-danger">Supprimer le brouillon</button>
                     </form>
                 </div>
             </div>
