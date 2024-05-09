@@ -23,8 +23,8 @@ return new class extends Migration
             $table->foreign('cc_user_id')->references('id')->on('users');
             $table->unsignedBigInteger('bcc_user_id')->nullable();
             $table->foreign('bcc_user_id')->references('id')->on('users');
-            $table->string('object');
-            $table->text('content');
+            $table->string('object')->nullable();
+            $table->text('content')->nullable();
             $table->dateTime('sent_at');
             $table->boolean('starred');
             $table->string('attachment')->nullable();

@@ -235,25 +235,44 @@ class mailbox_controller extends Controller
     
     public function handling_post_email()
     {
-        /*$email = request()->validate([
-            'receiver' => ['required', 'email'],
-            'object' => ['required'],
-            'content' => ['required'],
+        // check if inputs are correctly filled
+        $validated_data = request()->validate([
+            'sender_email' => ['required', 'email'],
+            'receiver_email' => ['required', 'email'],
+            'cc_email' => ['nullable', 'email'],
+            'bcc_email' => ['nullable', 'email'],
+            'object' => ['nullable'],
+            'content' => ['nullable'],
+            'sent_at' => now(),
+            'attachment' => ['nullable'],
         ]);
 
+        // collect user ids from emails
+        $receiver_user_id = user::where('email', $validated_data['receiver_email'])->value('id');
+        $cc_user_id = $validated_data['cc_email'] ? user::where('email', $validated_data['cc_email'])->value('id') : null;
+        $bcc_user_id = $validated_data['bcc_email'] ? user::where('email', $validated_data['bcc_email'])->value('id') : null;
+
+        // create new email
         $user = auth()->user();
         $category = category::where('user_id', $user->id)->first();
         $category->emails()->create([
             'sender_user_id' => $user->id,
-            'receiver_user_id' => 0,
-            'object' => $email['object'],
-            'content' => $email['content'],
+            'receiver_user_id' => $receiver_user_id,
+            'cc_user_id' => $cc_user_id,
+            'bcc_user_id' => $cc_user_id,
+            'object' => $validated_data['object'] ?? null,
+            'content' => $validated_data['content'] ?? null,
             'sent_at' => now(),
             'starred' => false,
-            'attachment',
-        ]);*/
-        Mail::to("tony@test.mail")->send(new post_email());
-        //return redirect()->back();
+            'attachment' => $validated_data['attachment'] ?? null,
+        ]);
+        
+        // concat first name and last name
+        $sender_name = $user->first_name . ' ' . $user->last_name;
+        
+        // send email
+        Mail::to($validated_data['receiver_email'])->send(new post_email($validated_data['sender_email'], $sender_name, $validated_data['object']));
+        return redirect()->back();
     }
 
 }

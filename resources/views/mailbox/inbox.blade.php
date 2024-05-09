@@ -134,27 +134,27 @@
                 @csrf
                 <div class="form-group">
                     <label for="sender">Expéditeur :</label>
-                    <input type="email" class="form-control" id="sender" placeholder="Votre adresse email" value="{{ $user->email }}">
+                    <input name="sender_email" type="email" class="form-control" id="sender" placeholder="Votre adresse email" value="{{ $user->email }}">
                 </div>
                 <div class="form-group">
                     <label for="recipient">Destinataire :</label>
-                    <input type="email" class="form-control" id="recipient" placeholder="Adresse email">
+                    <input name="receiver_email" type="email" class="form-control" id="recipient" placeholder="Adresse email">
                 </div>
                 <div class="form-group">
                     <label for="cc">CC :</label>
-                    <input type="email" class="form-control" id="cc" placeholder="Adresse email">
+                    <input name="cc_email" type="email" class="form-control" id="cc" placeholder="Adresse email">
                 </div>
                 <div class="form-group">
-                    <label for="cci">CCI :</label>
-                    <input type="email" class="form-control" id="cci" placeholder="Adresse email">
+                    <label for="bcc">CCI :</label>
+                    <input name="bcc_email" type="email" class="form-control" id="bcc" placeholder="Adresse email">
                 </div>
                 <div class="form-group">
                     <label for="subject">Objet :</label>
-                    <input type="text" class="form-control" id="subject" placeholder="Objet de l'email">
+                    <input name="object" type="text" class="form-control" id="subject" placeholder="Objet de l'email">
                 </div>
                 <div class="form-group">
                     <label for="content">Contenu :</label>
-                    <textarea class="form-control" id="content" rows="5" placeholder="Contenu de l'email"></textarea>
+                    <textarea name="content" class="form-control" id="content" rows="5" placeholder="Contenu de l'email"></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">Envoyer</button>
             </form>
