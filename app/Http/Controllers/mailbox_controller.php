@@ -255,7 +255,7 @@ class mailbox_controller extends Controller
         // create new email
         $user = auth()->user();
         $category = category::where('user_id', $user->id)->first();
-        $category->emails()->create([
+        $email = $category->emails()->create([
             'sender_user_id' => $user->id,
             'receiver_user_id' => $receiver_user_id,
             'cc_user_id' => $cc_user_id,
@@ -266,12 +266,13 @@ class mailbox_controller extends Controller
             'starred' => false,
             'attachment' => $validated_data['attachment'] ?? null,
         ]);
-        
+
         // concat first name and last name
         $sender_name = $user->first_name . ' ' . $user->last_name;
         
         // send email
-        Mail::to($validated_data['receiver_email'])->send(new post_email($validated_data['sender_email'], $sender_name, $validated_data['object']));
+        //Mail::to($validated_data['receiver_email'])->send(new post_email($email));
+        Mail::to($validated_data['receiver_email'])->send(new post_email($validated_data['sender_email'], $sender_name, $validated_data['object'], $validated_data['content']));
         return redirect()->back();
     }
 

@@ -17,15 +17,17 @@ class post_email extends Mailable
     public $email_sender;
     public $name_sender;
     public $subject;
+    public $content;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(string $email_sender, string $name_sender, string $subject)
+    public function __construct(string $email_sender, string $name_sender, string $subject, string $content)
     {
         $this->email_sender = $email_sender;
         $this->name_sender = $name_sender;
         $this->subject = $subject;
+        $this->content = $content;
     }
 
     /**
@@ -45,7 +47,8 @@ class post_email extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.index',
+            html: 'emails.index',
+            htmlString: $this->content,
         );
     }
 
