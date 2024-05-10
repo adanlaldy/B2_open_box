@@ -12,6 +12,7 @@ class parameters
     public function change_language(Language $language)
     {
         $language->$_POST['language']();
+
         return redirect()->back();
     }
 }

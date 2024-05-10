@@ -48,7 +48,7 @@ class MailboxController extends Controller
         }
     }
 
-    public function formInbox()
+    public function formInbox(Language $language)
     {
         $user = auth()->user(); // collect connected user
 
@@ -63,10 +63,10 @@ class MailboxController extends Controller
             $inboxEmails = collect();
         }
 
-        return view('mailbox/inbox', compact('inboxEmails', 'user'));
+        return view('mailbox/inbox', compact('inboxEmails', 'user' , 'language'));
     }
 
-    public function formStarreds()
+    public function formStarreds(Language $language)
     {
         $user = auth()->user(); // collect connected user
         if (! $user->categories()->where('native', true)->exists()) {
@@ -80,10 +80,10 @@ class MailboxController extends Controller
             $starredEmails = collect();
         }
 
-        return view('mailbox/starreds', compact('starredEmails'));
+        return view('mailbox/starreds', compact('starredEmails', 'language'));
     }
 
-    public function formArchives()
+    public function formArchives(Language $language)
     {
         $user = auth()->user(); // collect connected user
         if (! $user->categories()->where('native', true)->exists()) {
@@ -97,10 +97,10 @@ class MailboxController extends Controller
             $archiveEmails = collect();
         }
 
-        return view('mailbox/archives', compact('archiveEmails'));
+        return view('mailbox/archives', compact('archiveEmails', 'language'));
     }
 
-    public function formTrashes()
+    public function formTrashes(Language $language)
     {
         $user = auth()->user(); // collect connected user
         if (! $user->categories()->where('native', true)->exists()) {
@@ -114,10 +114,10 @@ class MailboxController extends Controller
             $trashEmails = collect();
         }
 
-        return view('mailbox/trashes', compact('trashEmails'));
+        return view('mailbox/trashes', compact('trashEmails', 'language'));
     }
 
-    public function formSents()
+    public function formSents(Language $language)
     {
         $user = auth()->user(); // collect connected user
         if (! $user->categories()->where('native', true)->exists()) {
@@ -131,10 +131,10 @@ class MailboxController extends Controller
             $sentEmails = collect();
         }
 
-        return view('mailbox/sents', compact('sentEmails'));
+        return view('mailbox/sents', compact('sentEmails', 'language'));
     }
 
-    public function formDrafts()
+    public function formDrafts(Language $language)
     {
         $user = auth()->user(); // collect connected user
         if (! $user->categories()->where('native', true)->exists()) {
@@ -148,10 +148,10 @@ class MailboxController extends Controller
             $draftEmails = collect();
         }
 
-        return view('mailbox/drafts', compact('draftEmails'));
+        return view('mailbox/drafts', compact('draftEmails', 'language'));
     }
 
-    public function formSpams()
+    public function formSpams(Language $language)
     {
         $user = auth()->user(); // collect connected user
         if (! $user->categories()->where('native', true)->exists()) {
@@ -165,10 +165,10 @@ class MailboxController extends Controller
             $spamEmails = collect();
         }
 
-        return view('mailbox/spams', compact('spamEmails'));
+        return view('mailbox/spams', compact('spamEmails', 'language'));
     }
 
-    public function formAllEmails()
+    public function formAllEmails(Language $language)
     {
         $user = auth()->user(); // collect connected user
         if (! $user->categories()->where('native', true)->exists()) {
@@ -182,7 +182,7 @@ class MailboxController extends Controller
             $allEmails = collect();
         }
 
-        return view('mailbox/all_emails', compact('allEmails'));
+        return view('mailbox/all_emails', compact('allEmails', 'language'));
     }
 
     public function addToStarreds()
@@ -247,9 +247,9 @@ class MailboxController extends Controller
         return redirect()->back();
     }
 
-    public function parameters()
+    public function parameters(Language $language)
     {
-        return view('mailbox/parameters');
+        return view('mailbox/parameters', compact('language'));
     }
 
     public function handlingPostEmail()

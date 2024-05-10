@@ -55,13 +55,13 @@
                 <li class="nav-item d-lg-none"><a class="nav-link" href="/offers">{{ $language->page_inbox['subscription'] }}</a></li> <!-- Ajout de la classe "d-lg-none" pour cacher en mode PC -->
                 <hr class="bar-menu nav-item d-lg-none">
                 <li class="nav-item"><a class="nav-link" href="/inbox">{{ $language->page_inbox['inbox'] }}</a></li>
-                <li><a class="nav-link link-body-emphasis" href="/draft">{{ $language->page_inbox['draft'] }}</a></li>
-                <li><a class="nav-link link-body-emphasis" href="/sent">{{ $language->page_inbox['sent'] }}</a></li>
-                <li><a class="nav-link link-body-emphasis" href="/starred">{{ $language->page_inbox['star'] }}</a></li>
-                <li><a class="nav-link active margin-20" href="/archive">{{ $language->page_inbox['archive'] }}</a></li>
-                <li><a class="nav-link link-body-emphasis" href="/spam">{{ $language->page_inbox['spam'] }}</a></li>
-                <li><a class="nav-link link-body-emphasis" href="/trash">{{ $language->page_inbox['trash'] }}</a></li>
-                <li><a class="nav-link link-body-emphasis" href="/all_mail">{{ $language->page_inbox['all_mail'] }}</a></li>
+                <li><a class="nav-link link-body-emphasis" href="/drafts">{{ $language->page_inbox['draft'] }}</a></li>
+                <li><a class="nav-link link-body-emphasis" href="/sents">{{ $language->page_inbox['sent'] }}</a></li>
+                <li><a class="nav-link link-body-emphasis" href="/starreds">{{ $language->page_inbox['star'] }}</a></li>
+                <li><a class="nav-link active margin-20" href="/archives">{{ $language->page_inbox['archive'] }}</a></li>
+                <li><a class="nav-link link-body-emphasis" href="/spams">{{ $language->page_inbox['spam'] }}</a></li>
+                <li><a class="nav-link link-body-emphasis" href="/trashes">{{ $language->page_inbox['trash'] }}</a></li>
+                <li><a class="nav-link link-body-emphasis" href="/all-emails">{{ $language->page_inbox['all_mail'] }}</a></li>
                 <hr class="bar-menu nav-item d-lg-none">
                 <li class="nav-item d-lg-none"><a class="nav-link " href="/parameters">{{ $language->page_inbox['parameters'] }}</a></li>
                 <hr class="bar-menu nav-item d-lg-none">
