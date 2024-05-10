@@ -22,8 +22,8 @@
             </nav>
             <form class="form-inline my-2 my-lg-0 mx-auto">
                 <div class="input-group center">
-                    <input class="form-control mr-sm-2" type="search" placeholder="{{ $language->page_inbox['search_placeholder'] }}" aria-label="Search">
-                    <button class="btn btn-outline-success " type="submit">{{ $language->page_inbox['search'] }}</button>
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success " type="submit">Search</button>
                 </div>
             </form>
 
@@ -111,7 +111,9 @@
             <hr>
         @empty
             <h2 class='text-center'>{{ $language->page_inbox['empty'] }}</h2>
-            <img style='margin-left: 20vw; width: 500px;' src='http://127.0.0.1:8000/images/mail.png' class='img-fluid' alt='Aucun message'>
+            <div class="testeu">
+                <img style='; width: 500px;' src='http://127.0.0.1:8000/images/mail.png' class='img-fluid' alt='Aucun message'>
+            </div>
         @endforelse
     </ul>
     </article>

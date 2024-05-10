@@ -15,6 +15,12 @@
     transition: margin-left 0.5s;
 }
 
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
 .navbar-toggler {
     position: fixed;
     top: 20px;
@@ -83,6 +89,11 @@
 
 .picture {
     width: 75%;
+    margin: auto;
+}
+
+.testeu {
+    text-align: center;
     margin: auto;
 }
 

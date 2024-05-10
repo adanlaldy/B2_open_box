@@ -104,10 +104,12 @@
                 </div>
             </div>
             <hr>
-            @empty
-            <h2 class='text-center'>Aucun message</h2>
-            <img style='margin-left: 20vw; width: 500px;' src='http://127.0.0.1:8000/images/mail.png' class='img-fluid' alt='Aucun message'>
-            @endforelse
+        @empty
+            <h2 class='text-center'>{{ $language->page_inbox['empty'] }}</h2>
+            <div class="testeu">
+                <img style='; width: 500px;' src='http://127.0.0.1:8000/images/mail.png' class='img-fluid' alt='Aucun message'>
+            </div>
+        @endforelse
         </ul>
     </article>
     <button class="btn btn-primary mt-3 static">Nouveau message</button>

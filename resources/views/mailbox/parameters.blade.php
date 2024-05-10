@@ -78,8 +78,10 @@
     <?php
     // Dans votre code PHP (par exemple, un contrôleur ou une vue)
     $version = config('version.version');
-    dd($version);
     ?>
+    <h2></h2>
+    <h2>Version</h2>
+
 
 </div>
 
