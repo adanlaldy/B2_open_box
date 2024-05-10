@@ -1,0 +1,20 @@
+<mjml>
+  <mj-head>
+    <mj-style>
+      /* Définition des couleurs */
+      .bg-light-green { background-color: #ECF8F6; }
+    </mj-style>
+  </mj-head>
+  <mj-body>
+    <mj-container>
+      <mj-section>
+        <mj-column>
+          <!-- Contenu principal -->
+          <mj-text class="bg-light-green">
+            {{ $content }}
+          </mj-text>
+        </mj-column>
+      </mj-section>
+    </mj-container>
+  </mj-body>
+</mjml>

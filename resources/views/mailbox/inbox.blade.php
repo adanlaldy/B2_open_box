@@ -41,13 +41,22 @@
         </div>
 
     </nav>
-    {{--    <nav class="navbar navbar-expand-lg navbar-light bg-light">--}}
-    {{--        <div class="container-fluid d-flex justify-content-between align-items-center container-fluid-custom">--}}
-    {{--            <h1 class="form-inline my-2 my-lg-0 margin-50">Boîte de réception</h1>--}}
-    {{--        </div>--}}
-    {{--    </nav>--}}
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid d-flex justify-content-between align-items-center container-fluid-custom">
+            <h1 class="form-inline my-2 my-lg-0 margin-50">Boîte de réception</h1>
+        </div>
+    </nav>
     <!-- Sidebar -->
     <div class="sidebar">
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul class="list-unstyled">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <nav>
             <a class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none margin-20" href="/inbox">Open Box <?php echo Auth::user()->email; ?></a>
             <hr class="bar-menu">
@@ -76,8 +85,8 @@
     <div class="overlay"></div>
     <!-- Contenu mail -->
     <article>
-    <ul>
-            @forelse($inbox_emails as $email)
+        <ul>
+            @forelse($inboxEmails as $email)
             <div class="row">
                 <div class="col">
                     <div class="form-check" id="{{ $email->id }}">
@@ -87,21 +96,21 @@
                         </label>
                     </div>
                 </div>
-                <div class="col">{{ $email->sender_user_id }}</div>
-                <div class="col">{{ $email->object }}</div>
+                <div class="col">{{ $email->from_user_id }}</div>
+                <div class="col">{{ $email->subject }}</div>
                 <div class="col">{{ $email->sent_at }}</div>
                 <div class="col">
-                    <form action="/add-to-starred" method="post">
+                    <form action="/add-to-starreds" method="post">
                         @csrf
                         <input type="hidden" name="email_id" value="{{ $email->id }}">
                         <button type="submit" class="btn btn-outline-primary">{{ $language->page_inbox['starred'] }}</button>
                     </form>
-                    <form action="/add-to-archive" method="post">
+                    <form action="/add-to-archives" method="post">
                         @csrf
                         <input type="hidden" name="email_id" value="{{ $email->id }}">
                         <button type="submit" class="btn btn-outline-info">{{ $language->page_inbox['archived'] }}</button>
                     </form>
-                    <form action="/add-to-trash" method="post">
+                    <form action="/add-to-trashes" method="post">
                         @csrf
                         <input type="hidden" name="email_id" value="{{ $email->id }}">
                         <button type="submit" class="btn btn-outline-danger">{{ $language->page_inbox['delete'] }}</button>
@@ -125,35 +134,33 @@
             <form action="/post-email" method="post">
                 @csrf
                 <div class="form-group">
-                    <label for="sender">Expéditeur :</label>
-                    <input type="email" class="form-control" id="sender" placeholder="Votre adresse email" value="{{ $user->email }}">
+                    <label for="from">Expéditeur :</label>
+                    <input name="fromEmail" type="email" class="form-control" id="from" placeholder="Votre adresse email" value="{{ $user->email }}">
                 </div>
                 <div class="form-group">
-                    <label for="recipient">Destinataire :</label>
-                    <input type="email" class="form-control" id="recipient" placeholder="Adresse email">
+                    <label for="to">Destinataire :</label>
+                    <input name="toEmail" type="email" class="form-control" id="to" placeholder="Adresse email">
                 </div>
                 <div class="form-group">
                     <label for="cc">CC :</label>
-                    <input type="email" class="form-control" id="cc" placeholder="Adresse email">
+                    <input name="ccEmail" type="email" class="form-control" id="cc" placeholder="Adresse email">
                 </div>
                 <div class="form-group">
-                    <label for="cci">CCI :</label>
-                    <input type="email" class="form-control" id="cci" placeholder="Adresse email">
+                    <label for="bcc">CCI :</label>
+                    <input name="bccEmail" type="email" class="form-control" id="bcc" placeholder="Adresse email">
                 </div>
                 <div class="form-group">
                     <label for="subject">Objet :</label>
-                    <input type="text" class="form-control" id="subject" placeholder="Objet de l'email">
+                    <input name="subject" type="text" class="form-control" id="subject" placeholder="Objet de l'email">
                 </div>
                 <div class="form-group">
                     <label for="content">Contenu :</label>
-                    <textarea class="form-control" id="content" rows="5" placeholder="Contenu de l'email"></textarea>
+                    <textarea name="content" class="form-control" id="content" rows="5" placeholder="Contenu de l'email"></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">Envoyer</button>
             </form>
         </div>
     </dialog>
-
-    <button class="btn btn-primary mt-3 static">{{ $language->page_inbox['new_email'] }}</button>
 
     <script>
         function toggleSidebar() {

@@ -2,12 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\category;
-use App\Models\user;
-use App\Models\attachment;
 use Illuminate\Database\Eloquent\Model;
 
-class email extends Model
+class Email extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -16,11 +13,11 @@ class email extends Model
      */
     protected $fillable = [
         'category_id',
-        'sender_user_id',
-        'receiver_user_id',
+        'from_user_id',
+        'to_user_id',
         'cc_user_id',
         'bcc_user_id',
-        'object',
+        'subject',
         'content',
         'sent_at',
         'starred',
@@ -29,31 +26,31 @@ class email extends Model
 
     public function category()
     {
-        return $this->belongsTo(category::class);
+        return $this->belongsTo(Category::class);
     }
 
-    public function sender()
+    public function from()
     {
-        return $this->belongsTo(user::class, 'sender_user_id');
+        return $this->belongsTo(User::class, 'from_user_id');
     }
 
-    public function receiver()
+    public function to()
     {
-        return $this->belongsTo(user::class, 'receiver_user_id');
+        return $this->belongsTo(User::class, 'to_user_id');
     }
 
     public function cc()
     {
-        return $this->belongsTo(user::class, 'cc_user_id');
+        return $this->belongsTo(User::class, 'cc_user_id');
     }
 
     public function bcc()
     {
-        return $this->belongsTo(user::class, 'bcc_user_id');
+        return $this->belongsTo(User::class, 'bcc_user_id');
     }
 
     public function attachments()
     {
-        return $this->hasMany(attachment::class);
+        return $this->hasMany(Attachment::class);
     }
 }

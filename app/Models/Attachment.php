@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class attachment extends Model
+class Attachment extends Model
 {
-     /**
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>

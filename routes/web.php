@@ -3,6 +3,8 @@
 use App\Http\Controllers\auth_controller;
 use App\Http\Controllers\Language;
 use App\Http\Controllers\mailbox_controller;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MailboxController;
 use Illuminate\Support\Facades\Route;
 
 $lang = 'en'; // Par exemple, anglais par défaut
@@ -14,48 +16,53 @@ if (isset($_GET['lang'])) {
 
 //native
 
-Route::middleware(['App\Http\Middleware\if_disconnected'])->group(function () {
+Route::middleware(['App\Http\Middleware\IfDisconnected'])->group(function () {
     //auth
-    Route::get('/register', [auth_controller::class, 'form_register'])->name('auth.register');
-    Route::post('/register', [auth_controller::class, 'handling_register']);
-    Route::get('/login', [auth_controller::class, 'form_login'])->name('auth.login');
-    Route::post('/login', [auth_controller::class, 'handling_login']);
+    Route::get('/register', [AuthController::class, 'formRegister'])->name('auth.register');
+    Route::post('/register', [AuthController::class, 'handlingRegister']);
+    Route::get('/login', [AuthController::class, 'formLogin'])->name('auth.login');
+    Route::post('/login', [AuthController::class, 'handlingLogin']);
 });
 
-Route::middleware(['App\Http\Middleware\if_connected'])->group(function () {
+Route::middleware(['App\Http\Middleware\IfConnected'])->group(function () {
     //logout
-    Route::delete('/logout', [auth_controller::class, 'logout'])->name('auth.logout');
+    Route::delete('/logout', [AuthController::class, 'logout'])->name('auth.logout');
     //mailbox
-    Route::get('/inbox', [mailbox_controller::class, 'form_inbox'])->name('inbox.index');
-    Route::post('/inbox', [mailbox_controller::class, 'handling_inbox'])->name('inbox.index');
-    Route::get('/starred', [mailbox_controller::class, 'form_starred'])->name('inbox.starred');
-    Route::get('/sent', [mailbox_controller::class, 'form_sent'])->name('inbox.sent');
-    Route::get('/draft', [mailbox_controller::class, 'form_draft'])->name('inbox.draft');
-    Route::get('/trash', [mailbox_controller::class, 'form_trash'])->name('inbox.trash');
-    Route::get('/spam', [mailbox_controller::class, 'form_spam'])->name('inbox.spam');
-    Route::get('/archive', [mailbox_controller::class, 'form_archive'])->name('inbox.archive');
-    Route::get('/all_mail', [mailbox_controller::class, 'form_all'])->name('inbox.all');
-    Route::get('/parameters', [mailbox_controller::class, 'parameters'])->name('inbox.parameters');
+    Route::get('/inbox', [MailboxController::class, 'formInbox'])->name('inbox.index');
+    Route::post('/inbox', [MailboxController::class, 'handlingInbox'])->name('inbox.index');
+    Route::get('/starreds', [MailboxController::class, 'formStarreds'])->name('inbox.starreds');
+    Route::get('/sents', [MailboxController::class, 'formSents'])->name('inbox.sents');
+    Route::get('/drafts', [MailboxController::class, 'formDrafts'])->name('inbox.drafts');
+    Route::get('/trashes', [MailboxController::class, 'formTrashes'])->name('inbox.trashes');
+    Route::get('/spams', [MailboxController::class, 'formSpams'])->name('inbox.spams');
+    Route::get('/archives', [MailboxController::class, 'formArchives'])->name('inbox.archives');
+    Route::get('/all-emails', [MailboxController::class, 'formAllEmails'])->name('inbox.allEmails');
+    Route::get('/parameters', [MailboxController::class, 'parameters'])->name('inbox.parameters');
     //actions
-    Route::post('/add-to-starred', [mailbox_controller::class, 'add_to_starred']);
-    Route::post('/remove-from-starred', [mailbox_controller::class, 'remove_from_starred']);
-    Route::post('/add-to-archive', [mailbox_controller::class, 'add_to_archive']);
-    Route::post('/remove-from-archive', [mailbox_controller::class, 'remove_from_archive']);
-    Route::post('/add-to-trash', [mailbox_controller::class, 'add_to_trash']);
-    Route::post('/remove-from-trash', [mailbox_controller::class, 'remove_from_trash']);
-    Route::post('/delete-email', [mailbox_controller::class, 'delete_email']);
+    Route::post('/add-to-starreds', [MailboxController::class, 'addToStarreds']);
+    Route::post('/remove-from-starreds', [MailboxController::class, 'removeFromStarreds']);
+    Route::post('/add-to-archives', [MailboxController::class, 'addToArchives']);
+    Route::post('/remove-from-archives', [MailboxController::class, 'removeFromArchives']);
+    Route::post('/add-to-trashes', [MailboxController::class, 'addToTrashes']);
+    Route::post('/remove-from-trashes', [MailboxController::class, 'removeFromTrashes']);
+    Route::post('/delete-email', [MailboxController::class, 'deleteEmail']);
 });
 
-Route::get('/public', function () {return view('public');});
-Route::get('/resources', function () {return view('resources/');});
-Route::fallback(function () {return view('error/404');});
+Route::get('/public', function () {
+    return view('public');
+});
+Route::get('/resources', function () {
+    return view('resources/');
+});
+Route::fallback(function () {
+    return view('error/404');
+});
 
-//home
-Route::get('/home', function () {return view('home');})->name('home');
+// home
+Route::get('/home', function () {
+    return view('home');
+})->name('home');
 Route::redirect('/', '/home');
 
-//send email
-Route::post('/post-email', [mailbox_controller::class, 'handling_post_email']);
-
-
-
+// send email
+Route::post('/post-email', [MailboxController::class, 'handlingPostEmail']);

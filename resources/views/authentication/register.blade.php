@@ -14,9 +14,9 @@
             <a href="/home"><h1 class="title">Resgister</h1></a>
             <form action="{{route('auth.register')}}" method="post">
                 @csrf
-                <input class="name" type="text" name="first_name" placeholder="First Name" autocomplete="">
-                <input class="name" type="text" name="last_name" placeholder="Last Name" autocomplete=""> <br>
-                <input class="name" type="date" name="birth_date" placeholder="date of birth" autocomplete="">
+                <input class="name" type="text" name="firstName" placeholder="First Name" autocomplete="">
+                <input class="name" type="text" name="lastName" placeholder="Last Name" autocomplete=""> <br>
+                <input class="name" type="date" name="birthDate" placeholder="date of birth" autocomplete="">
                 <!--<input class="name" type="text" name="about" placeholder="#words (facultatif)" autocomplete=""> <br>-->
                 <input type="email" name="email" placeholder="Email" autocomplete=""><br>
                 {{ $errors->first('email')}}

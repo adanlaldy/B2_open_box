@@ -3,22 +3,33 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class post_email extends Mailable
+class PostEmail extends Mailable
 {
     use Queueable, SerializesModels;
+
+    public $fromEmail;
+
+    public $senderName;
+
+    public $subject;
+
+    public $content;
 
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(string $fromEmail, string $senderName, string $subject, string $content)
     {
-        //
+        $this->fromEmail = $fromEmail;
+        $this->senderName = $senderName;
+        $this->subject = $subject;
+        $this->content = $content;
     }
 
     /**
@@ -27,7 +38,8 @@ class post_email extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Email from Laravel',
+            from: new Address($this->fromEmail, $this->senderName),
+            subject: $this->subject,
         );
     }
 
@@ -37,7 +49,8 @@ class post_email extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.post_email',
+            html: 'emails.index',
+            htmlString: $this->content,
         );
     }
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boîte de réception - Open Box</title>
+    <title>Corbeille - Open Box</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="http://127.0.0.1:8000/css/mail.css" rel="stylesheet" />
 </head>
@@ -41,11 +41,11 @@
         </div>
 
     </nav>
-    {{--    <nav class="navbar navbar-expand-lg navbar-light bg-light">--}}
-    {{--        <div class="container-fluid d-flex justify-content-between align-items-center container-fluid-custom">--}}
-    {{--            <h1 class="form-inline my-2 my-lg-0 margin-50">Boîte de réception</h1>--}}
-    {{--        </div>--}}
-    {{--    </nav>--}}
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid d-flex justify-content-between align-items-center container-fluid-custom">
+            <h1 class="form-inline my-2 my-lg-0 margin-50">Boîte de réception</h1>
+        </div>
+    </nav>
     <!-- Sidebar -->
     <div class="sidebar">
         <nav>
@@ -60,8 +60,8 @@
                 <li><a class="nav-link link-body-emphasis" href="/starred">{{ $language->page_inbox['star'] }}</a></li>
                 <li><a class="nav-link link-body-emphasis" href="/archive">{{ $language->page_inbox['archive'] }}</a></li>
                 <li><a class="nav-link link-body-emphasis" href="/spam">{{ $language->page_inbox['spam'] }}</a></li>
-                <li><a class="nav-link link-body-emphasis" href="/trash">{{ $language->page_inbox['trash'] }}</a></li>
-                <li><a class="nav-link active margin-20" href="/all_mail">{{ $language->page_inbox['all_mail'] }}</a></li>
+                <li><a class="nav-link active margin-20" href="/trash">{{ $language->page_inbox['trash'] }}</a></li>
+                <li><a class="nav-link link-body-emphasis" href="/all_mail">{{ $language->page_inbox['all_mail'] }}</a></li>
                 <hr class="bar-menu nav-item d-lg-none">
                 <li class="nav-item d-lg-none"><a class="nav-link " href="/parameters">{{ $language->page_inbox['parameters'] }}</a></li>
                 <hr class="bar-menu nav-item d-lg-none">
@@ -77,47 +77,42 @@
     <!-- Contenu mail -->
     <article>
     <ul>
-        @forelse($all_emails as $email)
-        <div class="row">
-            <div class="col">
-                <div class="form-check" id="{{ $email->id }}">
-                    <input class="form-check-input" type="checkbox" value="" id="$email">
-                    <label class="form-check-label" for="$email">
-                        {{ $email->id }}
-                    </label>
+            @forelse($trashEmails as $email)
+            <div class="row">
+                <div class="col">
+                    <div class="form-check" id="{{ $email->id }}">
+                        <input class="form-check-input" type="checkbox" value="" id="$email">
+                        <label class="form-check-label" for="$email">
+                            {{ $email->id }}
+                        </label>
+                    </div>
+                </div>
+                <div class="col">{{ $email->from_user_id }}</div>
+                <div class="col">{{ $email->subject }}</div>
+                <div class="col">{{ $email->sent_at }}</div>
+                <div class="col">
+                    <form action="/remove-from-trashes" method="post">
+                        @csrf
+                        <input type="hidden" name="emailId" value="{{ $email->id }}">
+                        <button type="submit" class="btn btn-outline-primary">Récupérer l'email</button>
+                    </form>
+                    <form action="/delete-email" method="post">
+                        @csrf
+                        <input type="hidden" name="emailId" value="{{ $email->id }}">
+                        <button type="submit" class="btn btn-outline-danger">Supprimer définitivement</button>
+                    </form>
                 </div>
             </div>
-            <div class="col">{{ $email->sender_user_id }}</div>
-            <div class="col">{{ $email->object }}</div>
-            <div class="col">{{ $email->sent_at }}</div>
-            <div class="col">
-                <form action="/add-to-starred" method="post">
-                    @csrf
-                    <input type="hidden" name="email_id" value="{{ $email->id }}">
-                    <button type="submit" class="btn btn-outline-primary">{{ $language->page_inbox['starred'] }}</button>
-                </form>
-                <form action="/add-to-archive" method="post">
-                    @csrf
-                    <input type="hidden" name="email_id" value="{{ $email->id }}">
-                    <button type="submit" class="btn btn-outline-info">{{ $language->page_inbox['archived'] }}</button>
-                </form>
-                <form action="/add-to-trash" method="post">
-                    @csrf
-                    <input type="hidden" name="email_id" value="{{ $email->id }}">
-                    <button type="submit" class="btn btn-outline-danger">{{ $language->page_inbox['delete'] }}</button>
-                </form>
-            </div>
-        </div>
-        <hr>
+            <hr>
         @empty
             <h2 class='text-center'>{{ $language->page_inbox['empty'] }}</h2>
             <div class="testeu">
                 <img style='; width: 500px;' src='http://127.0.0.1:8000/images/mail.png' class='img-fluid' alt='Aucun message'>
             </div>
         @endforelse
-    </ul>
+        </ul>
     </article>
-    <button class="btn btn-primary mt-3 static">{{ $language->page_inbox['new_email'] }}</button>
+    <button class="btn btn-primary mt-3 static">Nouveau message</button>
 
     <script>
         function toggleSidebar() {

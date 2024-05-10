@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('model_type');
             $table->timestamps();
         });
-        
+
     }
 
     /**
