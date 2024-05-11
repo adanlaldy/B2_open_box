@@ -21,6 +21,7 @@ class Email extends Model
         'content',
         'sent_at',
         'starred',
+        'archived',
         'attachment',
     ];
 

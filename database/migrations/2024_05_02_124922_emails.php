@@ -27,6 +27,7 @@ return new class extends Migration
             $table->text('content')->nullable();
             $table->dateTime('sent_at');
             $table->boolean('starred');
+            $table->boolean('archived');
             $table->string('attachment')->nullable();
             $table->timestamps();
         });

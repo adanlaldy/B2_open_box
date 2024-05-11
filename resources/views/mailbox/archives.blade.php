@@ -77,8 +77,8 @@
     <div class="overlay"></div>
     <!-- Contenu mail -->
     <article>
-    <ul>
-            @forelse($archiveEmails as $email)
+        <ul>
+            @forelse($archivedsEmails as $email)
             <div class="row">
                 <div class="col">
                     <div class="form-check" id="{{ $email->id }}">
