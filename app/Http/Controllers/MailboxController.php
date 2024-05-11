@@ -247,18 +247,35 @@ class MailboxController extends Controller
         ]);
 
         // collect user ids from emails
+        $fromUserId = User::where('email', $validatedData['fromEmail'])->value('id');
         $toUserId = User::where('email', $validatedData['toEmail'])->value('id');
-        $ccUserId = $validatedData['ccEmail'] ? User::where('email', $validatedData['ccEmail'])->value('id') : null;
-        $bccUserId = $validatedData['bccEmail'] ? User::where('email', $validatedData['bccEmail'])->value('id') : null;
+
+        // check if required emails are valid
+        if (!$fromUserId || !$toUserId) {
+            return redirect()->back()->withErrors(['message' => 'L\email d\'envoi ou de réception n\'est pas valide.'])->withInput();
+        }
+
+        // check if cc and bcc emails are valid
+        if ($validatedData['ccEmail'] !== null) {
+            $ccUserId = User::where('email', $validatedData['ccEmail'])->value('id') ?? null;
+            if (!$ccUserId) {
+                return redirect()->back()->withErrors(['message' => 'L\'email de copie n\'existe pas.'])->withInput();
+            }
+        } else if ($validatedData['bccEmail'] !== null) {
+            $bccUserId = User::where('email', $validatedData['bccEmail'])->value('id') ?? null;
+            if (!$bccUserId) {
+                return redirect()->back()->withErrors(['message' => 'L\'email de copie anonyme n\'existe pas.'])->withInput();
+            }
+        }
 
         // create new email
         $user = auth()->user();
-        $category = Category::where('user_id', $user->id)->first();
+        $category = Category::where('name', 'inbox')->first();
         $email = $category->emails()->create([
-            'from_user_id' => $user->id,
+            'from_user_id' => $fromUserId,
             'to_user_id' => $toUserId,
-            'cc_user_id' => $ccUserId,
-            'bcc_user_id' => $bccUserId,
+            'cc_user_id' => $ccUserId ?? null,
+            'bcc_user_id' => $bccUserId ?? null,
             'subject' => $validatedData['subject'] ?? '',
             'content' => $validatedData['content'] ?? '',
             'sent_at' => now(),
