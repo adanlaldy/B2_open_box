@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Mail;
 
 class MailboxController extends Controller
 {
-    public function fillNativeCategories(User $user)
+    public function fillNativeCategories()
     {
         $categories = [
             'inbox',
@@ -24,13 +24,14 @@ class MailboxController extends Controller
         ];
 
         foreach ($categories as $category) {
-            $user->categories()->create([
+            Category::create([
+                'user_id' => null,
                 'name' => $category,
                 'native' => true,
             ]);
         }
 
-        // cette partie sera à supprimer
+        /*// cette partie sera à supprimer
         $category = Category::where('name', 'inbox')->first(); // Assuming emails should be created in the inbox category
 
         for ($i = 1; $i <= 3; $i++) {
@@ -45,14 +46,14 @@ class MailboxController extends Controller
                 'starred' => false,
                 'attachment',
             ]);
-        }
+        }*/
     }
-
     public function formInbox()
     {
         $user = auth()->user(); // collect connected user
-
-        if (! $user->categories()->where('native', true)->exists()) {
+        
+        $nativeCategories = Category::where('native', true)->get();
+        if ($nativeCategories->isEmpty()) {
             $this->fillNativeCategories($user);
         }
 
@@ -69,9 +70,6 @@ class MailboxController extends Controller
     public function formStarreds()
     {
         $user = auth()->user(); // collect connected user
-        if (! $user->categories()->where('native', true)->exists()) {
-            $this->fillNativeCategories($user);
-        }
 
         $starredCategory = Category::where('name', 'starreds')->first();
         if ($starredCategory) {
@@ -86,9 +84,6 @@ class MailboxController extends Controller
     public function formArchives()
     {
         $user = auth()->user(); // collect connected user
-        if (! $user->categories()->where('native', true)->exists()) {
-            $this->fillNativeCategories($user);
-        }
 
         $archiveCategory = Category::where('name', 'archives')->first();
         if ($archiveCategory) {
@@ -103,9 +98,6 @@ class MailboxController extends Controller
     public function formTrashes()
     {
         $user = auth()->user(); // collect connected user
-        if (! $user->categories()->where('native', true)->exists()) {
-            $this->fillNativeCategories($user);
-        }
 
         $trashCategory = Category::where('name', 'trashes')->first();
         if ($trashCategory) {
@@ -120,9 +112,6 @@ class MailboxController extends Controller
     public function formSents()
     {
         $user = auth()->user(); // collect connected user
-        if (! $user->categories()->where('native', true)->exists()) {
-            $this->fillNativeCategories($user);
-        }
 
         $sentCategory = Category::where('name', 'sents')->first();
         if ($sentCategory) {
@@ -137,9 +126,6 @@ class MailboxController extends Controller
     public function formDrafts()
     {
         $user = auth()->user(); // collect connected user
-        if (! $user->categories()->where('native', true)->exists()) {
-            $this->fillNativeCategories($user);
-        }
 
         $draftCategory = Category::where('name', 'drafts')->first();
         if ($draftCategory) {
@@ -154,9 +140,6 @@ class MailboxController extends Controller
     public function formSpams()
     {
         $user = auth()->user(); // collect connected user
-        if (! $user->categories()->where('native', true)->exists()) {
-            $this->fillNativeCategories($user);
-        }
 
         $spamCategory = Category::where('name', 'spams')->first();
         if ($spamCategory) {
@@ -171,9 +154,6 @@ class MailboxController extends Controller
     public function formAllEmails()
     {
         $user = auth()->user(); // collect connected user
-        if (! $user->categories()->where('native', true)->exists()) {
-            $this->fillNativeCategories($user);
-        }
 
         $allCategory = Category::where('name', 'all_emails')->first();
         if ($allCategory) {
