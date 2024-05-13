@@ -21,7 +21,7 @@ class MailboxController extends Controller
             'archives',
             'spams',
             'trashes',
-            'all_mails',
+            'all_emails',
         ];
 
         foreach ($categories as $category) {
@@ -42,8 +42,15 @@ class MailboxController extends Controller
             $this->fillNativeCategories($user);
         }
 
-        $inboxCategory = Category::where('name', 'inbox')->first();
-        $inboxEmails = Email::where('category_id', $inboxCategory->id)->where('to_user_id', $user->id)->get() ?? null;
+        $inboxCategory = Category::where('name', 'inbox')->first(); // collect inbox category
+        $trashesCategory = Category::where('name', 'trashes')->first(); // collect trashes category
+
+        $inboxEmails = Email::where('category_id', $inboxCategory->id)
+            ->whereDoesntHave('category', function (Builder $query) use ($trashesCategory) {
+                $query->where('id', $trashesCategory->id);
+            })
+            ->where('to_user_id', $user->id)
+            ->get() ?? null; // collect inbox emails
 
         return view('mailbox/inbox', compact('inboxEmails', 'user'));
     }
@@ -70,8 +77,10 @@ class MailboxController extends Controller
     {
         $user = auth()->user(); // collect connected users
 
+        $archivesCategory = Category::where('name', 'archives')->first(); // collect archives category
         $trashesCategory = Category::where('name', 'trashes')->first(); // collect trashes category
-        $archivedsEmails = Email::where('archived', true)
+
+        $archivedsEmails = Email::where('category_id', $archivesCategory->id)
             ->whereDoesntHave('category', function (Builder $query) use ($trashesCategory) {
                 $query->where('id', $trashesCategory->id);
             })
@@ -102,12 +111,21 @@ class MailboxController extends Controller
     public function formSents()
     {
         $user = auth()->user(); // collect connected user
-        $sentsEmails = Email::where('from_user_id', $user->id)->get() ?? null; // collect sents emails
+
+        $sentsCategory = Category::where('name', 'sents')->first(); // collect sents category
+        $trashesCategory = Category::where('name', 'trashes')->first(); // collect trashes category
+
+        $sentsEmails = Email::where('category_id', $sentsCategory->id)
+            ->whereDoesntHave('category', function (Builder $query) use ($trashesCategory) {
+                $query->where('id', $trashesCategory->id);
+            })
+            ->where('from_user_id', $user->id)
+            ->get() ?? null; // collect inbox emails
 
         return view('mailbox/sents', compact('sentsEmails'));
     }
 
-    public function formDrafts()
+    /*public function formDrafts()
     {
         $user = auth()->user(); // collect connected user
 
@@ -125,7 +143,7 @@ class MailboxController extends Controller
         $spamEmails = Email::where('category_id', $spamCategory->id)->get() ?? null;
 
         return view('mailbox/spams', compact('spamEmails'));
-    }
+    }*/
 
     public function formAllEmails()
     {
@@ -163,7 +181,10 @@ class MailboxController extends Controller
     public function addToArchives()
     {
         $emailId = request()->input('emailId'); // collect email id
-        Email::where('id', $emailId)->update(['archived' => true]); // update boolean archived to true
+        $email = Email::where('id', $emailId)->first(); // collect email
+        $archivesCategory = Category::where('name', 'archives')->first(); // collect archives category
+
+        $email->update(['category_id' => $archivesCategory->id, 'previous_category_id' => $email->category_id]); // update email category to archives and previous category
 
         return redirect()->back();
     }
@@ -171,7 +192,9 @@ class MailboxController extends Controller
     public function removeFromArchives()
     {
         $emailId = request()->input('emailId'); // collect email id
-        Email::where('id', $emailId)->update(['archived' => false]); // update boolean archived to false
+        $email = Email::where('id', $emailId)->first(); // collect email
+
+        $email->update(['category_id' => $email->previous_category_id]); // update email category to previous category
 
         return redirect()->back();
     }
@@ -179,8 +202,10 @@ class MailboxController extends Controller
     public function addToTrashes()
     {
         $emailId = request()->input('emailId'); // collect email id
-        $category = Category::where('name', 'trashes')->first(); // collect trashes category
-        Email::where('id', $emailId)->update(['category_id' => $category->id]); // update email category to trash
+        $email = Email::where('id', $emailId)->first(); // collect email
+        $trashesCategory = Category::where('name', 'trashes')->first(); // collect trashes category
+
+        $email->update(['category_id' => $trashesCategory->id, 'previous_category_id'=> $email->category_id]); // update email category to trashes and previous category
 
         return redirect()->back();
     }
@@ -188,8 +213,9 @@ class MailboxController extends Controller
     public function removeFromTrashes()
     {
         $emailId = request()->input('emailId'); // collect email id
-        $category = Category::where('name', 'inbox')->first(); // collect inbox category
-        Email::where('id', $emailId)->update(['category_id' => $category->id]); // update email starred to inbox
+        $email = Email::where('id', $emailId)->first(); // collect email
+
+        $email->update(['category_id' => $email->previous_category_id]); // update email category to previous category
 
         return redirect()->back();
     }
@@ -209,6 +235,8 @@ class MailboxController extends Controller
 
     public function handlingPostEmail()
     {
+        $user = auth()->user();
+
         // check if inputs are correctly filled
         $validatedData = request()->validate([
             'fromEmail' => ['required', 'email'],
@@ -222,7 +250,7 @@ class MailboxController extends Controller
         ]);
 
         // collect user ids from emails
-        $fromUserId = User::where('email', $validatedData['fromEmail'])->value('id');
+        $fromUserId = User::where('email', $validatedData['fromEmail'])->where('id', $user->id)->value('id');
         $toUserId = User::where('email', $validatedData['toEmail'])->value('id');
 
         // check if required emails are valid
@@ -244,9 +272,9 @@ class MailboxController extends Controller
         }
 
         // create new email
-        $user = auth()->user();
         $category = Category::where('name', 'inbox')->first();
         $email = $category->emails()->create([
+            'user_id'=> $toUserId,
             'from_user_id' => $fromUserId,
             'to_user_id' => $toUserId,
             'cc_user_id' => $ccUserId ?? null,
@@ -255,8 +283,8 @@ class MailboxController extends Controller
             'content' => $validatedData['content'] ?? '',
             'sent_at' => now(),
             'starred' => false,
-            'archived' => false,
             'attachment' => $validatedData['attachment'] ?? null,
+            'previous_category_id' => $category->id,
         ]);
 
         // concat first name and last name
@@ -264,6 +292,25 @@ class MailboxController extends Controller
 
         // send email
         Mail::to($validatedData['toEmail'])->send(new PostEmail($validatedData['fromEmail'], $senderName, $email['subject'], $email['content']));
+
+        // clone for local user email
+        $category = Category::where('name', 'sents')->first();
+        $email = $category->emails()->create([
+            'user_id' => $user->id,
+            'from_user_id' => $fromUserId,
+            'to_user_id' => $toUserId,
+            'cc_user_id' => $ccUserId ?? null,
+            'bcc_user_id' => $bccUserId ?? null,
+            'subject' => $validatedData['subject'] ?? '',
+            'content' => $validatedData['content'] ?? '',
+            'sent_at' => now(),
+            'starred' => false,
+            'attachment' => $validatedData['attachment'] ?? null,
+            'previous_category_id' => $category->id,
+        ]);
+
+        // send email
+        Mail::to($validatedData['fromEmail'])->send(new PostEmail($validatedData['fromEmail'], $senderName, $email['subject'], $email['content']));        
 
         return redirect()->back();
     }

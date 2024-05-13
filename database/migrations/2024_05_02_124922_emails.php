@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('emails', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories');
             $table->unsignedBigInteger('from_user_id');
@@ -27,8 +29,8 @@ return new class extends Migration
             $table->text('content')->nullable();
             $table->dateTime('sent_at');
             $table->boolean('starred');
-            $table->boolean('archived');
             $table->string('attachment')->nullable();
+            $table->unsignedBigInteger('previous_category_id');
             $table->timestamps();
         });
     }
