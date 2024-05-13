@@ -205,7 +205,7 @@ class MailboxController extends Controller
         $email = Email::where('id', $emailId)->first(); // collect email
         $trashesCategory = Category::where('name', 'trashes')->first(); // collect trashes category
 
-        $email->update(['category_id' => $trashesCategory->id, 'previous_category_id'=> $email->category_id]); // update email category to trashes and previous category
+        $email->update(['category_id' => $trashesCategory->id, 'previous_category_id' => $email->category_id]); // update email category to trashes and previous category
 
         return redirect()->back();
     }
@@ -274,7 +274,7 @@ class MailboxController extends Controller
         // create new email
         $category = Category::where('name', 'inbox')->first();
         $email = $category->emails()->create([
-            'user_id'=> $toUserId,
+            'user_id' => $toUserId,
             'from_user_id' => $fromUserId,
             'to_user_id' => $toUserId,
             'cc_user_id' => $ccUserId ?? null,
@@ -310,7 +310,7 @@ class MailboxController extends Controller
         ]);
 
         // send email
-        Mail::to($validatedData['fromEmail'])->send(new PostEmail($validatedData['fromEmail'], $senderName, $email['subject'], $email['content']));        
+        Mail::to($validatedData['fromEmail'])->send(new PostEmail($validatedData['fromEmail'], $senderName, $email['subject'], $email['content']));
 
         return redirect()->back();
     }

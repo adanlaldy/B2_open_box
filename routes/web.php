@@ -4,16 +4,6 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MailboxController;
 use Illuminate\Support\Facades\Route;
 
-//native
-
-Route::middleware(['App\Http\Middleware\IfDisconnected'])->group(function () {
-    //auth
-    Route::get('/register', [AuthController::class, 'formRegister'])->name('auth.register');
-    Route::post('/register', [AuthController::class, 'handlingRegister']);
-    Route::get('/login', [AuthController::class, 'formLogin'])->name('auth.login');
-    Route::post('/login', [AuthController::class, 'handlingLogin']);
-});
-
 Route::middleware(['App\Http\Middleware\IfConnected'])->group(function () {
     //logout
     Route::delete('/logout', [AuthController::class, 'logout'])->name('auth.logout');
@@ -36,7 +26,15 @@ Route::middleware(['App\Http\Middleware\IfConnected'])->group(function () {
     Route::post('/add-to-trashes', [MailboxController::class, 'addToTrashes']);
     Route::post('/remove-from-trashes', [MailboxController::class, 'removeFromTrashes']);
     Route::post('/delete-email', [MailboxController::class, 'deleteEmail']);
+    // send email
+    Route::post('/post-email', [MailboxController::class, 'handlingPostEmail']);
 });
+
+//auth
+Route::get('/register', [AuthController::class, 'formRegister'])->name('auth.register');
+Route::post('/register', [AuthController::class, 'handlingRegister']);
+Route::get('/login', [AuthController::class, 'formLogin'])->name('auth.login');
+Route::post('/login', [AuthController::class, 'handlingLogin']);
 
 Route::get('/public', function () {
     return view('public');
@@ -53,6 +51,3 @@ Route::get('/home', function () {
     return view('home');
 })->name('home');
 Route::redirect('/', '/home');
-
-// send email
-Route::post('/post-email', [MailboxController::class, 'handlingPostEmail']);
