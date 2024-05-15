@@ -2,17 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use http\Env\Request;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\URL;
+
 class parameters
 {
-    public function parameters(Language $language)
+    public function parameters(string $locale)
     {
-        return view('mailbox/parameters', compact('language'));
+        if (! in_array($locale, ['en', 'es', 'fr','ru','de','cn'])) {
+            abort(400);
+        }
+        App::setLocale($locale);
+
+        return view('mailbox/parameters');
     }
 
-    public function change_language(Language $language)
+    public function formParameters(\Illuminate\Http\Request $request)
     {
-        $language->$_POST['language']();
+        $lang = $request->input('lang');
 
-        return redirect()->back();
+        app()->setLocale($lang);
+
+        $newUrl = URL::to("$lang/parameters");
+
+        return redirect($newUrl);
+
     }
 }

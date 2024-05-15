@@ -1,40 +1,38 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Language;
 use App\Http\Controllers\MailboxController;
+use App\Http\Controllers\parameters;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
-$lang = 'en'; // Par exemple, anglais par défaut
-if (isset($_GET['lang'])) {
-    $lang = $_GET['lang'];
-    //    $language = new Language();
-}
 
 //native
 
 Route::middleware(['App\Http\Middleware\IfDisconnected'])->group(function () {
     //auth
-    Route::get('/register', [AuthController::class, 'formRegister'])->name('auth.register');
-    Route::post('/register', [AuthController::class, 'handlingRegister']);
-    Route::get('/login', [AuthController::class, 'formLogin'])->name('auth.login');
-    Route::post('/login', [AuthController::class, 'handlingLogin']);
+    Route::get('/{locale}/register', [AuthController::class, 'formRegister'])->name('auth.register');
+    Route::post('/{locale}/register', [AuthController::class, 'handlingRegister']);
+    Route::get('/{locale}/login', [AuthController::class, 'formLogin'])->name('auth.login');
+    Route::post('/{locale}/login', [AuthController::class, 'handlingLogin']);
 });
 
 Route::middleware(['App\Http\Middleware\IfConnected'])->group(function () {
     //logout
     Route::delete('/logout', [AuthController::class, 'logout'])->name('auth.logout');
     //mailbox
-    Route::get('/inbox', [MailboxController::class, 'formInbox'])->name('inbox.index');
-    Route::post('/inbox', [MailboxController::class, 'handlingInbox'])->name('inbox.index');
-    Route::get('/starreds', [MailboxController::class, 'formStarreds'])->name('inbox.starreds');
-    Route::get('/sents', [MailboxController::class, 'formSents'])->name('inbox.sents');
-    Route::get('/drafts', [MailboxController::class, 'formDrafts'])->name('inbox.drafts');
-    Route::get('/trashes', [MailboxController::class, 'formTrashes'])->name('inbox.trashes');
-    Route::get('/spams', [MailboxController::class, 'formSpams'])->name('inbox.spams');
-    Route::get('/archives', [MailboxController::class, 'formArchives'])->name('inbox.archives');
-    Route::get('/all-emails', [MailboxController::class, 'formAllEmails'])->name('inbox.allEmails');
-    Route::get('/parameters', [MailboxController::class, 'parameters'])->name('inbox.parameters');
+    Route::get('/{locale}/inbox', [MailboxController::class, 'formInbox'])->name('inbox.index');
+    Route::post('/{locale}/inbox', [MailboxController::class, 'handlingInbox'])->name('inbox.index');
+    Route::get('/{locale}/starreds', [MailboxController::class, 'formStarreds'])->name('inbox.starreds');
+    Route::get('/{locale}/sents', [MailboxController::class, 'formSents'])->name('inbox.sents');
+    Route::get('/{locale}/drafts', [MailboxController::class, 'formDrafts'])->name('inbox.drafts');
+    Route::get('/{locale}/trashes', [MailboxController::class, 'formTrashes'])->name('inbox.trashes');
+    Route::get('/{locale}/spams', [MailboxController::class, 'formSpams'])->name('inbox.spams');
+    Route::get('/{locale}/archives', [MailboxController::class, 'formArchives'])->name('inbox.archives');
+    Route::get('/{locale}/all-emails', [MailboxController::class, 'formAllEmails'])->name('inbox.allEmails');
+    Route::get('/{locale}/parameters', [parameters::class, 'parameters'])->name('inbox.parameters');
+    Route::post('/{locale}/parameters', [parameters::class, 'formParameters'])->name('inbox.parameters');
+
     //actions
     Route::post('/add-to-starreds', [MailboxController::class, 'addToStarreds']);
     Route::post('/remove-from-starreds', [MailboxController::class, 'removeFromStarreds']);
@@ -56,10 +54,18 @@ Route::fallback(function () {
 });
 
 // home
-Route::get('/home', function () {
+Route::get('/{locale}/home', function (string $locale) {
+    if (! in_array($locale, ['en', 'es', 'fr'])) {
+        abort(400);
+    }
+    App::setLocale($locale);
+
     return view('home');
 })->name('home');
-Route::redirect('/', '/home');
+
+
+
+Route::redirect('/', '/en/home');
 
 // send email
 Route::post('/post-email', [MailboxController::class, 'handlingPostEmail']);

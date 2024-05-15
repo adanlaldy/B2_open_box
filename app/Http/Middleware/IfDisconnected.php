@@ -16,7 +16,7 @@ class IfDisconnected
     {
         // if connected, redirect to inbox page
         if (auth()->check()) {
-            return redirect('/inbox')->withErrors([
+            return redirect(route('inbox.index', ['locale' => 'en']))->withErrors([
                 'email' => 'You must be disconnect to view this page.',
             ]);
         }

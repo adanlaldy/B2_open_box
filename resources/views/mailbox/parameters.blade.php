@@ -72,6 +72,7 @@
 
 <!-- Contenu mail -->
 <div class="content">
+    @lang('messages.welcome')
     <h1>Parametre</h1>
     <hr>
 
@@ -79,7 +80,16 @@
     // Dans votre code PHP (par exemple, un contrôleur ou une vue)
     $version = config('version.version');
     ?>
-    <h2></h2>
+    <h2>Langue</h2>
+    <p>Choisissez votre langue</p>
+    <form action="" method="post">
+        @csrf
+        <select name="lang" id="lang">
+            <option value="fr" <?php echo (App::getLocale() == 'fr') ? 'selected' : ''; ?>>Français</option>
+            <option value="en" <?php echo (App::getLocale() == 'en') ? 'selected' : ''; ?>>Anglais</option>
+        </select>
+        <button type="submit">Valider</button>
+    </form>
     <h2>Version</h2>
 
 

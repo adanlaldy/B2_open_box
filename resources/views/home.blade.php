@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="http://127.0.0.1:8000/css/app.css" rel="stylesheet" />
         <title>Open Box</title>
+        <favicon href="http://127.0.0.1:8000/images/open_box_logo.png" rel="icon"></favicon>
     </head>
     <body>
         <header>
@@ -12,11 +13,12 @@
                 <ul>
                     <li><a href="/">Home</a></li>
                     <li><a href="/register">register</a></li>
-                    <li><a href="/login">login</a></li>
+                    <li><a href="{{route('auth.login', ['locale' => 'en'])}}">login</a></li>
                 </ul>
             </nav>
 
             <h1>Welcome to Open Box<br> the new email messaging of moments </h1>
+            @lang('messages.welcome')
             <div class="waves"></div>
         </header>
         <main>

@@ -3,12 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Support\Facades\App;
 
 class AuthController extends Controller
 {
     // get register
-    public function formRegister()
+    public function formRegister($locale)
     {
+
+        if (! in_array($locale, ['en', 'es', 'fr', 'de', 'ru', 'cn'])) {
+            abort(400);
+        }
+        App::setLocale($locale);
+
         return view('authentication/register');
     }
 
@@ -42,7 +49,7 @@ class AuthController extends Controller
         ])) {
             request()->session()->regenerate();
 
-            return redirect()->intended(route('inbox.index')); // succeeds -> redirect to inbox page
+            return redirect()->intended(route('inbox.index', ['locale' => 'en'])); // succeeds -> redirect to inbox page
         } else {
             return back()->withInput()->withErrors([
                 'email' => 'The provided credentials already exists.', // failed -> redirect to previous page
@@ -55,12 +62,16 @@ class AuthController extends Controller
     {
         auth()->logout();
 
-        return redirect()->route('home');
+        return redirect()->route('home', ['locale' => 'en']);
     }
 
     // get login
-    public function formLogin()
+    public function formLogin($locale)
     {
+        if (! in_array($locale, ['en', 'es', 'fr', 'de', 'ru', 'cn'])) {
+            abort(400);
+        }
+        App::setLocale($locale);
         return view('authentication/login');
     }
 
@@ -80,7 +91,7 @@ class AuthController extends Controller
         ])) {
             request()->session()->regenerate();
 
-            return redirect()->intended(route('inbox.index')); // succeeds -> redirect to inbox page
+            return redirect()->intended(route('inbox.index', ['locale' => 'en'])); // succeeds -> redirect to inbox page
         } else {
             return back()->withInput()->withErrors([
                 'email' => 'The provided credentials do not match our records.', // failed -> redirect to previous page

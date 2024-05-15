@@ -11,8 +11,8 @@
 <main>
     <section>
         <div class="left">
-            <a href="/home"><h1 class="title">Resgister</h1></a>
-            <form action="{{route('auth.register')}}" method="post">
+            <a href="/en/home"><h1 class="title">Resgister</h1></a>
+            <form action="{{route('auth.register', ['locale' => 'en'])}}" method="post">
                 @csrf
                 <input class="name" type="text" name="firstName" placeholder="First Name" autocomplete="">
                 <input class="name" type="text" name="lastName" placeholder="Last Name" autocomplete=""> <br>
@@ -23,7 +23,7 @@
                 <input type="password" name="password" placeholder="Password" autocomplete=""><br>
                 {{ $errors->first('password')}}
                 <button type="submit">Register</button><br>
-                <a href="/login">Already have an account? Login</a>
+                <a href="/en/login">Already have an account? Login</a>
             </form>
         </div>
 

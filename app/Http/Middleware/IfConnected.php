@@ -16,7 +16,7 @@ class IfConnected
     {
         // if not connected, redirect to login page
         if (! auth()->check()) {
-            return redirect('/login')->withErrors([
+            return redirect(route('auth.login', ['locale' => 'en']))->withErrors([
                 'email' => 'You must be logged to view this page.',
             ]);
         }

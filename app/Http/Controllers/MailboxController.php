@@ -6,6 +6,7 @@ use App\Mail\PostEmail;
 use App\Models\Category;
 use App\Models\Email;
 use App\Models\User;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Mail;
 
 class MailboxController extends Controller
@@ -48,7 +49,7 @@ class MailboxController extends Controller
         }
     }
 
-    public function formInbox(Language $language)
+    public function formInbox(string $locale)
     {
         $user = auth()->user(); // collect connected user
 
@@ -63,10 +64,16 @@ class MailboxController extends Controller
             $inboxEmails = collect();
         }
 
-        return view('mailbox/inbox', compact('inboxEmails', 'user' , 'language'));
+        if (! in_array($locale, ['en', 'es', 'fr', 'de', 'ru', 'cn'])) {
+            abort(400);
+        }
+        App::setLocale($locale);
+
+
+        return view('mailbox/inbox', compact('inboxEmails', 'user'));
     }
 
-    public function formStarreds(Language $language)
+    public function formStarreds(string $locale)
     {
         $user = auth()->user(); // collect connected user
         if (! $user->categories()->where('native', true)->exists()) {
@@ -80,10 +87,16 @@ class MailboxController extends Controller
             $starredEmails = collect();
         }
 
-        return view('mailbox/starreds', compact('starredEmails', 'language'));
+        if (! in_array($locale, ['en', 'es', 'fr', 'de', 'ru', 'cn'])) {
+            abort(400);
+        }
+        App::setLocale($locale);
+
+
+        return view('mailbox/starreds', compact('starredEmails'));
     }
 
-    public function formArchives(Language $language)
+    public function formArchives(string $locale)
     {
         $user = auth()->user(); // collect connected user
         if (! $user->categories()->where('native', true)->exists()) {
@@ -97,10 +110,16 @@ class MailboxController extends Controller
             $archiveEmails = collect();
         }
 
-        return view('mailbox/archives', compact('archiveEmails', 'language'));
+        if (! in_array($locale, ['en', 'es', 'fr', 'de', 'ru', 'cn'])) {
+            abort(400);
+        }
+        App::setLocale($locale);
+
+
+        return view('mailbox/archives', compact('archiveEmails'));
     }
 
-    public function formTrashes(Language $language)
+    public function formTrashes(string $locale)
     {
         $user = auth()->user(); // collect connected user
         if (! $user->categories()->where('native', true)->exists()) {
@@ -114,10 +133,16 @@ class MailboxController extends Controller
             $trashEmails = collect();
         }
 
-        return view('mailbox/trashes', compact('trashEmails', 'language'));
+        if (! in_array($locale, ['en', 'es', 'fr', 'de', 'ru', 'cn'])) {
+            abort(400);
+        }
+        App::setLocale($locale);
+
+
+        return view('mailbox/trashes', compact('trashEmails'));
     }
 
-    public function formSents(Language $language)
+    public function formSents(string $locale)
     {
         $user = auth()->user(); // collect connected user
         if (! $user->categories()->where('native', true)->exists()) {
@@ -131,10 +156,15 @@ class MailboxController extends Controller
             $sentEmails = collect();
         }
 
-        return view('mailbox/sents', compact('sentEmails', 'language'));
+        if (! in_array($locale, ['en', 'es', 'fr', 'de', 'ru', 'cn'])) {
+            abort(400);
+        }
+        App::setLocale($locale);
+
+        return view('mailbox/sents', compact('sentEmails'));
     }
 
-    public function formDrafts(Language $language)
+    public function formDrafts(string $locale)
     {
         $user = auth()->user(); // collect connected user
         if (! $user->categories()->where('native', true)->exists()) {
@@ -148,10 +178,15 @@ class MailboxController extends Controller
             $draftEmails = collect();
         }
 
-        return view('mailbox/drafts', compact('draftEmails', 'language'));
+        if (! in_array($locale, ['en', 'es', 'fr', 'de', 'ru', 'cn'])) {
+            abort(400);
+        }
+        App::setLocale($locale);
+
+        return view('mailbox/drafts', compact('draftEmails'));
     }
 
-    public function formSpams(Language $language)
+    public function formSpams(string $locale)
     {
         $user = auth()->user(); // collect connected user
         if (! $user->categories()->where('native', true)->exists()) {
@@ -165,10 +200,15 @@ class MailboxController extends Controller
             $spamEmails = collect();
         }
 
-        return view('mailbox/spams', compact('spamEmails', 'language'));
+        if (! in_array($locale, ['en', 'es', 'fr', 'de', 'ru', 'cn'])) {
+            abort(400);
+        }
+        App::setLocale($locale);
+
+        return view('mailbox/spams', compact('spamEmails'));
     }
 
-    public function formAllEmails(Language $language)
+    public function formAllEmails(string $locale)
     {
         $user = auth()->user(); // collect connected user
         if (! $user->categories()->where('native', true)->exists()) {
@@ -182,7 +222,12 @@ class MailboxController extends Controller
             $allEmails = collect();
         }
 
-        return view('mailbox/all_emails', compact('allEmails', 'language'));
+        if (! in_array($locale, ['en', 'es', 'fr', 'de', 'ru', 'cn'])) {
+            abort(400);
+        }
+        App::setLocale($locale);
+
+        return view('mailbox/all_emails', compact('allEmails'));
     }
 
     public function addToStarreds()
@@ -245,11 +290,6 @@ class MailboxController extends Controller
         Email::where('id', $emailId)->delete(); // delete email
 
         return redirect()->back();
-    }
-
-    public function parameters(Language $language)
-    {
-        return view('mailbox/parameters', compact('language'));
     }
 
     public function handlingPostEmail()

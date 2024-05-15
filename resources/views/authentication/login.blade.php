@@ -20,16 +20,15 @@
     @endif
     <section>
         <div class="left">
-            <a href="/home"><h1 class="title">Connexion</h1></a>
-            <form action="{{route('auth.login')}}" method="post">
+            <a href="/en/home"><h1 class="title">Connexion</h1></a>
+            <form action="{{route('auth.login', ['locale' => 'en'])}}" method="post">
                 @csrf
                 <input type="email" name="email" placeholder="Email"><br>
                 {{ $errors->first('email')}}
                 <input type="password" name="password" placeholder="Password"><br>
                 {{ $errors->first('password')}}
-                <a href="/register">pas encore de compte ? crée en un ! </a><br>
+                <a href="/en/register">pas encore de compte ? crée en un ! </a><br>
                 <button type="submit">se connecter</button><br>
-
             </form>
         </div>
 
