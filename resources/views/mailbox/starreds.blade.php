@@ -77,7 +77,7 @@
     <!-- Contenu mail -->
     <article>
     <ul>
-            @forelse($starredEmails as $email)
+            @forelse($starredsEmails as $email)
             <div class="row">
                 <div class="col">
                     <div class="form-check" id="{{ $email->id }}">
@@ -93,8 +93,8 @@
                 <div class="col">
                     <form action="/remove-from-starreds" method="post">
                         @csrf
-                        <input type="hidden" name="email_id" value="{{ $email->id }}">
-                        <button type="submit" class="btn btn-outline-primary">{{ $language->page_inbox['starred'] }}</button>
+                        <input type="hidden" name="emailId" value="{{ $email->id }}">
+                        <button type="submit" class="btn btn-outline-primary">Retirer des favoris</button>
                     </form>
                     <form action="/add-to-archives" method="post">
                         @csrf

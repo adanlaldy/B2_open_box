@@ -6,12 +6,13 @@ use App\Mail\PostEmail;
 use App\Models\Category;
 use App\Models\Email;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Mail;
 
 class MailboxController extends Controller
 {
-    public function fillNativeCategories(User $user)
+    public function fillNativeCategories()
     {
         $categories = [
             'inbox',
@@ -21,30 +22,14 @@ class MailboxController extends Controller
             'archives',
             'spams',
             'trashes',
-            'all_mails',
+            'all_emails',
         ];
 
         foreach ($categories as $category) {
-            $user->categories()->create([
+            Category::create([
+                'user_id' => null,
                 'name' => $category,
                 'native' => true,
-            ]);
-        }
-
-        // cette partie sera à supprimer
-        $category = Category::where('name', 'inbox')->first(); // Assuming emails should be created in the inbox category
-
-        for ($i = 1; $i <= 3; $i++) {
-            $category->emails()->create([
-                'from_user_id' => 1,
-                'to_user_id' => $user->id,
-                'cc_user_id',
-                'bcc_user_id',
-                'subject' => 'Abonnement',
-                'content' => 'votre compte est...',
-                'sent_at' => now(),
-                'starred' => false,
-                'attachment',
             ]);
         }
     }
@@ -53,16 +38,20 @@ class MailboxController extends Controller
     {
         $user = auth()->user(); // collect connected user
 
-        if (! $user->categories()->where('native', true)->exists()) {
+        $nativeCategories = Category::where('native', true)->get();
+        if ($nativeCategories->isEmpty()) {
             $this->fillNativeCategories($user);
         }
 
-        $inboxCategory = Category::where('name', 'inbox')->first();
-        if ($inboxCategory) {
-            $inboxEmails = Email::where('category_id', $inboxCategory->id)->get();
-        } else {
-            $inboxEmails = collect();
-        }
+        $inboxCategory = Category::where('name', 'inbox')->first(); // collect inbox category
+        $trashesCategory = Category::where('name', 'trashes')->first(); // collect trashes category
+
+        $inboxEmails = Email::where('category_id', $inboxCategory->id)
+            ->whereDoesntHave('category', function (Builder $query) use ($trashesCategory) {
+                $query->where('id', $trashesCategory->id);
+            })
+            ->where('to_user_id', $user->id)
+            ->get() ?? null; // collect inbox emails
 
         if (! in_array($locale, ['en', 'es', 'fr', 'de', 'ru', 'cn'])) {
             abort(400);
@@ -76,16 +65,17 @@ class MailboxController extends Controller
     public function formStarreds(string $locale)
     {
         $user = auth()->user(); // collect connected user
-        if (! $user->categories()->where('native', true)->exists()) {
-            $this->fillNativeCategories($user);
-        }
 
-        $starredCategory = Category::where('name', 'starreds')->first();
-        if ($starredCategory) {
-            $starredEmails = Email::where('category_id', $starredCategory->id)->get();
-        } else {
-            $starredEmails = collect();
-        }
+        $trashesCategory = Category::where('name', 'trashes')->first(); // collect trashes category
+        $starredsEmails = Email::where('starred', true)
+            ->whereDoesntHave('category', function (Builder $query) use ($trashesCategory) {
+                $query->where('id', $trashesCategory->id);
+            })
+            ->where(function ($query) use ($user) {
+                $query->where('from_user_id', $user->id)
+                    ->orWhere('to_user_id', $user->id);
+            })
+            ->get() ?? null; // collect starred emails
 
         if (! in_array($locale, ['en', 'es', 'fr', 'de', 'ru', 'cn'])) {
             abort(400);
@@ -93,23 +83,27 @@ class MailboxController extends Controller
         App::setLocale($locale);
 
 
-        return view('mailbox/starreds', compact('starredEmails'));
+        return view('mailbox/starreds', compact('starredsEmails'));
     }
 
     public function formArchives(string $locale)
     {
-        $user = auth()->user(); // collect connected user
-        if (! $user->categories()->where('native', true)->exists()) {
-            $this->fillNativeCategories($user);
-        }
+        $user = auth()->user(); // collect connected users
 
-        $archiveCategory = Category::where('name', 'archives')->first();
-        if ($archiveCategory) {
-            $archiveEmails = Email::where('category_id', $archiveCategory->id)->get();
-        } else {
-            $archiveEmails = collect();
-        }
+        $archivesCategory = Category::where('name', 'archives')->first(); // collect archives category
+        $trashesCategory = Category::where('name', 'trashes')->first(); // collect trashes category
 
+        $archivedsEmails = Email::where('category_id', $archivesCategory->id)
+            ->whereDoesntHave('category', function (Builder $query) use ($trashesCategory) {
+                $query->where('id', $trashesCategory->id);
+            })
+            ->where(function ($query) use ($user) {
+                $query->where('from_user_id', $user->id)
+                    ->orWhere('to_user_id', $user->id);
+            })
+            ->get() ?? null; // collect archiveds emails
+
+        return view('mailbox/archives', compact('archivedsEmails'));
         if (! in_array($locale, ['en', 'es', 'fr', 'de', 'ru', 'cn'])) {
             abort(400);
         }
@@ -122,17 +116,16 @@ class MailboxController extends Controller
     public function formTrashes(string $locale)
     {
         $user = auth()->user(); // collect connected user
-        if (! $user->categories()->where('native', true)->exists()) {
-            $this->fillNativeCategories($user);
-        }
 
-        $trashCategory = Category::where('name', 'trashes')->first();
-        if ($trashCategory) {
-            $trashEmails = Email::where('category_id', $trashCategory->id)->get();
-        } else {
-            $trashEmails = collect();
-        }
+        $trashesCategory = Category::where('name', 'trashes')->first();
+        $trashesEmails = Email::where('category_id', $trashesCategory->id)
+            ->where(function ($query) use ($user) {
+                $query->where('from_user_id', $user->id)
+                    ->orWhere('to_user_id', $user->id);
+            })
+            ->get() ?? null; // collect trashes emails
 
+        return view('mailbox/trashes', compact('trashesEmails'));
         if (! in_array($locale, ['en', 'es', 'fr', 'de', 'ru', 'cn'])) {
             abort(400);
         }
@@ -145,17 +138,18 @@ class MailboxController extends Controller
     public function formSents(string $locale)
     {
         $user = auth()->user(); // collect connected user
-        if (! $user->categories()->where('native', true)->exists()) {
-            $this->fillNativeCategories($user);
-        }
 
-        $sentCategory = Category::where('name', 'sents')->first();
-        if ($sentCategory) {
-            $sentEmails = Email::where('category_id', $sentCategory->id)->get();
-        } else {
-            $sentEmails = collect();
-        }
+        $sentsCategory = Category::where('name', 'sents')->first(); // collect sents category
+        $trashesCategory = Category::where('name', 'trashes')->first(); // collect trashes category
 
+        $sentsEmails = Email::where('category_id', $sentsCategory->id)
+            ->whereDoesntHave('category', function (Builder $query) use ($trashesCategory) {
+                $query->where('id', $trashesCategory->id);
+            })
+            ->where('from_user_id', $user->id)
+            ->get() ?? null; // collect inbox emails
+
+        return view('mailbox/sents', compact('sentsEmails'));
         if (! in_array($locale, ['en', 'es', 'fr', 'de', 'ru', 'cn'])) {
             abort(400);
         }
@@ -164,19 +158,13 @@ class MailboxController extends Controller
         return view('mailbox/sents', compact('sentEmails'));
     }
 
+    /*public function formDrafts()
     public function formDrafts(string $locale)
     {
         $user = auth()->user(); // collect connected user
-        if (! $user->categories()->where('native', true)->exists()) {
-            $this->fillNativeCategories($user);
-        }
 
         $draftCategory = Category::where('name', 'drafts')->first();
-        if ($draftCategory) {
-            $draftEmails = Email::where('category_id', $draftCategory->id)->get();
-        } else {
-            $draftEmails = collect();
-        }
+        $draftEmails = Email::where('category_id', $draftCategory->id)->get() ?? null;
 
         if (! in_array($locale, ['en', 'es', 'fr', 'de', 'ru', 'cn'])) {
             abort(400);
@@ -189,16 +177,9 @@ class MailboxController extends Controller
     public function formSpams(string $locale)
     {
         $user = auth()->user(); // collect connected user
-        if (! $user->categories()->where('native', true)->exists()) {
-            $this->fillNativeCategories($user);
-        }
 
         $spamCategory = Category::where('name', 'spams')->first();
-        if ($spamCategory) {
-            $spamEmails = Email::where('category_id', $spamCategory->id)->get();
-        } else {
-            $spamEmails = collect();
-        }
+        $spamEmails = Email::where('category_id', $spamCategory->id)->get() ?? null;
 
         if (! in_array($locale, ['en', 'es', 'fr', 'de', 'ru', 'cn'])) {
             abort(400);
@@ -206,21 +187,21 @@ class MailboxController extends Controller
         App::setLocale($locale);
 
         return view('mailbox/spams', compact('spamEmails'));
-    }
+    }*/
 
     public function formAllEmails(string $locale)
     {
         $user = auth()->user(); // collect connected user
-        if (! $user->categories()->where('native', true)->exists()) {
-            $this->fillNativeCategories($user);
-        }
 
-        $allCategory = Category::where('name', 'all_emails')->first();
-        if ($allCategory) {
-            $allEmails = Email::where('category_id', $allCategory->id)->get();
-        } else {
-            $allEmails = collect();
-        }
+        $trashesCategory = Category::where('name', 'trashes')->first(); // collect trashes category
+        $allEmails = Email::where(function ($query) use ($user) {
+            $query->where('from_user_id', $user->id)
+                ->orWhere('to_user_id', $user->id);
+        })
+            ->whereDoesntHave('category', function (Builder $query) use ($trashesCategory) {
+                $query->where('id', $trashesCategory->id);
+            })
+            ->get() ?? null; // collect all emails sent or received by the user
 
         if (! in_array($locale, ['en', 'es', 'fr', 'de', 'ru', 'cn'])) {
             abort(400);
@@ -233,8 +214,7 @@ class MailboxController extends Controller
     public function addToStarreds()
     {
         $emailId = request()->input('emailId'); // collect email id
-        $category = Category::where('name', 'starreds')->first(); // collect starred category
-        Email::where('id', $emailId)->update(['category_id' => $category->id]); // update email category to starred
+        Email::where('id', $emailId)->update(['starred' => true]); // update boolean starred to true
 
         return redirect()->back();
     }
@@ -242,8 +222,7 @@ class MailboxController extends Controller
     public function removeFromStarreds()
     {
         $emailId = request()->input('emailId'); // collect email id
-        $category = Category::where('name', 'inbox')->first(); // collect inbox category
-        Email::where('id', $emailId)->update(['category_id' => $category->id]); // update email starred to inbox
+        Email::where('id', $emailId)->update(['starred' => false]); // update boolean starred to false
 
         return redirect()->back();
     }
@@ -251,8 +230,10 @@ class MailboxController extends Controller
     public function addToArchives()
     {
         $emailId = request()->input('emailId'); // collect email id
-        $category = Category::where('name', 'archives')->first(); // collect starred category
-        Email::where('id', $emailId)->update(['category_id' => $category->id]); // update email category to archive
+        $email = Email::where('id', $emailId)->first(); // collect email
+        $archivesCategory = Category::where('name', 'archives')->first(); // collect archives category
+
+        $email->update(['category_id' => $archivesCategory->id, 'previous_category_id' => $email->category_id]); // update email category to archives and previous category
 
         return redirect()->back();
     }
@@ -260,8 +241,9 @@ class MailboxController extends Controller
     public function removeFromArchives()
     {
         $emailId = request()->input('emailId'); // collect email id
-        $category = Category::where('name', 'inbox')->first(); // collect inbox category
-        Email::where('id', $emailId)->update(['category_id' => $category->id]); // update email starred to inbox
+        $email = Email::where('id', $emailId)->first(); // collect email
+
+        $email->update(['category_id' => $email->previous_category_id]); // update email category to previous category
 
         return redirect()->back();
     }
@@ -269,8 +251,10 @@ class MailboxController extends Controller
     public function addToTrashes()
     {
         $emailId = request()->input('emailId'); // collect email id
-        $category = Category::where('name', 'trashes')->first(); // collect starred category
-        Email::where('id', $emailId)->update(['category_id' => $category->id]); // update email category to trash
+        $email = Email::where('id', $emailId)->first(); // collect email
+        $trashesCategory = Category::where('name', 'trashes')->first(); // collect trashes category
+
+        $email->update(['category_id' => $trashesCategory->id, 'previous_category_id' => $email->category_id]); // update email category to trashes and previous category
 
         return redirect()->back();
     }
@@ -278,8 +262,9 @@ class MailboxController extends Controller
     public function removeFromTrashes()
     {
         $emailId = request()->input('emailId'); // collect email id
-        $category = Category::where('name', 'inbox')->first(); // collect inbox category
-        Email::where('id', $emailId)->update(['category_id' => $category->id]); // update email starred to inbox
+        $email = Email::where('id', $emailId)->first(); // collect email
+
+        $email->update(['category_id' => $email->previous_category_id]); // update email category to previous category
 
         return redirect()->back();
     }
@@ -294,6 +279,8 @@ class MailboxController extends Controller
 
     public function handlingPostEmail()
     {
+        $user = auth()->user();
+
         // check if inputs are correctly filled
         $validatedData = request()->validate([
             'fromEmail' => ['required', 'email'],
@@ -307,23 +294,41 @@ class MailboxController extends Controller
         ]);
 
         // collect user ids from emails
+        $fromUserId = User::where('email', $validatedData['fromEmail'])->where('id', $user->id)->value('id');
         $toUserId = User::where('email', $validatedData['toEmail'])->value('id');
-        $ccUserId = $validatedData['ccEmail'] ? User::where('email', $validatedData['ccEmail'])->value('id') : null;
-        $bccUserId = $validatedData['bccEmail'] ? User::where('email', $validatedData['bccEmail'])->value('id') : null;
+
+        // check if required emails are valid
+        if (! $fromUserId || ! $toUserId) {
+            return redirect()->back()->withErrors(['message' => 'L\email d\'envoi ou de réception n\'est pas valide.'])->withInput();
+        }
+
+        // check if cc and bcc emails are valid
+        if ($validatedData['ccEmail'] !== null) {
+            $ccUserId = User::where('email', $validatedData['ccEmail'])->value('id') ?? null;
+            if (! $ccUserId) {
+                return redirect()->back()->withErrors(['message' => 'L\'email de copie n\'existe pas.'])->withInput();
+            }
+        } elseif ($validatedData['bccEmail'] !== null) {
+            $bccUserId = User::where('email', $validatedData['bccEmail'])->value('id') ?? null;
+            if (! $bccUserId) {
+                return redirect()->back()->withErrors(['message' => 'L\'email de copie anonyme n\'existe pas.'])->withInput();
+            }
+        }
 
         // create new email
-        $user = auth()->user();
-        $category = Category::where('user_id', $user->id)->first();
+        $category = Category::where('name', 'inbox')->first();
         $email = $category->emails()->create([
-            'from_user_id' => $user->id,
+            'user_id' => $toUserId,
+            'from_user_id' => $fromUserId,
             'to_user_id' => $toUserId,
-            'cc_user_id' => $ccUserId,
-            'bcc_user_id' => $bccUserId,
+            'cc_user_id' => $ccUserId ?? null,
+            'bcc_user_id' => $bccUserId ?? null,
             'subject' => $validatedData['subject'] ?? '',
             'content' => $validatedData['content'] ?? '',
             'sent_at' => now(),
             'starred' => false,
             'attachment' => $validatedData['attachment'] ?? null,
+            'previous_category_id' => $category->id,
         ]);
 
         // concat first name and last name
@@ -331,6 +336,25 @@ class MailboxController extends Controller
 
         // send email
         Mail::to($validatedData['toEmail'])->send(new PostEmail($validatedData['fromEmail'], $senderName, $email['subject'], $email['content']));
+
+        // clone for local user email
+        $category = Category::where('name', 'sents')->first();
+        $email = $category->emails()->create([
+            'user_id' => $user->id,
+            'from_user_id' => $fromUserId,
+            'to_user_id' => $toUserId,
+            'cc_user_id' => $ccUserId ?? null,
+            'bcc_user_id' => $bccUserId ?? null,
+            'subject' => $validatedData['subject'] ?? '',
+            'content' => $validatedData['content'] ?? '',
+            'sent_at' => now(),
+            'starred' => false,
+            'attachment' => $validatedData['attachment'] ?? null,
+            'previous_category_id' => $category->id,
+        ]);
+
+        // send email
+        Mail::to($validatedData['fromEmail'])->send(new PostEmail($validatedData['fromEmail'], $senderName, $email['subject'], $email['content']));
 
         return redirect()->back();
     }

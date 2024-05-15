@@ -12,6 +12,7 @@ class Email extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'user_id',
         'category_id',
         'from_user_id',
         'to_user_id',
@@ -22,6 +23,7 @@ class Email extends Model
         'sent_at',
         'starred',
         'attachment',
+        'previous_category_id',
     ];
 
     public function category()

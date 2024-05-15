@@ -41,6 +41,8 @@ Route::middleware(['App\Http\Middleware\IfConnected'])->group(function () {
     Route::post('/add-to-trashes', [MailboxController::class, 'addToTrashes']);
     Route::post('/remove-from-trashes', [MailboxController::class, 'removeFromTrashes']);
     Route::post('/delete-email', [MailboxController::class, 'deleteEmail']);
+    // send email
+    Route::post('/post-email', [MailboxController::class, 'handlingPostEmail']);
 });
 
 Route::get('/public', function () {
@@ -66,6 +68,3 @@ Route::get('/{locale}/home', function (string $locale) {
 
 
 Route::redirect('/', '/en/home');
-
-// send email
-Route::post('/post-email', [MailboxController::class, 'handlingPostEmail']);

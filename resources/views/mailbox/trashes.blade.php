@@ -77,7 +77,7 @@
     <!-- Contenu mail -->
     <article>
     <ul>
-            @forelse($trashEmails as $email)
+            @forelse($trashesEmails as $email)
             <div class="row">
                 <div class="col">
                     <div class="form-check" id="{{ $email->id }}">
