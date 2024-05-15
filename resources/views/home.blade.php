@@ -12,7 +12,7 @@
             <nav>
                 <ul>
                     <li><a href="/">Home</a></li>
-                    <li><a href="/register">register</a></li>
+                    <li><a href="{{route('auth.register', ['locale' => 'en'])}}">register</a></li>
                     <li><a href="{{route('auth.login', ['locale' => 'en'])}}">login</a></li>
                 </ul>
             </nav>
