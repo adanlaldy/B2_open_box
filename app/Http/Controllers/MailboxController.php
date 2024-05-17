@@ -6,7 +6,6 @@ use App\Mail\PostEmail;
 use App\Models\Category;
 use App\Models\Email;
 use App\Models\User;
-use App\Models\EmailCopy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Mail;
@@ -310,13 +309,6 @@ class MailboxController extends Controller
                 if (! $ccUserId) {
                     return redirect()->back()->withErrors(['message' => 'Une ou plusieurs emails de copie n\'existent pas.'])->withInput();
                 } 
-                /*
-                // create new cc
-                EmailCopy::create([
-                    'user_id' => $ccUserId,
-                    'email_id' => null,
-                    'type' => 'CC',
-                ]);*/
             }
         } 
         if ($validatedData['bccEmail'] !== null) {
@@ -345,19 +337,8 @@ class MailboxController extends Controller
         // concat first name and last name
         $senderName = $user->first_name.' '.$user->last_name;
 
-        /*// update CC email_id and ccList variable
-        if ($validatedData['ccEmail'] !== null) {
-            $ccEmails = explode(' ', $validatedData['ccEmail']); // to separate emails
-            $ccList = [];
-            foreach ($ccEmails as $ccEmail) {
-                $ccUserId = User::where('email', $ccEmail)->value('id') ?? null;
-                EmailCopy::where('user_id', $ccUserId)->update(['email_id' => $email->id]);
-                array_push($ccList, $ccEmail);
-            }
-        }*/
-
         // send email
-        Mail::to($validatedData['toEmail'])/*->cc($ccList)*/->send(new PostEmail($validatedData['fromEmail'], $senderName, $email['subject'], $email['content']));
+        //Mail::to($validatedData['toEmail'])/*->cc($ccList)*/->send(new PostEmail($validatedData['fromEmail'], $senderName, $email['subject'], $email['content']));
 
         // clone for local user email
         $category = Category::where('name', 'sents')->first();
@@ -376,7 +357,7 @@ class MailboxController extends Controller
         ]);
 
         // send email
-        Mail::to($validatedData['fromEmail'])->send(new PostEmail($validatedData['fromEmail'], $senderName, $email['subject'], $email['content']));
+        //Mail::to($validatedData['fromEmail'])->send(new PostEmail($validatedData['fromEmail'], $senderName, $email['subject'], $email['content']));
 
         return redirect()->back();
     }

@@ -33,11 +33,6 @@ class Email extends Model
     {
         return $this->belongsTo(User::class, 'from_user_id');
     }
-    
-    public function emailUsers()
-    {
-        return $this->hasMany(EmailUser::class);
-    }
 
     public function attachments()
     {

@@ -97,7 +97,7 @@
                         </div>
                     </div>
                     <div class="col">{{ $email->from_user_id }}</div>
-                    <div class="col">{{ $email->subject }}</div>
+                    <div class="col"><button id="emailDetails">{{ $email->subject }}</button></div>
                     <div class="col">{{ $email->sent_at }}</div>
                     <div class="col">
                         <form action="/add-to-starreds" method="post">
@@ -118,6 +118,45 @@
                     </div>
                 </div>
                 <hr>
+                <!-- email details -->
+                <dialog id="dialogEmailDetails" class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">@lang('Email Details')</h5>
+                        <button type="button" id="closeEmailDetails" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="from">@lang('index.sender') :</label>
+                            <input name="fromEmail" type="email" class="form-control" id="from" value="{{ $user->email }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="to">@lang('index.recipient') :</label>
+                            <input name="toEmail" type="email" class="form-control" id="to" placeholder="@lang('index.email_address')">
+                        </div>
+                        <div class="form-group">
+                            <label for="cc">@lang('index.cc') :</label>
+                            <input name="ccEmail" type="email" class="form-control" id="cc" placeholder="@lang('index.email_address')">
+                        </div>
+                        <div class="form-group">
+                            <label for="bcc">@lang('index.bcc') :</label>
+                            <input name="bccEmail" type="email" class="form-control" id="bcc" placeholder="@lang('index.email_address')">
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">@lang('index.subject') :</label>
+                            <input name="subject" type="text" class="form-control" id="subject" placeholder="@lang('index.email_subject')">
+                        </div>
+                        <div class="form-group">
+                            <label for="content">@lang('index.content') :</label>
+                            <textarea name="content" class="form-control" id="content" rows="5" placeholder="@lang('index.email_content')"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@lang('index.close')</button>
+                        <button type="button" class="btn btn-primary">@lang('index.send')</button>
+                    </div>
+                </div>
+            </dialog>
             @empty
                 <h2 class='text-center'>@lang('index.empty')</h2>
                 <div class="testeu">
@@ -126,11 +165,12 @@
             @endforelse
         </ul>
     </article>
-    <button class="btn btn-primary mt-3 static" id="new_email">@lang('index.new_email')</button>
-    <dialog id="dialog">
+    
+    <button class="btn btn-primary mt-3 static" id="newEmail">@lang('index.new_email')</button>
+    <dialog id="dialogNewEmail">
         <div class="container mt-3">
             <h3>@lang('index.new_email_title')</h3>
-            <button class="btn btn-primary mt-3 static" id="close_email">@lang('index.close')</button>
+            <button class="btn btn-primary mt-3 static" id="closeNewEmail">@lang('index.close')</button>
             <form action="/post-email" method="post">
                 @csrf
                 <div class="form-group">
@@ -174,17 +214,34 @@
             toggleSidebar(); // Désactiver le menu
         });
 
-        // open or close the dialog
-        const dialog = document.getElementById('dialog');
-        const new_email = document.getElementById('new_email');
-        const close_email = document.getElementById('close_email');
+        // open or close the dialog for email details
+        const dialogEmailDetails = document.getElementById('dialogEmailDetails');
+        const emailDetails = document.querySelectorAll('[id="emailDetails"]');
+        const closeEmailDetails = document.getElementById('closeEmailDetails');
 
-        new_email.addEventListener('click', function() {
-            dialog.showModal();
+        emailDetails.forEach(function(element) {
+            element.addEventListener('click', function() {
+                dialogEmailDetails.showModal();
+            });
         });
 
-        close_email.addEventListener('click', function() {
-            dialog.close();
+        closeEmailDetails.addEventListener('click', function() {
+            dialogEmailDetails.close();
+        });
+
+
+
+        // open or close the dialog for new email
+        const dialogNewEmail = document.getElementById('dialogNewEmail');
+        const newEmail = document.getElementById('newEmail');
+        const closeNewEmail = document.getElementById('closeNewEmail');
+
+        newEmail.addEventListener('click', function() {
+            dialogNewEmail.showModal();
+        });
+
+        closeNewEmail.addEventListener('click', function() {
+            dialogNewEmail.close();
         });
     </script>
 </main>
