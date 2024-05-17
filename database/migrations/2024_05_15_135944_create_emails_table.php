@@ -20,11 +20,6 @@ return new class extends Migration
             $table->unsignedBigInteger('from_user_id');
             $table->foreign('from_user_id')->references('id')->on('users');
             $table->unsignedBigInteger('to_user_id')->nullable();
-            $table->foreign('to_user_id')->references('id')->on('users');
-            $table->unsignedBigInteger('cc_user_id')->nullable();
-            $table->foreign('cc_user_id')->references('id')->on('users');
-            $table->unsignedBigInteger('bcc_user_id')->nullable();
-            $table->foreign('bcc_user_id')->references('id')->on('users');
             $table->string('subject')->nullable();
             $table->text('content')->nullable();
             $table->dateTime('sent_at');

@@ -98,4 +98,52 @@ class AuthController extends Controller
             ]);
         }
     }
+
+    public function fill()
+    {
+        // create new user
+        User::create([
+            'first_name' => 'a',
+            'last_name' => 'a',
+            'email' => 'a@a.a',
+            'password' => bcrypt('aa'),
+            'question_recuperation' => 'question',
+            'response_recuperation' => 'response',
+            'birthday' => '2000-01-01', // Entourez la date de guillemets
+        ]);
+
+        // create new user
+        User::create([
+            'first_name' => 'b',
+            'last_name' => 'b',
+            'email' => 'b@b.b',
+            'password' => bcrypt('bb'),
+            'question_recuperation' => 'question',
+            'response_recuperation' => 'response',
+            'birthday' => '2000-01-01', // Entourez la date de guillemets
+        ]);
+
+        // create new user
+        User::create([
+            'first_name' => 'c',
+            'last_name' => 'c',
+            'email' => 'c@c.c',
+            'password' => bcrypt('cc'),
+            'question_recuperation' => 'question',
+            'response_recuperation' => 'response',
+            'birthday' => '2000-01-01', // Entourez la date de guillemets
+        ]);
+
+        // create new user
+        User::create([
+            'first_name' => 'd',
+            'last_name' => 'd',
+            'email' => 'd@d.d',
+            'password' => bcrypt('dd'),
+            'question_recuperation' => 'question',
+            'response_recuperation' => 'response',
+            'birthday' => '2000-01-01', // Entourez la date de guillemets
+        ]);
+    }
+
 }

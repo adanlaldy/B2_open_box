@@ -33,5 +33,19 @@ return [
     'delete_confirmation' => 'Are you sure you want to delete this email?',
     'delete_confirmation_yes' => 'Yes',
     'delete_confirmation_no' => 'No',
-    'delete_confirmation_title' => 'Delete email'
+    'delete_confirmation_title' => 'Delete email',
+// à traduire à partir d'ici
+    'new_email_title' => 'New email',
+    'sender' => 'Sender',
+    'recipient ' => 'Recipient',
+    'cc' => 'CC',
+    'bcc' => 'BCC',
+    'content' => 'Content',
+    'send' => 'Send',
+
+    'your_email' => 'Your email',
+    'email_address' => 'Email address',
+    'email_subject' => 'Subject',
+    'email_content' => 'Content',
+    'close' => 'Close',
 ];

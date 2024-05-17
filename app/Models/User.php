@@ -40,4 +40,9 @@ class User extends Model implements Authenticatable
     {
         return $this->hasMany(Category::class);
     }
+
+    public function emailUsers()
+    {
+        return $this->hasMany(EmailUser::class);
+    }
 }

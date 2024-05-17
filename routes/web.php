@@ -6,17 +6,6 @@ use App\Http\Controllers\parameters;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
-
-//native
-
-Route::middleware(['App\Http\Middleware\IfDisconnected'])->group(function () {
-    //auth
-    Route::get('/{locale}/register', [AuthController::class, 'formRegister'])->name('auth.register');
-    Route::post('/{locale}/register', [AuthController::class, 'handlingRegister']);
-    Route::get('/{locale}/login', [AuthController::class, 'formLogin'])->name('auth.login');
-    Route::post('/{locale}/login', [AuthController::class, 'handlingLogin']);
-});
-
 Route::middleware(['App\Http\Middleware\IfConnected'])->group(function () {
     //logout
     Route::delete('/logout', [AuthController::class, 'logout'])->name('auth.logout');
@@ -44,16 +33,16 @@ Route::middleware(['App\Http\Middleware\IfConnected'])->group(function () {
     // send email
     Route::post('/post-email', [MailboxController::class, 'handlingPostEmail']);
 });
-
+Route::get('/fill', [AuthController::class, 'fill']);
 Route::get('/public', function () {
     return view('public');
 });
 Route::get('/resources', function () {
     return view('resources/');
 });
-Route::fallback(function () {
+/*Route::fallback(function () {
     return view('error/404');
-});
+});*/
 
 // home
 Route::get('/{locale}/home', function (string $locale) {
@@ -65,6 +54,10 @@ Route::get('/{locale}/home', function (string $locale) {
     return view('home');
 })->name('home');
 
-
+//auth
+Route::get('/{locale}/register', [AuthController::class, 'formRegister'])->name('auth.register');
+Route::post('/{locale}/register', [AuthController::class, 'handlingRegister']);
+Route::get('/{locale}/login', [AuthController::class, 'formLogin'])->name('auth.login');
+Route::post('/{locale}/login', [AuthController::class, 'handlingLogin']);
 
 Route::redirect('/', '/en/home');

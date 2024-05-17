@@ -58,21 +58,21 @@
             </div>
         @endif
         <nav>
-            <a class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none margin-20" href="/inbox">@lang('index.open_box') <?php echo Auth::user()->email; ?></a>
+            <a class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none margin-20" href="/inbox">{{ $user->email }}</a>
             <hr class="bar-menu">
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item d-lg-none"><a class="nav-link" href="/offers">@lang('index.subscription')</a></li> <!-- Ajout de la classe "d-lg-none" pour cacher en mode PC -->
                 <hr class="bar-menu nav-item d-lg-none">
-                <li class="nav-item"><a class="nav-link active margin-20" href="/inbox">@lang('index.inbox')</a></li>
-                <li><a class="nav-link link-body-emphasis" href="/drafts">@lang('index.draft')</a></li>
-                <li><a class="nav-link link-body-emphasis" href="/sents">@lang('index.sent')</a></li>
-                <li><a class="nav-link link-body-emphasis" href="/starreds">@lang('index.star')</a></li>
-                <li><a class="nav-link link-body-emphasis" href="/archives">@lang('index.archive')</a></li>
-                <li><a class="nav-link link-body-emphasis" href="/spams">@lang('index.spam')</a></li>
-                <li><a class="nav-link link-body-emphasis" href="/trashes">@lang('index.trash')</a></li>
-                <li><a class="nav-link link-body-emphasis" href="/all-emails">@lang('index.all_mail')</a></li>
+                <li class="nav-item"><a class="nav-link active margin-20" href="/en/inbox">@lang('index.inbox')</a></li>
+                <li><a class="nav-link link-body-emphasis" href="/en/drafts">@lang('index.draft')</a></li>
+                <li><a class="nav-link link-body-emphasis" href="/en/sents">@lang('index.sent')</a></li>
+                <li><a class="nav-link link-body-emphasis" href="/en/starreds">@lang('index.star')</a></li>
+                <li><a class="nav-link link-body-emphasis" href="/en/archives">@lang('index.archive')</a></li>
+                <li><a class="nav-link link-body-emphasis" href="/en/spams">@lang('index.spam')</a></li>
+                <li><a class="nav-link link-body-emphasis" href="/en/trashes">@lang('index.trash')</a></li>
+                <li><a class="nav-link link-body-emphasis" href="/en/all-emails">@lang('index.all_mail')</a></li>
                 <hr class="bar-menu nav-item d-lg-none">
-                <li class="nav-item d-lg-none"><a class="nav-link " href="/parameters">@lang('index.parameters')</a></li>
+                <li class="nav-item d-lg-none"><a class="nav-link " href="/en/parameters">@lang('index.parameters')</a></li>
                 <hr class="bar-menu nav-item d-lg-none">
                 <form action="{{route('auth.logout')}}" method="post" class="nav-item d-lg-none">
                     @csrf
@@ -130,12 +130,12 @@
     <dialog id="dialog">
         <div class="container mt-3">
             <h3>@lang('index.new_email_title')</h3>
-            <button class="btn btn-primary mt-3 static" id="close_email">@lang('index.close')</button> <
+            <button class="btn btn-primary mt-3 static" id="close_email">@lang('index.close')</button>
             <form action="/post-email" method="post">
                 @csrf
                 <div class="form-group">
                     <label for="from">@lang('index.sender') :</label>
-                    <input name="fromEmail" type="email" class="form-control" id="from" placeholder="@lang('index.your_email')" value="{{ $user->email }}">
+                    <input name="fromEmail" type="email" class="form-control" id="from" value="{{ $user->email }}">
                 </div>
                 <div class="form-group">
                     <label for="to">@lang('index.recipient') :</label>
