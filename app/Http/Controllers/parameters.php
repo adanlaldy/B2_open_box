@@ -2,23 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use http\Env\Request;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\URL;
 
+
 class parameters
 {
-    public function parameters(string $locale)
+    public function parameters(string $locale): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
+        $user = auth()->user();
+
         if (! in_array($locale, ['en', 'es', 'fr','ru','de','cn'])) {
             abort(400);
         }
         App::setLocale($locale);
 
-        return view('mailbox/parameters');
+        return view('mailbox/parameters', compact('user'));
     }
 
-    public function formParameters(\Illuminate\Http\Request $request)
+    public function formParameters(Request $request): Application|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application
     {
         $lang = $request->input('lang');
 

@@ -7,15 +7,33 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
 
-//native
+//auth
+Route::get('/{locale}/register', [AuthController::class, 'formRegister'])->name('auth.register');
+Route::post('/{locale}/register', [AuthController::class, 'handlingRegister']);
+Route::get('/{locale}/login', [AuthController::class, 'formLogin'])->name('auth.login');
+Route::post('/{locale}/login', [AuthController::class, 'handlingLogin']);
 
-Route::middleware(['App\Http\Middleware\IfDisconnected'])->group(function () {
-    //auth
-    Route::get('/{locale}/register', [AuthController::class, 'formRegister'])->name('auth.register');
-    Route::post('/{locale}/register', [AuthController::class, 'handlingRegister']);
-    Route::get('/{locale}/login', [AuthController::class, 'formLogin'])->name('auth.login');
-    Route::post('/{locale}/login', [AuthController::class, 'handlingLogin']);
-});
+// cgu
+Route::get('/{locale}/cgu', function (string $locale) {
+    if (! in_array($locale, ['en', 'es', 'fr', 'ru', 'de', 'cn'])) {
+        abort(400);
+    }
+    App::setLocale($locale);
+
+    return view('cgu');
+})->name('cgu');
+
+
+Route::get('/{locale}/offers', function (string $locale) {
+    if (! in_array($locale, ['en', 'es', 'fr', 'ru', 'de', 'cn'])) {
+        abort(400);
+    }
+    App::setLocale($locale);
+
+    return view('mailbox/offers');
+})->name('offers');
+
+
 
 Route::middleware(['App\Http\Middleware\IfConnected'])->group(function () {
     //logout

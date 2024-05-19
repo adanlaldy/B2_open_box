@@ -90,6 +90,19 @@
         </select>
         <button type="submit">Valider</button>
     </form>
+
+    <h2>Compte</h2>
+    <p>Modifier votre compte</p>
+    <form action="" method="post">
+        @csrf
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" value="{{ $user->email }}">
+        <label for="password">Mot de passe</label>
+        <input type="password" name="password" id="password">
+        <label for="password_confirmation">Confirmer le mot de passe</label>
+        <input type="password" name="password_confirmation" id="password_confirmation">
+        <button type="submit">Valider</button>
+    </form>
     <h2>Version</h2>
 
 

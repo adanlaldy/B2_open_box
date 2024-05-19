@@ -11,8 +11,10 @@
 }
 
 .content {
-    margin-left: 280px;
+    margin: 0 0 0 300px;
+    padding-top: 120px;
     transition: margin-left 0.5s;
+
 }
 
 ul {
@@ -28,6 +30,13 @@ ul {
 }
 
 @media (min-width: 992px) {
+
+    .content {
+
+        margin-left: 250px; /* Ajustez en fonction de la largeur de la sidebar */
+        padding: 120px 0 0 10px;
+    }
+
     .container-fluid-custom {
         margin-right: 0;
         margin-left: 200px;
@@ -35,6 +44,7 @@ ul {
 
     .margin-50 {
         margin: 80px;
+        padding: 10px;
         font-size: 25px;
     }
 }
@@ -44,6 +54,13 @@ ul {
 }
 
 @media (max-width: 992px) {
+
+    .content {
+
+        margin-left: 0; /* Ajustez en fonction de la largeur de la sidebar */
+        padding: 120px 0 0 10px;
+    }
+
     .sidebar {
         left: -280px;
     }
@@ -52,9 +69,6 @@ ul {
         left: 0;
     }
 
-    .content {
-        margin-left: 0;
-    }
 
     .navbar-nav .nav-item:not(:last-child) {
         display: none;
@@ -70,6 +84,13 @@ ul {
     bottom: 20px;
     right: 20px;
     padding: 20px 20px;
+}
+
+.static-top {
+    width: 100%;
+    position: fixed;
+    /*margin-left: 280px;*/
+
 }
 
 .no-margin {
@@ -113,3 +134,59 @@ ul {
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 9;
 }
+
+
+i {
+    font-size: 25px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+.nav-link:hover {
+    color: #FEEAA1;
+
+}
+
+.top:hover {
+    color: #D6955B;
+}
+
+.logo {
+    filter: drop-shadow(0 0 0.2rem #000000);
+}
+
+
+body, html {
+    overflow-x: hidden;
+}
+
+.container-fluid-custom {
+    padding: 0 15px; /* Assurez-vous que les paddings ne provoquent pas de débordement */
+}
+
+.sidebar {
+    width: 250px; /* Assurez-vous que la largeur est correcte et adaptée */
+}
+
+.static-top, .navbar {
+    width: 100%;
+    z-index: 9;
+    overflow-x: hidden;
+}
+
+.row {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+hr {
+    z-index: 1;
+}
+
+dialog {
+    z-index: 10;
+    border-radius: 20px 0 0 20px;
+    border: none;
+}
+
+

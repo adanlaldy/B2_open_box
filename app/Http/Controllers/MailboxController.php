@@ -6,13 +6,16 @@ use App\Mail\PostEmail;
 use App\Models\Category;
 use App\Models\Email;
 use App\Models\User;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Mail;
 
 class MailboxController extends Controller
 {
-    public function fillNativeCategories()
+    public function fillNativeCategories(): void
     {
         $categories = [
             'inbox',
@@ -34,7 +37,7 @@ class MailboxController extends Controller
         }
     }
 
-    public function formInbox(string $locale)
+    public function formInbox(string $locale): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         $user = auth()->user(); // collect connected user
 
@@ -158,7 +161,6 @@ class MailboxController extends Controller
         return view('mailbox/sents', compact('sentEmails'));
     }
 
-    /*public function formDrafts()
     public function formDrafts(string $locale)
     {
         $user = auth()->user(); // collect connected user
@@ -187,7 +189,7 @@ class MailboxController extends Controller
         App::setLocale($locale);
 
         return view('mailbox/spams', compact('spamEmails'));
-    }*/
+    }
 
     public function formAllEmails(string $locale)
     {
