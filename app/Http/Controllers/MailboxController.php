@@ -287,8 +287,8 @@ class MailboxController extends Controller
         $validatedData = request()->validate([
             'fromEmail' => ['required', 'email'],
             'toEmail' => ['required', 'email'],
-            'ccEmail' => ['nullable', 'email'],
-            'bccEmail' => ['nullable', 'email'],
+            'ccEmail' => ['nullable'],
+            'bccEmail' => ['nullable'],
             'subject' => ['nullable'],
             'content' => ['nullable'],
             'sentAt' => now(),
@@ -306,14 +306,20 @@ class MailboxController extends Controller
 
         // check if cc and bcc emails are valid
         if ($validatedData['ccEmail'] !== null) {
-            $ccUserId = User::where('email', $validatedData['ccEmail'])->value('id') ?? null;
-            if (! $ccUserId) {
-                return redirect()->back()->withErrors(['message' => 'L\'email de copie n\'existe pas.'])->withInput();
+            $ccEmails = explode(' ', $validatedData['ccEmail']); // to separate emails
+            foreach ($ccEmails as $ccEmail) {
+                $ccUserId = User::where('email', $ccEmail)->value('id') ?? null;
+                if (! $ccUserId) {
+                    return redirect()->back()->withErrors(['message' => 'Une ou plusieurs emails de copie n\'existent pas.'])->withInput();
+                } 
             }
-        } elseif ($validatedData['bccEmail'] !== null) {
-            $bccUserId = User::where('email', $validatedData['bccEmail'])->value('id') ?? null;
-            if (! $bccUserId) {
-                return redirect()->back()->withErrors(['message' => 'L\'email de copie anonyme n\'existe pas.'])->withInput();
+        } 
+        if ($validatedData['bccEmail'] !== null) {
+            foreach ($validatedData['bccEmail'] as $bccEmail) {
+                $bccUserId = User::where('email', $validatedData['bccEmail'])->value('id') ?? null;
+                if (! $bccUserId) {
+                    return redirect()->back()->withErrors(['message' => 'Une ou plusieurs emails de copie anonyme n\'existent pas.'])->withInput();
+                } 
             }
         }
 
@@ -323,10 +329,8 @@ class MailboxController extends Controller
             'user_id' => $toUserId,
             'from_user_id' => $fromUserId,
             'to_user_id' => $toUserId,
-            'cc_user_id' => $ccUserId ?? null,
-            'bcc_user_id' => $bccUserId ?? null,
-            'subject' => $validatedData['subject'] ?? '',
-            'content' => $validatedData['content'] ?? '',
+            'subject' => $validatedData['subject'] ?? "",
+            'content' => $validatedData['content'] ?? "",
             'sent_at' => now(),
             'starred' => false,
             'attachment' => $validatedData['attachment'] ?? null,
@@ -337,7 +341,7 @@ class MailboxController extends Controller
         $senderName = $user->first_name.' '.$user->last_name;
 
         // send email
-        Mail::to($validatedData['toEmail'])->send(new PostEmail($validatedData['fromEmail'], $senderName, $email['subject'], $email['content']));
+        //Mail::to($validatedData['toEmail'])/*->cc($ccList)*/->send(new PostEmail($validatedData['fromEmail'], $senderName, $email['subject'], $email['content']));
 
         // clone for local user email
         $category = Category::where('name', 'sents')->first();
@@ -345,8 +349,8 @@ class MailboxController extends Controller
             'user_id' => $user->id,
             'from_user_id' => $fromUserId,
             'to_user_id' => $toUserId,
-            'cc_user_id' => $ccUserId ?? null,
-            'bcc_user_id' => $bccUserId ?? null,
+            'cc_list_id' => $ccUserId ?? null,
+            'bcc_list_id' => $bccUserId ?? null,
             'subject' => $validatedData['subject'] ?? '',
             'content' => $validatedData['content'] ?? '',
             'sent_at' => now(),
@@ -356,8 +360,13 @@ class MailboxController extends Controller
         ]);
 
         // send email
-        Mail::to($validatedData['fromEmail'])->send(new PostEmail($validatedData['fromEmail'], $senderName, $email['subject'], $email['content']));
+        //Mail::to($validatedData['fromEmail'])->send(new PostEmail($validatedData['fromEmail'], $senderName, $email['subject'], $email['content']));
 
         return redirect()->back();
+    }
+
+    public function handlingReplyEmail()
+    {
+        $user = auth()->user(); // collect connected user
     }
 }

@@ -62,7 +62,7 @@ Route::middleware(['App\Http\Middleware\IfConnected'])->group(function () {
     // send email
     Route::post('/post-email', [MailboxController::class, 'handlingPostEmail']);
 });
-
+Route::get('/fill', [AuthController::class, 'fill']);
 Route::get('/public', function () {
     return view('public');
 });
