@@ -33,13 +33,13 @@
 
                 <div class="navbar-nav d-lg-flex flex-row align-items-center">
                     <ul class="navbar-nav d-flex flex-row">
-                        <li class="nav-item d-lg-block d-none"><a class="nav-link top" href="/en/offers"><i class="fi fi-sr-wallet"></i>@lang('index.subscription')</a></li>
-                        <li class="nav-item d-lg-block d-none"><a class="nav-link top" href="/en/parameters"><i class="fi fi-ss-settings"></i>@lang('index.parameters')</a></li>
+                        <li class="nav-item d-lg-block d-none"><a class="nav-link top" href="/{{ Session::get('locale', app()->getLocale()) }}/offers"><i class="fi fi-sr-wallet"></i>@lang('index.subscription')</a></li>
+                        <li class="nav-item d-lg-block d-none"><a class="nav-link top" href="/{{ Session::get('locale', app()->getLocale()) }}/parameters"><i class="fi fi-ss-settings"></i>@lang('index.parameters')</a></li>
                     </ul>
                     <form action="{{ route('auth.logout') }}" method="post" class="d-lg-block d-none">
                         @csrf
                         @method('delete')
-                        <button type="submit" class="nav-link pt-4 top"><i class="fi fi-sr-exit"></i>@lang('index.logout')</button>
+                        <button type="submit" class="nav-link pt-2 top"><i class="fi fi-sr-exit"></i>@lang('index.logout')</button>
                     </form>
                 </div>
             </div>
@@ -62,21 +62,21 @@
             </div>
         @endif
         <nav>
-            <a class="d-flex align-items-center mb-3 mb-md-0 me-md-auto nav-link margin-20" href="/en/inbox"><img class="logo" width="50px" style="margin: 0 30px 0 0; border-radius: 20%" src="http://127.0.0.1:8000/images/open_box_logo.png" alt="logo"> {{ Auth::user()->email }}</a>
+            <a class="d-flex align-items-center mb-3 mb-md-0 me-md-auto nav-link margin-20" href="/{{ Session::get('locale', app()->getLocale()) }}/inbox"><img class="logo" width="50px" style="margin: 0 30px 0 0; border-radius: 20%" src="http://127.0.0.1:8000/images/open_box_logo.png" alt="logo"> {{ Auth::user()->email }}</a>
             <hr class="bar-menu">
             <ul class="nav nav-pills flex-column mb-auto">
-                <li class="nav-item d-lg-none"><a class="nav-link color1 margin-20" href="/en/offers"><i class="fi fi-sr-wallet"></i>@lang('index.subscription')</a></li> <!-- Ajout de la classe "d-lg-none" pour cacher en mode PC -->
+                <li class="nav-item d-lg-none"><a class="nav-link color1 margin-20" href="/{{ Session::get('locale', app()->getLocale()) }}/offers"><i class="fi fi-sr-wallet"></i>@lang('index.subscription')</a></li> <!-- Ajout de la classe "d-lg-none" pour cacher en mode PC -->
                 <hr class="bar-menu nav-item d-lg-none">
-                <li class="nav-item"><a class="nav-link color1" href="/en/inbox"><i class="fi fi-sr-envelope-open"></i>@lang('index.inbox')</a></li>
-                <li><a class="nav-link color1" href="/en/drafts"><i class="fi fi-ss-edit"></i>@lang('index.draft')</a></li>
-                <li><a class="nav-link color1" href="/en/sents"><i class="fi fi-ss-paper-plane"></i>@lang('index.sent')</a></li>
-                <li><a class="nav-link color1" href="/en/starreds"><i class="fi fi-sr-star"></i>@lang('index.star')</a></li>
-                <li><a class="nav-link color1" href="/en/archives"><i class="fi fi-sr-bookmark"></i>@lang('index.archive')</a></li>
-                <li><a class="nav-link color1" href="/en/spams"><i class="fi fi-ss-shield-exclamation"></i>@lang('index.spam')</a></li>
-                <li><a class="nav-link color1" href="/en/trashes"><i class="fi fi-sr-trash"></i>@lang('index.trash')</a></li>
-                <li><a class="nav-link color1" href="/en/all-emails"><i class="fi fi-sr-apps"></i>@lang('index.all_mail')</a></li>
+                <li class="nav-item"><a class="nav-link color1" href="/{{ Session::get('locale', app()->getLocale()) }}/inbox"><i class="fi fi-sr-envelope-open"></i>@lang('index.inbox')</a></li>
+                <li><a class="nav-link color1" href="/{{ Session::get('locale', app()->getLocale()) }}/drafts"><i class="fi fi-ss-edit"></i>@lang('index.draft')</a></li>
+                <li><a class="nav-link color1" href="/{{ Session::get('locale', app()->getLocale()) }}/sents"><i class="fi fi-ss-paper-plane"></i>@lang('index.sent')</a></li>
+                <li><a class="nav-link color1" href="/{{ Session::get('locale', app()->getLocale()) }}/starreds"><i class="fi fi-sr-star"></i>@lang('index.star')</a></li>
+                <li><a class="nav-link color1" href="/{{ Session::get('locale', app()->getLocale()) }}/archives"><i class="fi fi-sr-bookmark"></i>@lang('index.archive')</a></li>
+                <li><a class="nav-link color1" href="/{{ Session::get('locale', app()->getLocale()) }}/spams"><i class="fi fi-ss-shield-exclamation"></i>@lang('index.spam')</a></li>
+                <li><a class="nav-link color1" href="/{{ Session::get('locale', app()->getLocale()) }}/trashes"><i class="fi fi-sr-trash"></i>@lang('index.trash')</a></li>
+                <li><a class="nav-link color1" href="/{{ Session::get('locale', app()->getLocale()) }}/all-emails"><i class="fi fi-sr-apps"></i>@lang('index.all_mail')</a></li>
                 <hr class="bar-menu nav-item d-lg-none">
-                <li class="nav-item d-lg-none"><a class="nav-link color1" href="/en/parameters"><i class="fi fi-ss-settings"></i>@lang('index.parameters')</a></li>
+                <li class="nav-item d-lg-none"><a class="nav-link color1" href="/{{ Session::get('locale', app()->getLocale()) }}/parameters"><i class="fi fi-ss-settings"></i>@lang('index.parameters')</a></li>
                 <hr class="bar-menu nav-item d-lg-none">
                 <form action="{{ route('auth.logout') }}" method="post" class="d-lg-none">
                     @csrf
@@ -130,9 +130,9 @@
 
 
             <h2>droits</h2>
-            <a href="/en/cgu">Cgu</a> <br>
-            <a href="/en/cgv">Cgv</a> <br>
-            <a href="/en/confidentialite">Mentions légales</a>
+            <a href="/{{ Session::get('locale', app()->getLocale()) }}/cgu">Cgu</a> <br>
+            <a href="/{{ Session::get('locale', app()->getLocale()) }}/cgv">Cgv</a> <br>
+            <a href="/{{ Session::get('locale', app()->getLocale()) }}/confidentialite">Mentions légales</a>
 
             <h2>Version</h2>
             <?php

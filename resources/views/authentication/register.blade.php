@@ -12,7 +12,7 @@
 <main class="mx-auto d-flex justify-content-center align-items-center vh-100">
     <section class="row d-flex justify-content-center align-items-center mb-0">
         <div class="col-lg-6 order-lg-1 mt-auto mb-auto">
-            <a href="/en/home"><h1 class="title">Register</h1></a>
+            <a href="/{{ Session::get('locale', app()->getLocale()) }}/home"><h1 class="title">Register</h1></a>
             <form action="{{ route('auth.register', ['locale' => 'en']) }}" method="post">
                 @csrf
                 <input class="form-control mb-3" type="text" name="firstName" placeholder="First Name" autocomplete="">
@@ -23,7 +23,7 @@
                 <input class="form-control mb-3" type="password" name="password" placeholder="Password" autocomplete="">
                 {{ $errors->first('password')}}
                 <button type="submit" class="btn btn-primary mb-3">Register</button>
-                <a href="/en/login">Already have an account? Login</a>
+                <a href="/{{ Session::get('locale', app()->getLocale()) }}/login">Already have an account? Login</a>
             </form>
         </div>
 

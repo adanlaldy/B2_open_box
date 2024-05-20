@@ -86,7 +86,7 @@ class MailboxController extends Controller
         App::setLocale($locale);
 
 
-        return view('mailbox/starreds', compact('starredsEmails'));
+        return view('mailbox/starreds', compact('starredsEmails', 'user'));
     }
 
     public function formArchives(string $locale)
@@ -106,14 +106,13 @@ class MailboxController extends Controller
             })
             ->get() ?? null; // collect archiveds emails
 
-        return view('mailbox/archives', compact('archivedsEmails'));
         if (! in_array($locale, ['en', 'es', 'fr', 'de', 'ru', 'cn'])) {
             abort(400);
         }
         App::setLocale($locale);
 
 
-        return view('mailbox/archives', compact('archiveEmails'));
+        return view('mailbox/archives', compact('archivedsEmails', 'user'));
     }
 
     public function formTrashes(string $locale)
@@ -133,7 +132,7 @@ class MailboxController extends Controller
         }
         App::setLocale($locale);
 
-        return view('mailbox/trashes', compact('trashesEmails'));
+        return view('mailbox/trashes', compact('trashesEmails', 'user'));
     }
 
     public function formSents(string $locale)
@@ -150,12 +149,12 @@ class MailboxController extends Controller
             ->where('from_user_id', $user->id)
             ->get() ?? null; // collect inbox emails
 
-        if (! in_array($locale, ['en', 'es', 'fr', 'de', 'ru', 'cn'])) {
-            abort(400);
-        }
+//        if (! in_array($locale, ['en', 'es', 'fr', 'de', 'ru', 'cn'])) {
+//            abort(400);
+//        }
         App::setLocale($locale);
 
-        return view('mailbox/sents', compact('sentsEmails'));
+        return view('mailbox/sents', compact('sentsEmails', 'user'));
     }
 
     public function formDrafts(string $locale)
@@ -170,7 +169,7 @@ class MailboxController extends Controller
         }
         App::setLocale($locale);
 
-        return view('mailbox/drafts', compact('draftEmails'));
+        return view('mailbox/drafts', compact('draftEmails', 'user'));
     }
 
     public function formSpams(string $locale)
@@ -185,7 +184,7 @@ class MailboxController extends Controller
         }
         App::setLocale($locale);
 
-        return view('mailbox/spams', compact('spamEmails'));
+        return view('mailbox/spams', compact('spamEmails', 'user'));
     }
 
     public function formAllEmails(string $locale)
@@ -207,7 +206,7 @@ class MailboxController extends Controller
         }
         App::setLocale($locale);
 
-        return view('mailbox/all_emails', compact('allEmails'));
+        return view('mailbox/all_emails', compact('allEmails', 'user'));
     }
 
     public function addToStarreds()
@@ -253,8 +252,7 @@ class MailboxController extends Controller
         $email = Email::where('id', $emailId)->first(); // collect email
         $trashesCategory = Category::where('name', 'trashes')->first(); // collect trashes category
 
-        dd($emailId, $trashesCategory, $email);
-//        $email->update(['category_id' => $trashesCategory->id, 'previous_category_id' => $email->category_id]); // update email category to trashes and previous category
+        $email->update(['category_id' => $trashesCategory->id, 'previous_category_id' => $email->category_id]); // update email category to trashes and previous category
 
         return redirect()->back();
     }

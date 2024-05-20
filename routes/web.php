@@ -31,6 +31,7 @@ Route::get('/{locale}/confidentialite', function (string $locale) {
 
     return view('confidentialite');
 })->name('confidentialite');
+
 Route::get('/{locale}/cgv', function (string $locale) {
     if (! in_array($locale, ['en', 'es', 'fr', 'ru', 'de', 'cn'])) {
         abort(400);

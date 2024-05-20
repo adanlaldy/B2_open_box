@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 
 
@@ -30,7 +31,10 @@ class parameters
     {
         $lang = $request->input('lang');
 
-        app()->setLocale($lang);
+        app()->setLocale('fr');
+//        app()->setLocale($lang);
+        Session::put('locale', $lang);
+
 
         $newUrl = URL::to("$lang/parameters");
 
