@@ -23,14 +23,33 @@ Route::get('/{locale}/cgu', function (string $locale) {
     return view('cgu');
 })->name('cgu');
 
+Route::get('/{locale}/confidentialite', function (string $locale) {
+    if (! in_array($locale, ['en', 'es', 'fr', 'ru', 'de', 'cn'])) {
+        abort(400);
+    }
+    App::setLocale($locale);
+
+    return view('confidentialite');
+})->name('confidentialite');
+Route::get('/{locale}/cgv', function (string $locale) {
+    if (! in_array($locale, ['en', 'es', 'fr', 'ru', 'de', 'cn'])) {
+        abort(400);
+    }
+    App::setLocale($locale);
+
+    return view('cgv');
+})->name('cgv');
+
 
 Route::get('/{locale}/offers', function (string $locale) {
     if (! in_array($locale, ['en', 'es', 'fr', 'ru', 'de', 'cn'])) {
         abort(400);
     }
     App::setLocale($locale);
+    $user = auth()->user(); // collect connected user
 
-    return view('mailbox/offers');
+
+    return view('mailbox/offers', compact('user'));
 })->name('offers');
 
 
@@ -83,6 +102,8 @@ Route::get('/{locale}/home', function (string $locale) {
     return view('home');
 })->name('home');
 
+
+Route::redirect('/ester-egg', 'https://elgoog.im/dinosaur-game/3d/');
 
 
 Route::redirect('/', '/en/home');

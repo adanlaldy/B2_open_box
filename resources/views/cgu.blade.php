@@ -42,45 +42,55 @@
 </head>
 <body>
 <div class="container">
-    <h1>Conditions Générales d'Utilisation (CGU) de la Boîte de Messagerie</h1>
+    <hr>
+    <h1>Conditions Générales d'Utilisation (CGU)</h1>
+    <hr>
 
-    <p>Les présentes Conditions Générales d'Utilisation (ci-après les "CGU") définissent les conditions d'accès et d'utilisation de la boîte de messagerie (ci-après la "Messagerie") proposée par [Nom de l'entreprise] (ci-après le "Fournisseur").</p>
+    <p><strong>1. Introduction</strong><br>
+        Bienvenue sur Open Box, une boîte de messagerie sécurisée et open source. En utilisant notre service, vous acceptez les présentes Conditions Générales d'Utilisation (CGU). Veuillez les lire attentivement.
+    </p>
 
-    <a href="#" class="btn btn-primary">Retour</a>
+    <p><strong>2. Description du Service</strong><br>
+        Open Box fournit une plateforme de messagerie sécurisée. Les utilisateurs peuvent envoyer et recevoir des emails chiffrés, garantissant ainsi la confidentialité de leurs communications.
+    </p>
 
-    <h2>Article 1 - Objet</h2>
+    <p><strong>3. Inscription</strong><br>
+        Pour utiliser Open Box, vous devez créer un compte. Vous vous engagez à fournir des informations exactes et à les maintenir à jour. La création de compte est réservée aux personnes âgées de 16 ans et plus.
+    </p>
 
-    <p>Les CGU ont pour objet de définir les droits et obligations des parties dans le cadre de l'utilisation de la Messagerie.</p>
+    <p><strong>4. Sécurité des Comptes</strong><br>
+        Vous êtes responsable de la sécurité de votre compte, y compris de votre mot de passe. Open Box ne sera pas responsable des pertes résultant de l'utilisation non autorisée de votre compte.
+    </p>
 
-    <h2>Article 2 - Acceptation des CGU</h2>
-
-    <p>L'accès et l'utilisation de la Messagerie impliquent l'acceptation pleine et entière des présentes CGU par l'Utilisateur (ci-après l' "Utilisateur").</p>
-
-    <h2>Article 3 - Accès à la Messagerie</h2>
-
-    <p>La création d'un compte Utilisateur est nécessaire pour accéder à la Messagerie. L'Utilisateur est responsable de la confidentialité de ses identifiants de connexion et s'engage à ne pas les divulguer à des tiers.</p>
-
-    <h2>Article 4 - Utilisation de la Messagerie</h2>
-
-    <p>L'Utilisateur s'engage à utiliser la Messagerie de manière conforme à la loi et aux présentes CGU. Il est notamment interdit à l'Utilisateur de :</p>
-
-    <ul class="list-group">
-        <li class="list-group-item">Diffuser des contenus illicites, haineux, discriminatoires, diffamatoires, portant atteinte à la vie privée, etc.</li>
-        <li class="list-group-item">Diffuser des virus, vers ou autres programmes malveillants.</li>
-        <li class="list-group-item">Tenter de pirater la Messagerie ou d'y accéder de manière non autorisée.</li>
-        <li class="list-group-item">Perturber le fonctionnement de la Messagerie ou d'y introduire des données nuisibles.</li>
+    <p><strong>5. Utilisation Acceptable</strong><br>
+        Vous vous engagez à utiliser Open Box conformément aux lois applicables et à ne pas utiliser le service pour :
+    <ul>
+        <li>Envoyer des spams ou des emails non sollicités.</li>
+        <li>Diffuser des contenus illégaux ou nuisibles.</li>
+        <li>Violenter les droits d'autrui, y compris les droits de propriété intellectuelle.</li>
     </ul>
+    </p>
 
-    <h2>Article 5 - Sécurité des données</h2>
+    <p><strong>6. Protection des Données</strong><br>
+        Vos données personnelles sont protégées conformément à notre Politique de Confidentialité. En utilisant Open Box, vous acceptez cette politique.
+    </p>
 
-    <p>Le Fournisseur s'engage à mettre en œuvre les mesures de sécurité nécessaires pour protéger les données personnelles des Utilisateurs. La Messagerie est sécurisée par des mots de passe hachés et utilise des protocoles de communication sécurisés.</p>
+    <p><strong>7. Résiliation</strong><br>
+        Nous nous réservons le droit de suspendre ou de résilier votre compte si vous violez ces CGU ou si votre utilisation du service porte atteinte à sa sécurité ou à son fonctionnement.
+    </p>
 
-    <h2>Article 6 - Propriété intellectuelle</h2>
+    <p><strong>8. Limitation de Responsabilité</strong><br>
+        Open Box n'est pas responsable des dommages indirects, spéciaux ou consécutifs résultant de l'utilisation ou de l'incapacité à utiliser notre service.
+    </p>
 
-    <p>Le Fournisseur est propriétaire de tous les droits de propriété intellectuelle sur la Messagerie. L'Utilisateur ne dispose d'aucun droit sur la Messagerie,
-        à l'exception d'un droit d'utilisation non exclusif et révocable.</p>
+    <p><strong>9. Modifications des CGU</strong><br>
+        Nous nous réservons le droit de modifier ces CGU à tout moment. Vous serez informé de toute modification substantielle par email ou via notre site web.
+    </p>
 
-    <h2>Article 7 - Logiciel Open Source</h2>
+    <p><strong>10. Contact</strong><br>
+        Pour toute question concernant ces CGU, veuillez nous contacter à support@openbox.com.
+    </p>
+
 </div>
 </body>
 </html>

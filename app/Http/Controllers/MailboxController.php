@@ -128,14 +128,12 @@ class MailboxController extends Controller
             })
             ->get() ?? null; // collect trashes emails
 
-        return view('mailbox/trashes', compact('trashesEmails'));
         if (! in_array($locale, ['en', 'es', 'fr', 'de', 'ru', 'cn'])) {
             abort(400);
         }
         App::setLocale($locale);
 
-
-        return view('mailbox/trashes', compact('trashEmails'));
+        return view('mailbox/trashes', compact('trashesEmails'));
     }
 
     public function formSents(string $locale)
@@ -152,13 +150,12 @@ class MailboxController extends Controller
             ->where('from_user_id', $user->id)
             ->get() ?? null; // collect inbox emails
 
-        return view('mailbox/sents', compact('sentsEmails'));
         if (! in_array($locale, ['en', 'es', 'fr', 'de', 'ru', 'cn'])) {
             abort(400);
         }
         App::setLocale($locale);
 
-        return view('mailbox/sents', compact('sentEmails'));
+        return view('mailbox/sents', compact('sentsEmails'));
     }
 
     public function formDrafts(string $locale)
@@ -256,7 +253,8 @@ class MailboxController extends Controller
         $email = Email::where('id', $emailId)->first(); // collect email
         $trashesCategory = Category::where('name', 'trashes')->first(); // collect trashes category
 
-        $email->update(['category_id' => $trashesCategory->id, 'previous_category_id' => $email->category_id]); // update email category to trashes and previous category
+        dd($emailId, $trashesCategory, $email);
+//        $email->update(['category_id' => $trashesCategory->id, 'previous_category_id' => $email->category_id]); // update email category to trashes and previous category
 
         return redirect()->back();
     }
@@ -311,15 +309,15 @@ class MailboxController extends Controller
                 $ccUserId = User::where('email', $ccEmail)->value('id') ?? null;
                 if (! $ccUserId) {
                     return redirect()->back()->withErrors(['message' => 'Une ou plusieurs emails de copie n\'existent pas.'])->withInput();
-                } 
+                }
             }
-        } 
+        }
         if ($validatedData['bccEmail'] !== null) {
             foreach ($validatedData['bccEmail'] as $bccEmail) {
                 $bccUserId = User::where('email', $validatedData['bccEmail'])->value('id') ?? null;
                 if (! $bccUserId) {
                     return redirect()->back()->withErrors(['message' => 'Une ou plusieurs emails de copie anonyme n\'existent pas.'])->withInput();
-                } 
+                }
             }
         }
 
