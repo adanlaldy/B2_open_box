@@ -5,6 +5,7 @@ use App\Http\Controllers\MailboxController;
 use App\Http\Controllers\parameters;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 
 
 //auth
@@ -108,3 +109,6 @@ Route::redirect('/ester-egg', 'https://elgoog.im/dinosaur-game/3d/');
 
 
 Route::redirect('/', '/en/home');
+
+
+Session::put('locale', 'en');
