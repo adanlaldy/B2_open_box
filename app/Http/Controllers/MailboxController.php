@@ -154,9 +154,9 @@ class MailboxController extends Controller
             ->where('from_user_id', $user->id)
             ->get() ?? null; // collect inbox emails
 
-//        if (! in_array($locale, ['en', 'es', 'fr', 'de', 'ru', 'cn'])) {
-//            abort(400);
-//        }
+        if (! in_array($locale, ['en', 'es', 'fr', 'de', 'ru', 'cn'])) {
+            abort(400);
+        }
         App::setLocale($locale);
 
         return view('mailbox/sents', compact('sentsEmails', 'user'));

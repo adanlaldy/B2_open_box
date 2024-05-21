@@ -104,12 +104,12 @@
                         </form>
                         <form action="/add-to-archives" method="post">
                             @csrf
-                            <input type="hidden" name="email_id" value="{{ $email->id }}">
+                            <input type="hidden" name="emailId" value="{{ $email->id }}">
                             <button type="submit" class="btn btn-outline-info">@lang('index.archived')</button>
                         </form>
                         <form action="/add-to-trashes" method="post">
                             @csrf
-                            <input type="hidden" name="email_id" value="{{ $email->id }}">
+                            <input type="hidden" name="emailId" value="{{ $email->id }}">
                             <button type="submit" class="btn btn-outline-danger">@lang('index.delete')</button>
                         </form>
                     </div>
