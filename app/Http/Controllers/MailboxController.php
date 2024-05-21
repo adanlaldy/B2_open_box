@@ -53,6 +53,7 @@ class MailboxController extends Controller
             ->whereDoesntHave('category', function (Builder $query) use ($trashesCategory) {
                 $query->where('id', $trashesCategory->id);
             })
+            ->where('user_id', $user->id)
             ->where('to_user_id', $user->id)
             ->get() ?? null; // collect inbox emails
 
@@ -74,6 +75,7 @@ class MailboxController extends Controller
             ->whereDoesntHave('category', function (Builder $query) use ($trashesCategory) {
                 $query->where('id', $trashesCategory->id);
             })
+            ->where('user_id', $user->id)
             ->where(function ($query) use ($user) {
                 $query->where('from_user_id', $user->id)
                     ->orWhere('to_user_id', $user->id);
@@ -100,6 +102,7 @@ class MailboxController extends Controller
             ->whereDoesntHave('category', function (Builder $query) use ($trashesCategory) {
                 $query->where('id', $trashesCategory->id);
             })
+            ->where('user_id', $user->id)
             ->where(function ($query) use ($user) {
                 $query->where('from_user_id', $user->id)
                     ->orWhere('to_user_id', $user->id);
@@ -121,6 +124,7 @@ class MailboxController extends Controller
 
         $trashesCategory = Category::where('name', 'trashes')->first();
         $trashesEmails = Email::where('category_id', $trashesCategory->id)
+            ->where('user_id', $user->id)
             ->where(function ($query) use ($user) {
                 $query->where('from_user_id', $user->id)
                     ->orWhere('to_user_id', $user->id);
@@ -146,6 +150,7 @@ class MailboxController extends Controller
             ->whereDoesntHave('category', function (Builder $query) use ($trashesCategory) {
                 $query->where('id', $trashesCategory->id);
             })
+            ->where('user_id', $user->id)
             ->where('from_user_id', $user->id)
             ->get() ?? null; // collect inbox emails
 
@@ -196,6 +201,7 @@ class MailboxController extends Controller
             $query->where('from_user_id', $user->id)
                 ->orWhere('to_user_id', $user->id);
         })
+            ->where('user_id', $user->id)
             ->whereDoesntHave('category', function (Builder $query) use ($trashesCategory) {
                 $query->where('id', $trashesCategory->id);
             })
