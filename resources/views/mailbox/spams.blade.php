@@ -97,16 +97,6 @@
                 <div class="col">{{ $email->subject }}</div>
                 <div class="col">{{ $email->sent_at }}</div>
                 <div class="col">
-                    <form action="/add-to-starreds" method="post">
-                        @csrf
-                        <input type="hidden" name="emailId" value="{{ $email->id }}">
-                        <button type="submit" class="btn btn-outline-primary">@lang('index.starred')</button>
-                    </form>
-                    <form action="/add-to-archives" method="post">
-                        @csrf
-                        <input type="hidden" name="emailId" value="{{ $email->id }}">
-                        <button type="submit" class="btn btn-outline-info">@lang('index.archived')</button>
-                    </form>
                     <form action="/add-to-trashes" method="post">
                         @csrf
                         <input type="hidden" name="emailId" value="{{ $email->id }}">

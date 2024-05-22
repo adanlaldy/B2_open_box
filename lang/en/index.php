@@ -7,11 +7,11 @@ return [
     'inbox' => 'Inbox',
     'star' => 'Starred',
     'sent' => 'Sent',
-    'draft' => 'Draft',
+    'draft' => 'Drafts',
     'trash' => 'Trash',
     'spam' => 'Spam',
-    'archive' => 'Archive',
-    'all_mail' => 'All mail',
+    'archive' => 'Archives',
+    'all_mail' => 'All emails',
 
     'parameters' => 'Parameters',
     'logout' => 'Logout',
@@ -27,8 +27,8 @@ return [
     'subject' => 'Subject',
     'date' => 'Date',
     'delete' => 'Delete',
-    'starred' => 'Starred',
-    'archived' => 'Archived',
+    //'starred' => 'Starred',
+    //'archived' => 'Archived',
 
     'delete_confirmation' => 'Are you sure you want to delete this email?',
     'delete_confirmation_yes' => 'Yes',
@@ -48,4 +48,9 @@ return [
     'email_subject' => 'Subject',
     'email_content' => 'Content',
     'close' => 'Close',
+
+    'remove_archived' => 'Remove from archive',
+    'add_archived' => 'Add to archive',
+    'remove_starred' => 'Remove from starred',
+    'add_starred' => 'Add to starred',
 ];

@@ -100,12 +100,12 @@
                         <form action="/add-to-starreds" method="post">
                             @csrf
                             <input type="hidden" name="emailId" value="{{ $email->id }}">
-                            <button type="submit" class="btn btn-outline-primary">@lang('index.starred')</button>
+                            <button type="submit" class="btn btn-outline-primary">@lang('index.add_starred')</button>
                         </form>
                         <form action="/remove-from-archives" method="post">
                             @csrf
                             <input type="hidden" name="emailId" value="{{ $email->id }}">
-                            <button type="submit" class="btn btn-outline-info">@lang('index.archived')</button>
+                            <button type="submit" class="btn btn-outline-info">@lang('index.remove_archived')</button>
                         </form>
                         <form action="/add-to-trashes" method="post">
                             @csrf

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@lang('index.title')</title>
+    <title>@lang('index.inbox')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="http://127.0.0.1:8000/css/mail.css" rel="stylesheet" />
     <link href="http://127.0.0.1:8000/css/colors.css" rel="stylesheet" />
@@ -15,7 +15,7 @@
     <!-- Top Bar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light p-0">
         <div class="container-fluid d-flex justify-content-between align-items-center container-fluid-custom color3 p-0">
-            <!-- menu hamburger -->
+            <!-- hamburger menu -->
             <nav class="navbar navbar-light bg-light d-lg-none">
                 <div class="container-fluid">
                     <button class="navbar-toggler custom-toggler" type="button" onclick="toggleSidebar()">
@@ -45,11 +45,20 @@
     </nav>
     <nav class="navbar navbar-expand-lg navbar-light bg-light color3 p-0">
         <div class="container-fluid d-flex justify-content-between align-items-center container-fluid-custom color3 p-0">
-            <h1 class="form-inline my-2 my-lg-0 margin-50">@lang('index.sent')</h1>
+            <h1 class="form-inline my-2 my-lg-0 margin-50">@lang('index.inbox')</h1>
         </div>
     </nav>
     <!-- Sidebar -->
     <div class="sidebar color1">
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul class="list-unstyled">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <nav>
             <a class="d-flex align-items-center mb-3 mb-md-0 me-md-auto nav-link margin-20" href="/{{ Session::get('locale') }}/inbox">
                 <img class="logo" width="50px" style="margin: 0 30px 0 0; border-radius: 20%" src="http://127.0.0.1:8000/images/open_box_logo.png" alt="logo">
@@ -80,80 +89,56 @@
         </nav>
     </div>
     <div class="overlay"></div>
-    <!-- Contenu mail -->
+    <!-- email content -->
     <article class="content">
         <ul>
-            @forelse($inboxEmails as $email)
+            @forelse($emailDetails as $email)
                 <div class="row">
-                    <div class="col p-0">
-                        <div class="form-check" id="{{ $email->id }}">
-                            <input class="form-check-input" type="checkbox" value="" id="$email">
-                            <label class="form-check-label" for="$email">
-                                {{ $email->id }}
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col">{{ $email->from_user_id }}</div>
-                    <div class="col"><button id="emailDetails">{{ $email->subject }}</button></div>
-                    <div class="col">{{ $email->sent_at }}</div>
+                    <div class="col">{{ $email['fromEmail'] }}</div>
+                    <div class="col"><button id="emailDetails">{{ $email['subject'] }}</button></div>
+                    <div class="col">{{ $email['sentAt'] }}</div>
                     <div class="col w-auto p-0">
                         <form action="/add-to-starreds" method="post">
                             @csrf
-                            <input type="hidden" name="emailId" value="{{ $email->id }}">
-                            <button type="submit" class="btn btn-outline-primary">@lang('index.starred')</button>
+                            <input type="hidden" name="emailId" value="{{ $email['id'] }}">
+                            <button type="submit" class="btn btn-outline-primary">@lang('index.add_starred')</button>
                         </form>
                         <form action="/add-to-archives" method="post">
                             @csrf
-                            <input type="hidden" name="emailId" value="{{ $email->id }}">
-                            <button type="submit" class="btn btn-outline-info">@lang('index.archived')</button>
+                            <input type="hidden" name="emailId" value="{{ $email['id'] }}">
+                            <button type="submit" class="btn btn-outline-info">@lang('index.add_archived')</button>
                         </form>
                         <form action="/add-to-trashes" method="post">
                             @csrf
-                            <input type="hidden" name="emailId" value="{{ $email->id }}">
+                            <input type="hidden" name="emailId" value="{{ $email['id'] }}">
                             <button type="submit" class="btn btn-outline-danger">@lang('index.delete')</button>
                         </form>
                     </div>
                 </div>
                 <hr>
                 <!-- email details -->
-                <dialog id="dialogEmailDetails" class="modal-dialog modal-dialog-scrollable">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">@lang('Email Details')</h5>
-                        <button type="button" id="closeEmailDetails" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="from">@lang('index.sender') :</label>
-                            <input name="fromEmail" type="email" class="form-control" id="from" value="{{ $user->email }}">
+                @foreach($emailDetails as $emailDetail)
+                <dialog id="dialogEmailDetails" class="modal-dialog modal-dialog-scrollable modal-lg rounded" style="margin-top: 1%;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 id="subject" class="form-control-plaintext">{{ $emailDetail['subject'] }}</h3>
+                            <button type="button" id="closeEmailDetails" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="form-group">
-                            <label for="to">@lang('index.recipient') :</label>
-                            <input name="toEmail" type="email" class="form-control" id="to" placeholder="@lang('index.email_address')">
-                        </div>
-                        <div class="form-group">
-                            <label for="cc">@lang('index.cc') :</label>
-                            <input name="ccEmail" type="email" class="form-control" id="cc" placeholder="@lang('index.email_address')">
-                        </div>
-                        <div class="form-group">
-                            <label for="bcc">@lang('index.bcc') :</label>
-                            <input name="bccEmail" type="email" class="form-control" id="bcc" placeholder="@lang('index.email_address')">
-                        </div>
-                        <div class="form-group">
-                            <label for="subject">@lang('index.subject') :</label>
-                            <input name="subject" type="text" class="form-control" id="subject" placeholder="@lang('index.email_subject')">
-                        </div>
-                        <div class="form-group">
-                            <label for="content">@lang('index.content') :</label>
-                            <textarea name="content" class="form-control" id="content" rows="5" placeholder="@lang('index.email_content')"></textarea>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <p id="from" class="form-control-plaintext">@lang('index.sender') : {{ $emailDetail['fromEmail'] }}</p>
+                            </div>
+                            <div class="form-group">
+                                <p id="to" class="form-control-plaintext">@lang('index.recipient') : {{ $emailDetail['toEmail'] }}</p>
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                                <p id="content" class="form-control-plaintext">@lang('index.content') : {{ $emailDetail['content'] }}</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@lang('index.close')</button>
-                        <button type="button" class="btn btn-primary">@lang('index.send')</button>
-                    </div>
-                </div>
-            </dialog>
+                </dialog>
+                @endforeach
             @empty
                 <h2 class='text-center'>@lang('index.empty')</h2>
                 <div class="testeu">
@@ -162,12 +147,16 @@
             @endforelse
         </ul>
     </article>
+    <!-- new email -->
     <button class="btn btn-primary mt-3 static color1" id="newEmail">@lang('index.new_email')</button>
-    <dialog id="dialogNewEmail">
+    <dialog id="dialogNewEmail" class="rounded">
         <div class="container mt-3">
-            <h3>@lang('index.new_email_title')</h3>
             <form action="/post-email" method="post">
                 @csrf
+                <div class="modal-header">
+                    <h3>@lang('index.new_email_title')</h3>
+                    <button type="button" id="closeNewEmail" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
                 <div class="form-group">
                     <label for="from">@lang('index.sender') :</label>
                     <input name="fromEmail" type="email" class="form-control" id="from" value="{{ $user->email }}">
@@ -176,14 +165,14 @@
                     <label for="to">@lang('index.recipient') :</label>
                     <input name="toEmail" type="email" class="form-control" id="to" placeholder="@lang('index.email_address')">
                 </div>
-                <div class="form-group">
+                <!--<div class="form-group">
                     <label for="cc">@lang('index.cc') :</label>
                     <input name="ccEmail" type="email" class="form-control" id="cc" placeholder="@lang('index.email_address')">
                 </div>
                 <div class="form-group">
                     <label for="bcc">@lang('index.bcc') :</label>
                     <input name="bccEmail" type="email" class="form-control" id="bcc" placeholder="@lang('index.email_address')">
-                </div>
+                </div>-->
                 <div class="form-group">
                     <label for="subject">@lang('index.subject') :</label>
                     <input name="subject" type="text" class="form-control" id="subject" placeholder="@lang('index.email_subject')">
@@ -194,7 +183,6 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary m-2 color2">@lang('index.send')</button>
-                <button class="btn btn-primary m-2 color2" id="close_email">@lang('index.close')</button>
             </form>
         </div>
     </dialog>
@@ -208,7 +196,7 @@
         }
 
         document.querySelector('.overlay').addEventListener('click', function() {
-            toggleSidebar(); // Désactiver le menu
+            toggleSidebar(); // close the sidebar
         });
 
         // open or close the dialog for email details
@@ -222,10 +210,9 @@
             });
         });
 
-        // closeEmailDetails.addEventListener('click', function() {
-        //     dialogEmailDetails.close();
-        // });
-
+        closeEmailDetails.addEventListener('click', function() {
+            dialogEmailDetails.close();
+        });
 
         // open or close the dialog for new email
         const dialogNewEmail = document.getElementById('dialogNewEmail');

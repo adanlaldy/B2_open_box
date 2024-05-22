@@ -62,8 +62,22 @@ class MailboxController extends Controller
         }
         App::setLocale($locale);
 
+        $emailDetails = [];
+        foreach ($inboxEmails as $email) {
+            $emailDetails[] = [
+                'id' => $email->id,
+                'fromEmail' => User::where('id', $email->from_user_id)->first()->email,
+                'toEmail' => User::where('id', $email->to_user_id)->first()->email,
+                //'cc_email' => User::where('id', $email->cc_list_id)->first()->email ?? '',
+                //'bcc_email' => User::where('id', $email->bcc_list_id)->first()->email ?? '',
+                'subject' => $email->subject,
+                'content' => $email->content,
+                'sentAt' => $email->sent_at,
+            ];
+        }; // collect all email details
+         
 
-        return view('mailbox/inbox', compact('inboxEmails', 'user'));
+        return view('mailbox/inbox', compact('user', 'emailDetails'));
     }
 
     public function formStarreds(string $locale)
@@ -289,8 +303,8 @@ class MailboxController extends Controller
         $validatedData = request()->validate([
             'fromEmail' => ['required', 'email'],
             'toEmail' => ['required', 'email'],
-            'ccEmail' => ['nullable'],
-            'bccEmail' => ['nullable'],
+            /*'ccEmail' => ['nullable'],
+            'bccEmail' => ['nullable'],*/
             'subject' => ['nullable'],
             'content' => ['nullable'],
             'sentAt' => now(),
@@ -303,11 +317,11 @@ class MailboxController extends Controller
 
         // check if required emails are valid
         if (! $fromUserId || ! $toUserId) {
-            return redirect()->back()->withErrors(['message' => 'L\email d\'envoi ou de réception n\'est pas valide.'])->withInput();
+            return redirect()->back()->withErrors(['message' => 'L\'email d\'envoi ou de réception n\'est pas valide.'])->withInput();
         }
 
         // check if cc and bcc emails are valid
-        if ($validatedData['ccEmail'] !== null) {
+        /*if ($validatedData['ccEmail'] !== null) {
             $ccEmails = explode(' ', $validatedData['ccEmail']); // to separate emails
             foreach ($ccEmails as $ccEmail) {
                 $ccUserId = User::where('email', $ccEmail)->value('id') ?? null;
@@ -323,7 +337,7 @@ class MailboxController extends Controller
                     return redirect()->back()->withErrors(['message' => 'Une ou plusieurs emails de copie anonyme n\'existent pas.'])->withInput();
                 }
             }
-        }
+        }*/
 
         // create new email
         $category = Category::where('name', 'inbox')->first();
