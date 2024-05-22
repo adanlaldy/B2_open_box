@@ -26,7 +26,7 @@
             <form class="form-inline my-2 my-lg-0 mx-auto">
                 <div class="input-group center">
                     <input class="form-control mr-sm-2" type="search" placeholder="@lang('index.search_placeholder')" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">@lang('index.search')</button>
+                    <button class="btn btn-outline-success" type="submit">@lang('index.search_button')</button>
                 </div>
             </form>
 

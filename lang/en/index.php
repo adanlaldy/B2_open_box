@@ -37,7 +37,7 @@ return [
 // à traduire à partir d'ici
     'new_email_title' => 'New email',
     'sender' => 'Sender',
-    'recipient ' => 'Recipient',
+    'recipient' => 'Recipient',
     'cc' => 'CC',
     'bcc' => 'BCC',
     'content' => 'Content',
