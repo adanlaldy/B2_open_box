@@ -45,9 +45,10 @@
     </nav>
     <nav class="navbar navbar-expand-lg navbar-light bg-light color3 p-0">
         <div class="container-fluid d-flex justify-content-between align-items-center container-fluid-custom color3 p-0">
-            <h1 class="form-inline my-2 my-lg-0 margin-50">@lang('index.inbox')</h1>
+            <h1 class="form-inline my-lg-0 mx-auto text-center">@lang('index.inbox')</h1>
         </div>
     </nav>
+
     <!-- Sidebar -->
     <div class="sidebar color1">
         @if ($errors->any())
@@ -95,9 +96,9 @@
             @forelse($emailDetails as $email)
                 <div class="row">
                     <div class="col">{{ $email['fromEmail'] }}</div>
-                    <div class="col"><button id="emailDetails">{{ $email['subject'] }}</button></div>
+                    <div class="col"><button id="emailDetails" class="btn btn-unstyled">{{ $email['subject'] }}</button></div>
                     <div class="col">{{ $email['sentAt'] }}</div>
-                    <div class="col w-auto p-0">
+                    <div class="col d-flex justify-content-between align-items-center">
                         <form action="/add-to-starreds" method="post">
                             @csrf
                             <input type="hidden" name="emailId" value="{{ $email['id'] }}">

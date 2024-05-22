@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@lang('index.title')</title>
+    <title>@lang('index.archive')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="http://127.0.0.1:8000/css/mail.css" rel="stylesheet" />
     <link href="http://127.0.0.1:8000/css/colors.css" rel="stylesheet" />
@@ -45,7 +45,7 @@
     </nav>
     <nav class="navbar navbar-expand-lg navbar-light bg-light color3 p-0">
         <div class="container-fluid d-flex justify-content-between align-items-center container-fluid-custom color3 p-0">
-            <h1 class="form-inline my-2 my-lg-0 margin-50">@lang('index.sent')</h1>
+            <h1 class="form-inline my-lg-0 mx-auto text-center">@lang('index.archive')</h1>
         </div>
     </nav>
     <!-- Sidebar -->
