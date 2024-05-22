@@ -150,43 +150,46 @@
     </article>
     <!-- new email -->
     <button class="btn btn-primary mt-3 static color1" id="newEmail">@lang('index.new_email')</button>
-    <dialog id="dialogNewEmail" class="rounded">
-        <div class="container mt-3">
-            <form action="/post-email" method="post">
-                @csrf
-                <div class="modal-header">
-                    <h3>@lang('index.new_email_title')</h3>
-                    <button type="button" id="closeNewEmail" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="form-group">
-                    <label for="from">@lang('index.sender') :</label>
-                    <input name="fromEmail" type="email" class="form-control" id="from" value="{{ $user->email }}">
-                </div>
-                <div class="form-group">
-                    <label for="to">@lang('index.recipient') :</label>
-                    <input name="toEmail" type="email" class="form-control" id="to" placeholder="@lang('index.email_address')">
-                </div>
-                <!--<div class="form-group">
-                    <label for="cc">@lang('index.cc') :</label>
-                    <input name="ccEmail" type="email" class="form-control" id="cc" placeholder="@lang('index.email_address')">
-                </div>
-                <div class="form-group">
-                    <label for="bcc">@lang('index.bcc') :</label>
-                    <input name="bccEmail" type="email" class="form-control" id="bcc" placeholder="@lang('index.email_address')">
-                </div>-->
-                <div class="form-group">
-                    <label for="subject">@lang('index.subject') :</label>
-                    <input name="subject" type="text" class="form-control" id="subject" placeholder="@lang('index.email_subject')">
-                </div>
-                <div class="form-group">
-                    <label for="content">@lang('index.content') :</label>
-                    <textarea name="content" class="form-control" id="content" rows="5" placeholder="@lang('index.email_content')"></textarea>
-                </div>
+    <dialog id="dialogNewEmail" class="modal-dialog modal-lg rounded" style="max-width: 40; margin-top: 1%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>@lang('index.new_email_title')</h3>
+                <button type="button" id="closeNewEmail" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/post-email" method="post">
+                    @csrf
+                    <div class="form-group">
+                        <label for="from">@lang('index.sender') :</label>
+                        <input name="fromEmail" type="email" class="form-control" id="from" value="{{ $user->email }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="to">@lang('index.recipient') :</label>
+                        <input name="toEmail" type="email" class="form-control" id="to" placeholder="@lang('index.email_address')">
+                    </div>
+                    <!--<div class="form-group">
+                        <label for="cc">@lang('index.cc') :</label>
+                        <input name="ccEmail" type="email" class="form-control" id="cc" placeholder="@lang('index.email_address')">
+                    </div>
+                    <div class="form-group">
+                        <label for="bcc">@lang('index.bcc') :</label>
+                        <input name="bccEmail" type="email" class="form-control" id="bcc" placeholder="@lang('index.email_address')">
+                    </div>-->
+                    <div class="form-group">
+                        <label for="subject">@lang('index.subject') :</label>
+                        <input name="subject" type="text" class="form-control" id="subject" placeholder="@lang('index.email_subject')">
+                    </div>
+                    <div class="form-group">
+                        <label for="content">@lang('index.content') :</label>
+                        <textarea name="content" class="form-control" id="content" rows="5" placeholder="@lang('index.email_content')"></textarea>
+                    </div>
 
-                <button type="submit" class="btn btn-primary m-2 color2">@lang('index.send')</button>
-            </form>
+                    <button type="submit" class="btn btn-primary m-2 color2">@lang('index.send')</button>
+                </form>
+            </div>
         </div>
     </dialog>
+
 
     <script>
         function toggleSidebar() {
