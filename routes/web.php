@@ -13,7 +13,7 @@ Route::get('/{locale}/register', [AuthController::class, 'formRegister'])->name(
 Route::post('/{locale}/register', [AuthController::class, 'handlingRegister']);
 Route::get('/{locale}/login', [AuthController::class, 'formLogin'])->name('auth.login');
 Route::post('/{locale}/login', [AuthController::class, 'handlingLogin']);
-Route::get('/{locale}/reset-password', [AuthController::class, 'formForgotPassword'])->name('auth.login');
+Route::get('/{locale}/reset-password', [AuthController::class, 'formForgotPassword'])->name('auth.reset-password');
 Route::post('/{locale}/reset-password', [AuthController::class, 'handlingForgotPassword']);
 // cgu
 Route::get('/{locale}/cgu', function (string $locale) {
