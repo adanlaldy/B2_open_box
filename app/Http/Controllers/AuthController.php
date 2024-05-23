@@ -27,7 +27,10 @@ class AuthController extends Controller
             'firstName' => ['required'],
             'lastName' => ['required'],
             'email' => ['required', 'email', 'unique:users,email'],
-            'password' => ['required', 'min:2'],
+            'password' => ['required', 'confirmed', 'min:8'],
+            'password_confirmation' => ['required'],
+            'question_recuperation' => ['required'],
+            'response_recuperation' => ['required'], 
             'birthDate' => ['required'],
         ]);
 
@@ -37,8 +40,8 @@ class AuthController extends Controller
             'last_name' => $validatedData['lastName'],
             'email' => $validatedData['email'],
             'password' => bcrypt($validatedData['password']),
-            'question_recuperation' => 'question',
-            'response_recuperation' => 'response',
+            'question_recuperation' => $validatedData['question_recuperation'],
+            'response_recuperation' => $validatedData['response_recuperation'],
             'birthday' => $validatedData['birthDate'],
         ]);
 
@@ -99,33 +102,95 @@ class AuthController extends Controller
         }
     }
 
-    // get forgot password
-    public function formForgotPassword($locale)
+    public function formForgotPassword()
     {
-        if (! in_array($locale, ['en', 'es', 'fr', 'de', 'ru', 'cn'])) {
-            abort(400);
-        }
-        App::setLocale($locale);
-        return view('authentication/forget');
+        return view('authentication.forgot_password');
     }
 
-    // post forgot password
     public function handlingForgotPassword()
     {
-        // check if email has good format and input is filled
         $validatedData = request()->validate([
             'email' => ['required', 'email'],
-            'birthday' => ['required'],
         ]);
 
-        // check if email exists
+        // Check if email exists
         $user = User::where('email', $validatedData['email'])->first();
 
         if ($user) {
-            return redirect()->route('auth.formResetPassword', ['locale' => 'en', 'email' => $validatedData['email']]); // email exists -> redirect to reset password page
+            // Store email and question in session
+            session(['email' => $validatedData['email']]);
+            session(['questionRecuperation' => $user->question_recuperation]);
+
+            // Redirect to reset password page
+            return redirect()->route('reset-password-form');
         } else {
             return back()->withInput()->withErrors([
-                'email' => 'The provided email does not exist.', // email does not exist -> redirect to previous page
+                'email' => 'The provided email does not exist.',
+            ]);
+        }
+    }
+
+    public function formResetPassword()
+    {
+        // Retrieve the question from the session
+        $questionRecuperation = session('questionRecuperation');
+
+        if (!$questionRecuperation) {
+            return redirect()->route('forgot-password');
+        }
+
+        return view('authentication.reset_password', compact('questionRecuperation'));
+    }
+
+    public function handlingResetPassword()
+    {
+        // Validate the response
+        $validatedData = request()->validate([
+            'response' => ['required', 'string'],
+        ]);
+
+        $email = session('email');
+        $user = User::where('email', $email)->first();
+
+        if ($user && $user->response_recuperation == $validatedData['response']) {
+            // The response is correct, proceed to reset password or any other logic
+            return redirect()->route('new-password-form');
+        } else {
+            return back()->withInput()->withErrors([
+                'response' => 'The provided answer is incorrect.',
+            ]);
+        }
+    }
+
+    public function formNewPassword()
+    {
+        return view('authentication.new_password');
+    }
+
+    public function handlingNewPassword()
+    {
+        // validate the password
+        $validatedData = request()->validate([
+            'password' => ['required', 'confirmed', 'min:8'],
+            'password_confirmation' => ['required'],
+        ]);
+
+        // collect user
+        $user = User::where('email', session('email'))->first();
+
+        if ($user) {
+            // update password
+            $user->update([
+                'password' => bcrypt($validatedData['password']),
+            ]);
+
+            // redirect to login page
+            $locale = 'en'; // Assurez-vous que 'locale' est stocké en session ou récupérer autrement
+            return redirect()->route('auth.login', ['locale' => $locale])->with('success', 'Your password has been successfully reset. You can now log in with your new password.');        
+        } else {
+            // error message
+            return back()->withInput()->withErrors([
+                'password' => 'The passwords are not same.', // failed -> redirect to previous page
             ]);
         }
     }
