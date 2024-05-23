@@ -4,6 +4,8 @@
     --color-background: #ECF8F6;
     --color-accent: #FEEAA1;
     --color-highlight: #D6955B;
+    --color-home: #ff4081;
+
 }
 
 .color1 {
@@ -44,6 +46,17 @@
 
 .txt-color4 {
     color: var(--color-accent);
+}
+
+.txt-home {
+    font-weight: bold;
+    font-size: 50px;
+    color: var(--color-primary);
+    text-shadow: 4px 3px 0px #fff, 9px 8px 0px rgba(0,0,0,0.15);
+}
+
+.art-shadow h3 {
+    text-shadow: 4px 3px 0px #fff, 9px 8px 0px rgba(0,0,0,0.15);
 }
 
 .txt-color5 {

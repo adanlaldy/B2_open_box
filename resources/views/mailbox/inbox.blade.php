@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@lang('index.inbox')</title>
+    <link href="http://127.0.0.1:8000/images/open_box_logo.png" rel="icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="http://127.0.0.1:8000/css/mail.css" rel="stylesheet" />
     <link href="http://127.0.0.1:8000/css/colors.css" rel="stylesheet" />
@@ -71,7 +72,7 @@
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item d-lg-none"><a class="nav-link color1" href="/{{ Session::get('locale') }}/offers"><i class="fi fi-sr-wallet"></i>@lang('index.subscription')</a></li>
                 <hr class="bar-menu nav-item d-lg-none">
-                <li class="nav-item"><a class="nav-link color1 margin-20s" href="/{{ Session::get('locale') }}/inbox"><i class="fi fi-sr-envelope-open"></i>@lang('index.inbox')</a></li>
+                <li class="nav-item"><a class="nav-link color1 margin-20" href="/{{ Session::get('locale') }}/inbox"><i class="fi fi-sr-envelope-open"></i>@lang('index.inbox')</a></li>
                 <li><a class="nav-link color1" href="/{{ Session::get('locale') }}/drafts"><i class="fi fi-ss-edit"></i>@lang('index.draft')</a></li>
                 <li><a class="nav-link color1" href="/{{ Session::get('locale') }}/sents"><i class="fi fi-ss-paper-plane"></i>@lang('index.sent')</a></li>
                 <li><a class="nav-link color1" href="/{{ Session::get('locale') }}/starreds"><i class="fi fi-sr-star"></i>@lang('index.star')</a></li>
@@ -151,7 +152,7 @@
     </article>
     <!-- new email -->
     <button class="btn btn-primary mt-3 static color1" id="newEmail">@lang('index.new_email')</button>
-    <dialog id="dialogNewEmail" class="modal-dialog modal-lg rounded" style="max-width: 40; margin-top: 1%">
+    <dialog id="dialogNewEmail" class="modal-dialog modal-lg rounded" style="max-width: 40px; margin-top: 1%">
         <div class="modal-content">
             <div class="modal-header">
                 <h3>@lang('index.new_email_title')</h3>
