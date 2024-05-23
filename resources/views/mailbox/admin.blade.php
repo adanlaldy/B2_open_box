@@ -58,11 +58,11 @@
 
             <hr class="bar-menu">
             <ul class="nav nav-pills flex-column mb-auto">
-                <li class="nav-item d-lg-none"><a class="nav-link color1 margin-20" href="/{{ Session::get('locale') }}/offers"><i class="fi fi-sr-wallet"></i>@lang('index.subscription')</a></li>
+                <li class="nav-item d-lg-none"><a class="nav-link color1" href="/{{ Session::get('locale') }}/offers"><i class="fi fi-sr-wallet"></i>@lang('index.subscription')</a></li>
                 <hr class="bar-menu nav-item d-lg-none">
                 <li class="nav-item"><a class="nav-link color1" href="/{{ Session::get('locale') }}/inbox"><i class="fi fi-sr-envelope-open"></i>@lang('index.inbox')</a></li>
                 <li><a class="nav-link color1" href="/{{ Session::get('locale') }}/drafts"><i class="fi fi-ss-edit"></i>@lang('index.draft')</a></li>
-                <li><a class="nav-link color1" href="/{{ Session::get('locale') }}/sents"><i class="fi fi-ss-paper-plane"></i>@lang('index.sent')</a></li>
+                <li><a class="nav-link margin-20 color1" href="/{{ Session::get('locale') }}/sents"><i class="fi fi-ss-paper-plane"></i>@lang('index.sent')</a></li>
                 <li><a class="nav-link color1" href="/{{ Session::get('locale') }}/starreds"><i class="fi fi-sr-star"></i>@lang('index.star')</a></li>
                 <li><a class="nav-link color1" href="/{{ Session::get('locale') }}/archives"><i class="fi fi-sr-bookmark"></i>@lang('index.archive')</a></li>
                 <li><a class="nav-link color1" href="/{{ Session::get('locale') }}/spams"><i class="fi fi-ss-shield-exclamation"></i>@lang('index.spam')</a></li>
@@ -80,113 +80,37 @@
         </nav>
     </div>
     <div class="overlay"></div>
-<style>
-    .card:hover {
-        transform: scale(1.05);
-        transition: transform 0.2s ease-in-out;
-    }
-
-    .card {
-        margin: 50px;
-        text-align: center;
-        cursor: pointer;
-        width: 300px;
-        border-radius: 25px;
-    }
-</style>
-<!-- Contenu mail -->
-<div class="content">
-    <div class="row">
-        <div class="col-md-6 mb-4">
-            <div class="card shadow-lg border-0 bg-light" onclick="openPaymentModal('Personal+', '2.99€ / mois')">
-                <div class="card-body">
-                    <h1 class="card-title txt-color1">Personal+</h1>
-                    <p class="card-text">2.99€ / mois</p>
-                    <p class="card-text">Stockage 2GB</p>
-                    <p class="card-text">Assistance 24/7</p>
-                </div>
+    <!-- Contenu des paramètres -->
+    <div class="content">
+    <div class="container mt-4">
+        <form action="/admin" method="post">
+            @csrf
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" name="email" placeholder="Entrez l'email de l'utilisateur" aria-label="Email" aria-describedby="button-addon2">
+                <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Rechercher</button>
             </div>
-        </div>
+        </form>
 
-        <div class="col-md-6 mb-4">
-            <div class="card shadow-lg border-0 bg-light" onclick="openPaymentModal('Professional+', '5.99€ / mois')">
-                <div class="card-body">
-                    <h1 class="card-title txt-color1">Professional+</h1>
-                    <p class="card-text">5.99€ / mois</p>
-                    <p class="card-text">Stockage 10GB</p>
-                    <p class="card-text">Assistance 24/7</p>
-                    <p class="card-text">Nom de domaine personnalisable</p>
-                </div>
-            </div>
+        <div id="search-result">
+            @if($user)
+                <p>Prénom : {{ $user->first_name }}</p>
+                <p>Nom : {{ $user->last_name }}</p>
+                <p>Email : {{ $user->email }}</p>
+                <p>anniversaire : {{ $user->birthday }}</p>
+            @else
+                <p>Aucun utilisateur trouvé</p>
+            @endif
         </div>
     </div>
-</div>
-
-<!-- Payment Modal -->
-<div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="paymentModalLabel">Payment</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close"></button>
-            </div>
-            <div class="modal-body">
-                <h5 id="plan-name"></h5>
-                <p id="plan-price"></p>
-                <form id="payment-form">
-                    <div id="card-element"></div>
-                    <button type="submit" class="btn btn-primary mt-3">Pay</button>
-                </form>
-            </div>
-        </div>
     </div>
-</div>
-</main>
+
 
 <!-- Bootstrap JS et dépendances -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-<script src="https://js.stripe.com/v3/"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
 
 <script>
-    const stripe = Stripe('stripe-public-key');
-    const elements = stripe.elements();
-    const cardElement = elements.create('card');
-
-    cardElement.mount('#card-element');
-
-    function openPaymentModal(planName, planPrice) {
-        document.getElementById('plan-name').innerText = planName;
-        document.getElementById('plan-price').innerText = planPrice;
-        const paymentModal = new bootstrap.Modal(document.getElementById('paymentModal'));
-        paymentModal.show();
-    }
-
-    const form = document.getElementById('payment-form');
-    form.addEventListener('submit', async (event) => {
-        event.preventDefault();
-        const { error, paymentMethod } = await stripe.createPaymentMethod('card', cardElement);
-
-        if (error) {
-            console.error(error);
-        } else {
-            // Handle successful payment method creation
-            console.log('Payment method created:', paymentMethod);
-            // Here you can send the payment method ID to your server for further processing
-        }
-    });
-
-    const close = document.getElementById('close');
-    close.addEventListener('click', function() {
-        document.getElementById('paymentModal').style.display = 'none';
-
-        document.querySelector('.modal-backdrop.fade.show').classList.remove('show');
-
-    });
-
-
     function toggleSidebar() {
         const sidebar = document.querySelector('.sidebar');
         const overlay = document.querySelector('.overlay');
@@ -197,7 +121,6 @@
     document.querySelector('.overlay').addEventListener('click', function() {
         toggleSidebar(); // Désactiver le menu
     });
-
 </script>
 </body>
 </html>

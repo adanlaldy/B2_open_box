@@ -31,8 +31,7 @@ class parameters
     {
         $lang = $request->input('lang');
 
-        app()->setLocale('fr');
-//        app()->setLocale($lang);
+        app()->setLocale($lang);
         Session::put('locale', $lang);
 
 

@@ -6,14 +6,15 @@ use App\Http\Controllers\parameters;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
-
+use App\Http\Controllers\AdminController;
 
 //auth
 Route::get('/{locale}/register', [AuthController::class, 'formRegister'])->name('auth.register');
 Route::post('/{locale}/register', [AuthController::class, 'handlingRegister']);
 Route::get('/{locale}/login', [AuthController::class, 'formLogin'])->name('auth.login');
 Route::post('/{locale}/login', [AuthController::class, 'handlingLogin']);
-
+Route::get('/{locale}/reset-password', [AuthController::class, 'formForgotPassword'])->name('auth.login');
+Route::post('/{locale}/reset-password', [AuthController::class, 'handlingForgotPassword']);
 // cgu
 Route::get('/{locale}/cgu', function (string $locale) {
     if (! in_array($locale, ['en', 'es', 'fr', 'ru', 'de', 'cn'])) {
@@ -69,9 +70,10 @@ Route::middleware(['App\Http\Middleware\IfConnected'])->group(function () {
     Route::get('/{locale}/spams', [MailboxController::class, 'formSpams'])->name('inbox.spams');
     Route::get('/{locale}/archives', [MailboxController::class, 'formArchives'])->name('inbox.archives');
     Route::get('/{locale}/all-emails', [MailboxController::class, 'formAllEmails'])->name('inbox.allEmails');
+    Route::get('/{locale}/admin', [AdminController::class, 'formAdmin'])->name('inbox.admin');
+    Route::post('/admin', [AdminController::class, 'searchUser'])->name('inbox.admin');
     Route::get('/{locale}/parameters', [parameters::class, 'parameters'])->name('inbox.parameters');
     Route::post('/{locale}/parameters', [parameters::class, 'formParameters'])->name('inbox.parameters');
-
     //actions
     Route::post('/add-to-starreds', [MailboxController::class, 'addToStarreds']);
     Route::post('/remove-from-starreds', [MailboxController::class, 'removeFromStarreds']);
@@ -80,6 +82,10 @@ Route::middleware(['App\Http\Middleware\IfConnected'])->group(function () {
     Route::post('/add-to-trashes', [MailboxController::class, 'addToTrashes']);
     Route::post('/remove-from-trashes', [MailboxController::class, 'removeFromTrashes']);
     Route::post('/delete-email', [MailboxController::class, 'deleteEmail']);
+
+    //Route::get('/search', [MailboxController::class, 'handlingPostSearch']);
+    Route::post('/search', [MailboxController::class, 'handlingPostSearch']);
+
     // send email
     Route::post('/post-email', [MailboxController::class, 'handlingPostEmail']);
 });

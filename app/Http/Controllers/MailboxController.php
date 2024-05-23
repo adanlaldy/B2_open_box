@@ -385,4 +385,33 @@ class MailboxController extends Controller
     {
         $user = auth()->user(); // collect connected user
     }
+
+    public function handlingPostSearch(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+    {
+        $query = request()->input('query');
+
+        $user = auth()->user();
+
+        $searchResults = Email::where('user_id', $user->id)
+            ->where(function ($q) use ($query) {
+                $q->where('content', 'LIKE', "%{$query}%")
+                    ->orWhere('subject', 'LIKE', "%{$query}%")
+                    ->orWhere('sent_at', 'LIKE', "%{$query}%");
+            })
+            ->get();
+
+        $emailDetails = [];
+        foreach ($searchResults as $email) {
+            $emailDetails[] = [
+                'id' => $email->id,
+                'fromEmail' => User::where('id', $email->from_user_id)->first()->email,
+                'toEmail' => User::where('id', $email->to_user_id)->first()->email,
+                'subject' => $email->subject,
+                'content' => $email->content,
+                'sentAt' => $email->sent_at,
+            ];
+        }
+
+        return view('mailbox/search', compact('user', 'emailDetails', 'searchResults'));
+    }
 }

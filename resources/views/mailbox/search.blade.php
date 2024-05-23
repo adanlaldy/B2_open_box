@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@lang('index.inbox')</title>
+    <title>@lang('index.search_results')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="http://127.0.0.1:8000/css/mail.css" rel="stylesheet" />
     <link href="http://127.0.0.1:8000/css/colors.css" rel="stylesheet" />
@@ -12,10 +12,11 @@
 </head>
 <body>
 <main>
+<main>
     <!-- Top Bar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light p-0">
         <div class="container-fluid d-flex justify-content-between align-items-center container-fluid-custom color3 p-0">
-            <!-- hamburger menu -->
+            <!-- menu hamburger -->
             <nav class="navbar navbar-light bg-light d-lg-none">
                 <div class="container-fluid">
                     <button class="navbar-toggler custom-toggler" type="button" onclick="toggleSidebar()">
@@ -23,11 +24,10 @@
                     </button>
                 </div>
             </nav>
-            <form class="form-inline my-2 my-lg-0 mx-auto" action="/search" method="post">
-                @csrf
+            <form class="form-inline my-2 my-lg-0 mx-auto">
                 <div class="input-group center">
-                    <input class="form-control mr-sm-2" name="query" type="search" placeholder="@lang('index.search_placeholder')" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">@lang('index.search_button')</button>
+                    <input class="form-control mr-sm-2" type="search" placeholder="@lang('index.search_placeholder')" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">@lang('index.search')</button>
                 </div>
             </form>
 
@@ -46,21 +46,11 @@
     </nav>
     <nav class="navbar navbar-expand-lg navbar-light bg-light color3 p-0">
         <div class="container-fluid d-flex justify-content-between align-items-center container-fluid-custom color3 p-0">
-            <h1 class="form-inline my-lg-0 mx-auto text-center">@lang('index.inbox')</h1>
+            <h1 class="form-inline my-lg-0 mx-auto text-center">@lang('index.all_mail')</h1>
         </div>
     </nav>
-
     <!-- Sidebar -->
     <div class="sidebar color1">
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul class="list-unstyled">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
         <nav>
             <a class="d-flex align-items-center mb-3 mb-md-0 me-md-auto nav-link margin-20" href="/{{ Session::get('locale') }}/inbox">
                 <img class="logo" width="50px" style="margin: 0 30px 0 0; border-radius: 20%" src="http://127.0.0.1:8000/images/open_box_logo.png" alt="logo">
@@ -71,14 +61,14 @@
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item d-lg-none"><a class="nav-link color1" href="/{{ Session::get('locale') }}/offers"><i class="fi fi-sr-wallet"></i>@lang('index.subscription')</a></li>
                 <hr class="bar-menu nav-item d-lg-none">
-                <li class="nav-item"><a class="nav-link color1 margin-20s" href="/{{ Session::get('locale') }}/inbox"><i class="fi fi-sr-envelope-open"></i>@lang('index.inbox')</a></li>
+                <li class="nav-item"><a class="nav-link color1" href="/{{ Session::get('locale') }}/inbox"><i class="fi fi-sr-envelope-open"></i>@lang('index.inbox')</a></li>
                 <li><a class="nav-link color1" href="/{{ Session::get('locale') }}/drafts"><i class="fi fi-ss-edit"></i>@lang('index.draft')</a></li>
                 <li><a class="nav-link color1" href="/{{ Session::get('locale') }}/sents"><i class="fi fi-ss-paper-plane"></i>@lang('index.sent')</a></li>
                 <li><a class="nav-link color1" href="/{{ Session::get('locale') }}/starreds"><i class="fi fi-sr-star"></i>@lang('index.star')</a></li>
                 <li><a class="nav-link color1" href="/{{ Session::get('locale') }}/archives"><i class="fi fi-sr-bookmark"></i>@lang('index.archive')</a></li>
                 <li><a class="nav-link color1" href="/{{ Session::get('locale') }}/spams"><i class="fi fi-ss-shield-exclamation"></i>@lang('index.spam')</a></li>
                 <li><a class="nav-link color1" href="/{{ Session::get('locale') }}/trashes"><i class="fi fi-sr-trash"></i>@lang('index.trash')</a></li>
-                <li><a class="nav-link color1" href="/{{ Session::get('locale') }}/all-emails"><i class="fi fi-sr-apps"></i>@lang('index.all_mail')</a></li>
+                <li><a class="nav-link color1 margin-20" href="/{{ Session::get('locale') }}/all-emails"><i class="fi fi-sr-apps"></i>@lang('index.all_mail')</a></li>
                 <hr class="bar-menu nav-item d-lg-none">
                 <li class="nav-item d-lg-none"><a class="nav-link color1" href="/{{ Session::get('locale') }}/parameters"><i class="fi fi-ss-settings"></i>@lang('index.parameters')</a></li>
                 <hr class="bar-menu nav-item d-lg-none">
@@ -91,7 +81,8 @@
         </nav>
     </div>
     <div class="overlay"></div>
-    <!-- email content -->
+
+    <!-- Search Results -->
     <article class="content">
         <ul>
             @forelse($emailDetails as $email)
@@ -149,61 +140,8 @@
             @endforelse
         </ul>
     </article>
-    <!-- new email -->
-    <button class="btn btn-primary mt-3 static color1" id="newEmail">@lang('index.new_email')</button>
-    <dialog id="dialogNewEmail" class="modal-dialog modal-lg rounded" style="max-width: 40; margin-top: 1%">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>@lang('index.new_email_title')</h3>
-                <button type="button" id="closeNewEmail" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="/post-email" method="post">
-                    @csrf
-                    <div class="form-group">
-                        <label for="from">@lang('index.sender') :</label>
-                        <input name="fromEmail" type="email" class="form-control" id="from" value="{{ $user->email }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="to">@lang('index.recipient') :</label>
-                        <input name="toEmail" type="email" class="form-control" id="to" placeholder="@lang('index.email_address')">
-                    </div>
-                    <!--<div class="form-group">
-                        <label for="cc">@lang('index.cc') :</label>
-                        <input name="ccEmail" type="email" class="form-control" id="cc" placeholder="@lang('index.email_address')">
-                    </div>
-                    <div class="form-group">
-                        <label for="bcc">@lang('index.bcc') :</label>
-                        <input name="bccEmail" type="email" class="form-control" id="bcc" placeholder="@lang('index.email_address')">
-                    </div>-->
-                    <div class="form-group">
-                        <label for="subject">@lang('index.subject') :</label>
-                        <input name="subject" type="text" class="form-control" id="subject" placeholder="@lang('index.email_subject')">
-                    </div>
-                    <div class="form-group">
-                        <label for="content">@lang('index.content') :</label>
-                        <textarea name="content" class="form-control" id="content" rows="5" placeholder="@lang('index.email_content')"></textarea>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary m-2 color2">@lang('index.send')</button>
-                </form>
-            </div>
-        </div>
-    </dialog>
-
 
     <script>
-        function toggleSidebar() {
-            const sidebar = document.querySelector('.sidebar');
-            const overlay = document.querySelector('.overlay');
-            sidebar.classList.toggle('active');
-            overlay.style.display = (sidebar.classList.contains('active')) ? 'block' : 'none';
-        }
-
-        document.querySelector('.overlay').addEventListener('click', function() {
-            toggleSidebar(); // close the sidebar
-        });
-
         // open or close the dialog for email details
         const dialogEmailDetails = document.getElementById('dialogEmailDetails');
         const emailDetails = document.querySelectorAll('[id="emailDetails"]');
@@ -217,20 +155,6 @@
 
         closeEmailDetails.addEventListener('click', function() {
             dialogEmailDetails.close();
-        });
-
-        // open or close the dialog for new email
-        const dialogNewEmail = document.getElementById('dialogNewEmail');
-        const newEmail = document.getElementById('newEmail');
-        const closeNewEmail = document.getElementById('closeNewEmail');
-
-        newEmail.addEventListener('click', function() {
-            console.log("new email");
-            dialogNewEmail.showModal();
-        });
-
-        closeNewEmail.addEventListener('click', function() {
-            dialogNewEmail.close();
         });
     </script>
 </main>

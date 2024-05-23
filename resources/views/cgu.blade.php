@@ -91,6 +91,9 @@
         Pour toute question concernant ces CGU, veuillez nous contacter à support@openbox.com.
     </p>
 
+      <button class="btn btn-primary me-2" onclick="window.history.back()">Revenir en arrière</button>
+
+    <button class="btn btn-primary" onclick="window.print()">Imprimer</button>
 </div>
 </body>
 </html>

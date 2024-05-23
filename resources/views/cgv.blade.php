@@ -76,6 +76,10 @@
     <p><strong>8. Litiges</strong><br>
         En cas de litige, nous nous efforcerons de trouver une solution amiable. À défaut, les tribunaux compétents seront ceux de la juridiction du siège social d'Open Box.
     </p>
+
+    <button class="btn btn-primary me-2" onclick="window.history.back()">Revenir en arrière</button>
+
+    <button class="btn btn-primary" onclick="window.print()">Imprimer</button>
 </div>
 </body>
 </html>

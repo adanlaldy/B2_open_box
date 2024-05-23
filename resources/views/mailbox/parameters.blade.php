@@ -101,6 +101,13 @@
                 <button type="submit" class="btn btn-primary">Valider</button>
             </form>
 
+            <h2>Theme</h2>
+            <p>Choisissez votre thème</p>
+            <!-- Ajoutez des boutons ou des événements pour appeler les fonctions JavaScript -->
+<button onclick="removeColor1Class()">naturel</button>
+<button onclick="restoreColor1Class()">ciel epure</button>
+
+
             <h2>Compte</h2>
             <p>Modifier votre compte</p>
 
@@ -160,3 +167,27 @@
 </script>
 </body>
 </html>
+
+<script>
+  // Fonction pour enlever la classe color1 des éléments
+function removeColor1Class() {
+    var elements = document.querySelectorAll('.color1');
+    elements.forEach(function(element) {
+        // Stocker la classe color1 actuelle dans un attribut de données HTML
+        element.setAttribute('data-color1', 'true');
+        element.classList.remove('color1');
+    });
+}
+
+// Fonction pour restaurer la classe color1 aux éléments qui avaient la classe color1 précédemment
+function restoreColor1Class() {
+    var elements = document.querySelectorAll('[data-color1="true"]');
+    elements.forEach(function(element) {
+        // Réajouter la classe color1
+        element.classList.add('color1');
+        // Supprimer l'attribut de données HTML
+        element.removeAttribute('data-color1');
+    });
+}
+
+</script>

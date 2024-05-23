@@ -99,6 +99,38 @@ class AuthController extends Controller
         }
     }
 
+    // get forgot password
+    public function formForgotPassword($locale)
+    {
+        if (! in_array($locale, ['en', 'es', 'fr', 'de', 'ru', 'cn'])) {
+            abort(400);
+        }
+        App::setLocale($locale);
+        return view('authentication/forget');
+    }
+
+    // post forgot password
+    public function handlingForgotPassword()
+    {
+        // check if email has good format and input is filled
+        $validatedData = request()->validate([
+            'email' => ['required', 'email'],
+            'birthday' => ['required'],
+        ]);
+
+        // check if email exists
+        $user = User::where('email', $validatedData['email'])->first();
+
+        if ($user) {
+            return redirect()->route('auth.formResetPassword', ['locale' => 'en', 'email' => $validatedData['email']]); // email exists -> redirect to reset password page
+        } else {
+            return back()->withInput()->withErrors([
+                'email' => 'The provided email does not exist.', // email does not exist -> redirect to previous page
+            ]);
+        }
+    }
+
+
     public function fill()
     {
         // create new user

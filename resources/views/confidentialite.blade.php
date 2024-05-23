@@ -77,6 +77,10 @@
     <p><strong>8. Contact</strong><br>
         Pour toute question concernant cette Politique de Confidentialité, veuillez nous contacter à privacy@openbox.com.
     </p>
+
+    <button class="btn btn-primary me-2" onclick="window.history.back()">Revenir en arrière</button>
+
+    <button class="btn btn-primary" onclick="window.print()">Imprimer</button>
 </div>
 </body>
 </html>
