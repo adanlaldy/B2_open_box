@@ -1,32 +1,13 @@
 # Open Box
 
-Open Box est une application web qui permet de gérer les boîtes mails tout en étant personnalisable qui offre des avantages dans une utilisation personnel et professionnelle.
-
-## Captures d'écran : 
-
-<p align="center">
-  <img src="public/images/screen.png" alt="Image 1">
-</p>
-
-<p align="center">
-  <img src="public/images/screen1.png" alt="Image 2">
-</p>
-
-<p align="center">
-  <img src="public/images/screen3.png" alt="Image 3">
-</p>
-
-<p align="center">
-  <img src="public/images/screen4.png" alt="Image 3">
-</p>
+Open Box est une application web qui permet de gérer les boîtes mails tout en étant personnalisable qui offre des avantages dans une utilisation personnel et professionnel.
 
 ## Installation du projet :
-- Clone le projet
-bash
-clone http
-telecharger php v8.3
-https://www.php.net/downloads.php
-
+Clone le projet
+```bash
+git init
+git clone https://github.com/adanlaldy/open_box
+```
 
 ### Installation PostgreSQL :
 - installer postgres avec le lien : https://www.postgresql.org/download/
@@ -35,18 +16,18 @@ https://www.php.net/downloads.php
   - 'extension=pdo_pgsql'
   - 'extension=pgsql'
 
+
 ### Installation des dépendances :
 ```bash
 composer install
 ```
-### Initialiser la base de donnée :
-```bash
-php artisan migrate
-```
+
 ### Lancer le serveur :
 ```bash
 php artisan serve
 ```
+
+
 ### Fonctionnalités majeures :
 Open Box est une messagerie d’email qui a pour but de pouvoir permettre à l’utilisateur d’envoyer des emails à une personne existante dans la base de donnée. Cela inclut :
 
@@ -70,6 +51,29 @@ Open Box est une messagerie d’email qui a pour but de pouvoir permettre à l�
 - Utiliser un serveur de messagerie afin d’utiliser les méthodes des classes Mailable intégrées à Laravel
 - Créer des catégories personnalisées
 
-FAURÉ Léo
 
+### Architecture du site :
+
+page d'accueil :
+<p align="center">
+  <img src="public/images/screen0.png" alt="Image 0">
+</p>
+
+page de réception :
+<p align="center">
+  <img src="public/images/screen1.png" alt="Image 1">
+</p>
+
+créer un nouvel email :
+<p align="center">
+  <img src="public/images/screen2.png" alt="Image 2">
+</p>
+
+visualisation d'un e-mail :
+<p align="center">
+  <img src="public/images/screen3.png" alt="Image 3">
+</p>
+    
+FAURÉ Léo
 LALDY-MAQUIHA Adan
+
