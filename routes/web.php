@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\AdminController;
 
+Session::put('locale', 'en');
+
 // auth
 Route::get('/{locale}/register', [AuthController::class, 'formRegister'])->name('auth.register');
 Route::post('/{locale}/register', [AuthController::class, 'handlingRegister']);
@@ -121,5 +123,3 @@ Route::redirect('/ester-egg', 'https://elgoog.im/dinosaur-game/3d/');
 
 Route::redirect('/', '/en/home');
 
-
-Session::put('locale', 'en');

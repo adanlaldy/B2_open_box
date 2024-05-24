@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@lang('index.inbox')</title>
-    <link href="http://127.0.0.1:8000/images/open_box_logo.png" rel="icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="http://127.0.0.1:8000/css/mail.css" rel="stylesheet" />
     <link href="http://127.0.0.1:8000/css/colors.css" rel="stylesheet" />
@@ -72,7 +71,7 @@
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item d-lg-none"><a class="nav-link color1" href="/{{ Session::get('locale') }}/offers"><i class="fi fi-sr-wallet"></i>@lang('index.subscription')</a></li>
                 <hr class="bar-menu nav-item d-lg-none">
-                <li class="nav-item"><a class="nav-link color1 margin-20" href="/{{ Session::get('locale') }}/inbox"><i class="fi fi-sr-envelope-open"></i>@lang('index.inbox')</a></li>
+                <li class="nav-item"><a class="nav-link color1 margin-20s" href="/{{ Session::get('locale') }}/inbox"><i class="fi fi-sr-envelope-open"></i>@lang('index.inbox')</a></li>
                 <li><a class="nav-link color1" href="/{{ Session::get('locale') }}/drafts"><i class="fi fi-ss-edit"></i>@lang('index.draft')</a></li>
                 <li><a class="nav-link color1" href="/{{ Session::get('locale') }}/sents"><i class="fi fi-ss-paper-plane"></i>@lang('index.sent')</a></li>
                 <li><a class="nav-link color1" href="/{{ Session::get('locale') }}/starreds"><i class="fi fi-sr-star"></i>@lang('index.star')</a></li>
@@ -98,7 +97,7 @@
             @forelse($emailDetails as $email)
                 <div class="row">
                     <div class="col">{{ $email['fromEmail'] }}</div>
-                    <div class="col"><button id="emailDetails" class="btn btn-unstyled">{{ $email['subject'] }}</button></div>
+                    <div class="col"><button class="emailDetails btn btn-unstyled">{{ $email['subject'] }}</button></div>
                     <div class="col">{{ $email['sentAt'] }}</div>
                     <div class="col d-flex justify-content-between align-items-center">
                         <form action="/add-to-starreds" method="post">
@@ -119,29 +118,6 @@
                     </div>
                 </div>
                 <hr>
-                <!-- email details -->
-                @foreach($emailDetails as $emailDetail)
-                <dialog id="dialogEmailDetails" class="modal-dialog modal-dialog-scrollable modal-lg rounded" style="margin-top: 1%;">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h3 id="subject" class="form-control-plaintext">{{ $emailDetail['subject'] }}</h3>
-                            <button type="button" id="closeEmailDetails" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <p id="from" class="form-control-plaintext">@lang('index.sender') : {{ $emailDetail['fromEmail'] }}</p>
-                            </div>
-                            <div class="form-group">
-                                <p id="to" class="form-control-plaintext">@lang('index.recipient') : {{ $emailDetail['toEmail'] }}</p>
-                            </div>
-                            <hr>
-                            <div class="form-group">
-                                <p id="content" class="form-control-plaintext">@lang('index.content') : {{ $emailDetail['content'] }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </dialog>
-                @endforeach
             @empty
                 <h2 class='text-center'>@lang('index.empty')</h2>
                 <div class="testeu">
@@ -152,7 +128,30 @@
     </article>
     <!-- new email -->
     <button class="btn btn-primary mt-3 static color1" id="newEmail">@lang('index.new_email')</button>
-    <dialog id="dialogNewEmail" class="modal-dialog modal-lg rounded" style="max-width: 40px; margin-top: 1%">
+    
+    <!-- Dialog Email Details (unique) -->
+    <dialog id="dialogEmailDetails" class="modal-dialog modal-dialog-scrollable modal-lg rounded" style="margin-top: 1%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="subject" class="form-control-plaintext"></h3>
+                <button type="button" id="closeEmailDetails" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <p id="from" class="form-control-plaintext"></p>
+                </div>
+                <div class="form-group">
+                    <p id="to" class="form-control-plaintext"></p>
+                </div>
+                <hr>
+                <div class="form-group">
+                    <p id="content" class="form-control-plaintext"></p>
+                </div>
+            </div>
+        </div>
+    </dialog>
+    
+    <dialog id="dialogNewEmail" class="modal-dialog modal-lg rounded" style="max-width: 40%; margin-top: 1%">
         <div class="modal-content">
             <div class="modal-header">
                 <h3>@lang('index.new_email_title')</h3>
@@ -192,7 +191,6 @@
         </div>
     </dialog>
 
-
     <script>
         function toggleSidebar() {
             const sidebar = document.querySelector('.sidebar');
@@ -207,11 +205,21 @@
 
         // open or close the dialog for email details
         const dialogEmailDetails = document.getElementById('dialogEmailDetails');
-        const emailDetails = document.querySelectorAll('[id="emailDetails"]');
+        const emailDetailsButtons = document.querySelectorAll('.emailDetails');
         const closeEmailDetails = document.getElementById('closeEmailDetails');
 
-        emailDetails.forEach(function(element) {
+        emailDetailsButtons.forEach(function(element) {
             element.addEventListener('click', function() {
+                const email = {
+                    subject: this.innerText,
+                    fromEmail: this.parentElement.previousElementSibling.innerText,
+                    toEmail: '{{ $user->email }}',
+                    content: this.innerText,
+                };
+                document.getElementById('subject').innerText = email.subject;
+                document.getElementById('from').innerText = '@lang('index.sender') : ' + email.fromEmail;
+                document.getElementById('to').innerText = '@lang('index.recipient') : ' + email.toEmail;
+                document.getElementById('content').innerText = '@lang('index.content') : ' + email.content;
                 dialogEmailDetails.showModal();
             });
         });

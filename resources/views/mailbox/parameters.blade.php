@@ -73,7 +73,7 @@
                 <hr class="bar-menu nav-item d-lg-none">
                 <li class="nav-item"><a class="nav-link color1" href="/{{ Session::get('locale') }}/inbox"><i class="fi fi-sr-envelope-open"></i>@lang('index.inbox')</a></li>
                 <li><a class="nav-link color1" href="/{{ Session::get('locale') }}/drafts"><i class="fi fi-ss-edit"></i>@lang('index.draft')</a></li>
-                <li><a class="nav-link margin-20 color1" href="/{{ Session::get('locale') }}/sents"><i class="fi fi-ss-paper-plane"></i>@lang('index.sent')</a></li>
+                <li><a class="nav-link color1" href="/{{ Session::get('locale') }}/sents"><i class="fi fi-ss-paper-plane"></i>@lang('index.sent')</a></li>
                 <li><a class="nav-link color1" href="/{{ Session::get('locale') }}/starreds"><i class="fi fi-sr-star"></i>@lang('index.star')</a></li>
                 <li><a class="nav-link color1" href="/{{ Session::get('locale') }}/archives"><i class="fi fi-sr-bookmark"></i>@lang('index.archive')</a></li>
                 <li><a class="nav-link color1" href="/{{ Session::get('locale') }}/spams"><i class="fi fi-ss-shield-exclamation"></i>@lang('index.spam')</a></li>
