@@ -1,66 +1,79 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Open Box
 
+Open Box est une application web qui permet de gérer les boîtes mails tout en étant personnalisable qui offre des avantages dans une utilisation personnel et professionnel.
+
+### Architecture du site :
+
+page d'accueil :
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <img src="public/images/screen0.png" alt="Image 0">
 </p>
 
-## About Laravel
+page de réception :
+<p align="center">
+  <img src="public/images/screen1.png" alt="Image 1">
+</p>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+créer un nouvel email :
+<p align="center">
+  <img src="public/images/screen2.png" alt="Image 2">
+</p>
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+visualisation d'un e-mail :
+<p align="center">
+  <img src="public/images/screen3.png" alt="Image 3">
+</p>
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Installation du projet :
+Clone le projet
+```bash
+git init
+git clone https://github.com/adanlaldy/open_box
+```
 
-## Learning Laravel
+### Installation PostgreSQL :
+- installer postgres avec le lien : https://www.postgresql.org/download/
+- configurer le '.env' avec les informations de la base de données
+- dans le php.ini, décommenter la ligne 
+  - 'extension=pdo_pgsql'
+  - 'extension=pgsql'
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Installation des dépendances :
+```bash
+composer install
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Lancer le serveur :
+```bash
+php artisan serve
+```
 
-## Laravel Sponsors
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Fonctionnalités majeures :
+Open Box est une messagerie d’email qui a pour but de pouvoir permettre à l’utilisateur d’envoyer des emails à une personne existante dans la base de donnée. Cela inclut :
 
-### Premium Partners
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+- Un système d’envoi d’email en local
+- Un système de tri via des catégories
+- Une barre de recherche afin de rechercher un email
+- Une interface responsive (adaptable à la taille de l’écran et également sur mobile et tablette)
+- Une personnalisation des langues, du thème ainsi que des informations utilisateurs
+- Un système de récupération de mot de passe
+- Un rôle administrateur qui offre des possibilités de gestion des utilisateurs
 
-## Contributing
+### Axes d’améliorations :
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-## Code of Conduct
+- Ajouter la possibilité de rajouter des pièces jointes dans un email
+- Programmer un envoi d’email
+- Répondre directement à un email + avoir un fil de discussion
+- Transférer un email 
+- Mettre en copie et copie anonyme un email
+- Utiliser un serveur de messagerie afin d’utiliser les méthodes des classes Mailable intégrées à Laravel
+- Créer des catégories personnalisées
+    
+FAURÉ Léo
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+LALDY-MAQUIHA Adan
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

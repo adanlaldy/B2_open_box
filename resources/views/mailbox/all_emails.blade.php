@@ -156,9 +156,13 @@
                         </div>
                     </div>
                 </dialog>
-            @empty
-                <p>@lang('index.no_emails')</p>
-            @endforelse
+                @empty
+        <h2 class='text-center'>@lang('index.empty')</h2>
+        <div class="testeu">
+            <img style='width: 500px;' src='http://127.0.0.1:8000/images/mail.png' class='img-fluid' alt='@lang('index.no_message')'>
+        </div>
+    @endforelse
+
         </ul>
     </article>
 </main>
