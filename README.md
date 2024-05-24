@@ -6,7 +6,7 @@ Open Box est une application web qui permet de gérer les boîtes mails tout en 
 
 page d'accueil :
 <p align="center">
-  <img src="public/images/screen0.png" alt="Image 0">
+  <img src="public/images/screen.png" alt="Image 0">
 </p>
 
 page de réception :
@@ -16,12 +16,12 @@ page de réception :
 
 créer un nouvel email :
 <p align="center">
-  <img src="public/images/screen2.png" alt="Image 2">
+  <img src="public/images/screen3.png" alt="Image 2">
 </p>
 
 visualisation d'un e-mail :
 <p align="center">
-  <img src="public/images/screen3.png" alt="Image 3">
+  <img src="public/images/screen4.png" alt="Image 3">
 </p>
 
 ## Installation du projet :
