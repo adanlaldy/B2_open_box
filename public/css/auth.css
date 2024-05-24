@@ -1,0 +1,72 @@
+body {
+    font-family: 'Nunito', sans-serif;
+    margin: 0;
+}
+main {
+    padding: 20px;
+}
+h1 {
+    text-align: center;
+    color: #0058a1;
+    font-family: Roboto, sans-serif;
+    font-size: 35px;
+    margin: 0 0 200px 0;
+}
+section {
+    display: flex;
+    justify-content: center;
+    margin: 100px auto auto;
+    border-radius: 25px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    height: auto;
+    width: 80vw;
+}
+.left {
+    width: 50%;
+    padding: 20px;
+    Height: auto;
+}
+.right {
+    background-color: #fafafa;
+    border-radius: 0 25px 25px 0;
+    text-align: center;
+    width: 70%;
+    padding: 20px;
+
+}
+.center {
+    text-align: center;
+}
+input {
+    width: 80%;
+    padding: 10px;
+    margin: 10px 0;
+}
+button {
+    padding: 10px;
+    background-color: #0058a1;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #003366;
+}
+a {
+    color: #fff;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+.name {
+    width: 35%;
+    margin: 0 20px 10px 0;
+}
+
+.register {
+    width: 80%;
+}
+a {
+    color: black;
+}

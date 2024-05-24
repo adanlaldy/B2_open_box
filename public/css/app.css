@@ -1,0 +1,63 @@
+:root {
+    --color-home: #ff4081; /* Exemple de couleur d'accent, vous pouvez la changer */
+}
+
+header {
+    background: url("http://127.0.0.1:8000/images/background.jpg") no-repeat center center;
+    background-size: cover;
+    color: white;
+    text-align: center;
+    height: 500px;
+    position: relative;
+}
+
+header::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+header .overlay {
+    position: relative;
+    z-index: 2;
+}
+
+header .navbar {
+    background: rgba(0, 0, 0, 0.7);
+    position: relative;
+    z-index: 3;
+}
+
+header h1, header p {
+    position: relative;
+    z-index: 4;
+}
+
+footer {
+    background-color: #f8f9fa;
+    padding: 20px 0;
+}
+
+.card-title {
+    margin-top: 15px;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.card-img-top {
+    margin-bottom: 15px;
+}
+
+.card {
+    border: none;
+    transition: transform 0.3s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+}
