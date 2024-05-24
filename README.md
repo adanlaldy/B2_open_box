@@ -2,6 +2,28 @@
 
 Open Box est une application web qui permet de gérer les boîtes mails tout en étant personnalisable qui offre des avantages dans une utilisation personnel et professionnel.
 
+### Architecture du site :
+
+page d'accueil :
+<p align="center">
+  <img src="public/images/screen0.png" alt="Image 0">
+</p>
+
+page de réception :
+<p align="center">
+  <img src="public/images/screen1.png" alt="Image 1">
+</p>
+
+créer un nouvel email :
+<p align="center">
+  <img src="public/images/screen2.png" alt="Image 2">
+</p>
+
+visualisation d'un e-mail :
+<p align="center">
+  <img src="public/images/screen3.png" alt="Image 3">
+</p>
+
 ## Installation du projet :
 Clone le projet
 ```bash
@@ -50,30 +72,8 @@ Open Box est une messagerie d’email qui a pour but de pouvoir permettre à l�
 - Mettre en copie et copie anonyme un email
 - Utiliser un serveur de messagerie afin d’utiliser les méthodes des classes Mailable intégrées à Laravel
 - Créer des catégories personnalisées
-
-
-### Architecture du site :
-
-page d'accueil :
-<p align="center">
-  <img src="public/images/screen0.png" alt="Image 0">
-</p>
-
-page de réception :
-<p align="center">
-  <img src="public/images/screen1.png" alt="Image 1">
-</p>
-
-créer un nouvel email :
-<p align="center">
-  <img src="public/images/screen2.png" alt="Image 2">
-</p>
-
-visualisation d'un e-mail :
-<p align="center">
-  <img src="public/images/screen3.png" alt="Image 3">
-</p>
     
 FAURÉ Léo
+
 LALDY-MAQUIHA Adan
 
