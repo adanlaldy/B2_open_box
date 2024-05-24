@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@lang('index.title')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <link href="http://127.0.0.1:8000/images/open_box_logo.png" rel="icon">
     <link href="http://127.0.0.1:8000/css/mail.css" rel="stylesheet" />
     <link href="http://127.0.0.1:8000/css/colors.css" rel="stylesheet" />
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.3.0/uicons-solid-straight/css/uicons-solid-straight.css'>
@@ -23,10 +25,11 @@
                     </button>
                 </div>
             </nav>
-            <form class="form-inline my-2 my-lg-0 mx-auto">
+            <form class="form-inline my-2 my-lg-0 mx-auto" action="/search" method="post">
+                @csrf
                 <div class="input-group center">
-                    <input class="form-control mr-sm-2" type="search" placeholder="@lang('index.search_placeholder')" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">@lang('index.search')</button>
+                    <input class="form-control mr-sm-2" name="query" type="search" placeholder="@lang('index.search_placeholder')" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">@lang('index.search_button')</button>
                 </div>
             </form>
 
@@ -50,6 +53,15 @@
     </nav>
     <!-- Sidebar -->
     <div class="sidebar color1">
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul class="list-unstyled">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <nav>
             <a class="d-flex align-items-center mb-3 mb-md-0 me-md-auto nav-link margin-20" href="/{{ Session::get('locale') }}/inbox">
                 <img class="logo" width="50px" style="margin: 0 30px 0 0; border-radius: 20%" src="http://127.0.0.1:8000/images/open_box_logo.png" alt="logo">

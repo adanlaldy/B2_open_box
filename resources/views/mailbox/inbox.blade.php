@@ -71,7 +71,7 @@
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item d-lg-none"><a class="nav-link color1" href="/{{ Session::get('locale') }}/offers"><i class="fi fi-sr-wallet"></i>@lang('index.subscription')</a></li>
                 <hr class="bar-menu nav-item d-lg-none">
-                <li class="nav-item"><a class="nav-link color1 margin-20s" href="/{{ Session::get('locale') }}/inbox"><i class="fi fi-sr-envelope-open"></i>@lang('index.inbox')</a></li>
+                <li class="nav-item"><a class="nav-link color1 margin-20" href="/{{ Session::get('locale') }}/inbox"><i class="fi fi-sr-envelope-open"></i>@lang('index.inbox')</a></li>
                 <li><a class="nav-link color1" href="/{{ Session::get('locale') }}/drafts"><i class="fi fi-ss-edit"></i>@lang('index.draft')</a></li>
                 <li><a class="nav-link color1" href="/{{ Session::get('locale') }}/sents"><i class="fi fi-ss-paper-plane"></i>@lang('index.sent')</a></li>
                 <li><a class="nav-link color1" href="/{{ Session::get('locale') }}/starreds"><i class="fi fi-sr-star"></i>@lang('index.star')</a></li>
@@ -94,36 +94,46 @@
     <!-- email content -->
     <article class="content">
         <ul>
-            @forelse($emailDetails as $email)
-                <div class="row">
-                    <div class="col">{{ $email['fromEmail'] }}</div>
-                    <div class="col"><button class="emailDetails btn btn-unstyled">{{ $email['subject'] }}</button></div>
-                    <div class="col">{{ $email['sentAt'] }}</div>
-                    <div class="col d-flex justify-content-between align-items-center">
-                        <form action="/add-to-starreds" method="post">
-                            @csrf
-                            <input type="hidden" name="emailId" value="{{ $email['id'] }}">
-                            <button type="submit" class="btn btn-outline-primary">@lang('index.add_starred')</button>
-                        </form>
-                        <form action="/add-to-archives" method="post">
-                            @csrf
-                            <input type="hidden" name="emailId" value="{{ $email['id'] }}">
-                            <button type="submit" class="btn btn-outline-info">@lang('index.add_archived')</button>
-                        </form>
-                        <form action="/add-to-trashes" method="post">
-                            @csrf
-                            <input type="hidden" name="emailId" value="{{ $email['id'] }}">
-                            <button type="submit" class="btn btn-outline-danger">@lang('index.delete')</button>
-                        </form>
-                    </div>
-                </div>
-                <hr>
-            @empty
-                <h2 class='text-center'>@lang('index.empty')</h2>
-                <div class="testeu">
-                    <img style='width: 500px;' src='http://127.0.0.1:8000/images/mail.png' class='img-fluid' alt='@lang('index.no_message')'>
-                </div>
-            @endforelse
+        @forelse($emailDetails as $email)
+    <div class="row">
+        <div class="col">{{ $email['fromEmail'] }}</div>
+        <div class="col">
+            <button 
+                class="emailDetails btn btn-unstyled" 
+                data-subject="{{ $email['subject'] }}" 
+                data-from="{{ $email['fromEmail'] }}" 
+                data-to="{{ $user->email }}" 
+                data-content="{{ $email['content'] }}">
+                {{ $email['subject'] }}
+            </button>
+        </div>
+        <div class="col">{{ $email['sentAt'] }}</div>
+        <div class="col d-flex justify-content-between align-items-center">
+            <form action="/add-to-starreds" method="post">
+                @csrf
+                <input type="hidden" name="emailId" value="{{ $email['id'] }}">
+                <button type="submit" class="btn btn-outline-primary">@lang('index.add_starred')</button>
+            </form>
+            <form action="/add-to-archives" method="post">
+                @csrf
+                <input type="hidden" name="emailId" value="{{ $email['id'] }}">
+                <button type="submit" class="btn btn-outline-info">@lang('index.add_archived')</button>
+            </form>
+            <form action="/add-to-trashes" method="post">
+                @csrf
+                <input type="hidden" name="emailId" value="{{ $email['id'] }}">
+                <button type="submit" class="btn btn-outline-danger">@lang('index.delete')</button>
+            </form>
+        </div>
+    </div>
+    <hr>
+    @empty
+        <h2 class='text-center'>@lang('index.empty')</h2>
+        <div class="testeu">
+            <img style='width: 500px;' src='http://127.0.0.1:8000/images/mail.png' class='img-fluid' alt='@lang('index.no_message')'>
+        </div>
+    @endforelse
+
         </ul>
     </article>
     <!-- new email -->
@@ -210,23 +220,24 @@
 
         emailDetailsButtons.forEach(function(element) {
             element.addEventListener('click', function() {
-                const email = {
-                    subject: this.innerText,
-                    fromEmail: this.parentElement.previousElementSibling.innerText,
-                    toEmail: '{{ $user->email }}',
-                    content: this.innerText,
-                };
-                document.getElementById('subject').innerText = email.subject;
-                document.getElementById('from').innerText = '@lang('index.sender') : ' + email.fromEmail;
-                document.getElementById('to').innerText = '@lang('index.recipient') : ' + email.toEmail;
-                document.getElementById('content').innerText = '@lang('index.content') : ' + email.content;
+                const subject = this.getAttribute('data-subject');
+                const fromEmail = this.getAttribute('data-from');
+                const toEmail = this.getAttribute('data-to');
+                const content = this.getAttribute('data-content');
+                
+                document.getElementById('subject').innerText = subject;
+                document.getElementById('from').innerText = '@lang('index.sender') : ' + fromEmail;
+                document.getElementById('to').innerText = '@lang('index.recipient') : ' + toEmail;
+                document.getElementById('content').innerText = content;
+                
                 dialogEmailDetails.showModal();
             });
         });
 
-        closeEmailDetails.addEventListener('click', function() {
-            dialogEmailDetails.close();
-        });
+closeEmailDetails.addEventListener('click', function() {
+    dialogEmailDetails.close();
+});
+
 
         // open or close the dialog for new email
         const dialogNewEmail = document.getElementById('dialogNewEmail');

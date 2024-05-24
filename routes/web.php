@@ -8,13 +8,20 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\AdminController;
 
-//auth
+Session::put('locale', 'en');
+
+// auth
 Route::get('/{locale}/register', [AuthController::class, 'formRegister'])->name('auth.register');
 Route::post('/{locale}/register', [AuthController::class, 'handlingRegister']);
 Route::get('/{locale}/login', [AuthController::class, 'formLogin'])->name('auth.login');
 Route::post('/{locale}/login', [AuthController::class, 'handlingLogin']);
-Route::get('/{locale}/reset-password', [AuthController::class, 'formForgotPassword'])->name('auth.reset-password');
-Route::post('/{locale}/reset-password', [AuthController::class, 'handlingForgotPassword']);
+// reset password
+Route::get('/forgot-password', [AuthController::class, 'formForgotPassword']);
+Route::post('/forgot-password', [AuthController::class, 'handlingForgotPassword']);
+Route::get('/reset-password', [AuthController::class, 'formResetPassword'])->name('reset-password-form');
+Route::post('/reset-password', [AuthController::class, 'handlingResetPassword']);
+Route::get('/new-password', [AuthController::class, 'formNewPassword'])->name('new-password-form');
+Route::post('/new-password', [AuthController::class, 'handlingNewPassword']);
 // cgu
 Route::get('/{locale}/cgu', function (string $locale) {
     if (! in_array($locale, ['en', 'es', 'fr', 'ru', 'de', 'cn'])) {
@@ -116,5 +123,3 @@ Route::redirect('/ester-egg', 'https://elgoog.im/dinosaur-game/3d/');
 
 Route::redirect('/', '/en/home');
 
-
-Session::put('locale', 'en');

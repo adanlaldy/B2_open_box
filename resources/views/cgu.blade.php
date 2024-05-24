@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Conditions Générales d'Utilisation (CGU) de la Boîte de Messagerie</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-U1W1KU+4x4vA+jhlgr5opTTX1mQ2t6U9nfN2w65YOo88w3YsAZh3jQiw/zQ5rP5" crossorigin="anonymous">
+    <link href="http://127.0.0.1:8000/images/open_box_logo.png" rel="icon">
     <style>
         body {
             background-color: #f8f9fa;
