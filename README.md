@@ -1,6 +1,6 @@
 # Open Box
 
-Open Box est une application web qui permet de gérer les boîtes mails tout en étant personnalisable qui offre des avantages dans une utilisation personnel et professionnel.
+Open Box est une application web Laravel 100% responsive qui permet de gérer les boîtes mails tout en étant personnalisable et qui offre des avantages dans une utilisation personnelle et professionnelle.
 
 ### Architecture du site :
 
@@ -24,14 +24,19 @@ visualisation d'un e-mail :
   <img src="public/images/screen4.png" alt="Image 3">
 </p>
 
-## Installation du projet :
-Clone le projet
+## Comment utiliser Open Box ? :
+Pour utiliser ce projet de messagerie d'email en local, vous aurez besoin d'avoir PHP installé sur votre machine. Veuillez vous renseigner sur la [documentation PHP officielle](https://www.php.net/manual/fr/install.php).
+
+Ensuite, vous devrez installer Composer qui vous permettra de télécharger les dépendances nécessaires pour le fonctionnement du projet, renseignez-vous sur la [documentation Composer officielle](https://getcomposer.org/download/).
+
+
+Cloner le projet avec Git :
 ```bash
 git init
 git clone https://github.com/adanlaldy/open_box
 ```
 
-### Installation PostgreSQL :
+Vous devrez également avoir installé le logiciel de base de donnée PostgreSQL
 - installer postgres avec le lien : https://www.postgresql.org/download/
 - configurer le '.env' avec les informations de la base de données
 - dans le php.ini, décommenter la ligne 
@@ -39,16 +44,24 @@ git clone https://github.com/adanlaldy/open_box
   - 'extension=pgsql'
 
 
-### Installation des dépendances :
+Une fois cela fait, il suffit de vous rendre à la racine du projet puis d'entrer la commande :
+
 ```bash
 composer install
 ```
+Cela installera toutes les dépendances nécessaires à votre projet Laravel. Ensuite, pour initialiser les tables de la base de donnée, entrez la commande :
 
-### Lancer le serveur :
+```bash
+php artisan migrate
+```
+
+Il ne vous reste plus qu'à lancer le serveur local avec la commande : 
+
 ```bash
 php artisan serve
 ```
 
+Cela vous affichera une adresse dans votre terminal. Vous n'aurez plus qu'à naviguer dessus, vous créer un compte, puis vous pourrez utiliser Open Box.
 
 ### Fonctionnalités majeures :
 Open Box est une messagerie d’email qui a pour but de pouvoir permettre à l’utilisateur d’envoyer des emails à une personne existante dans la base de donnée. Cela inclut :
